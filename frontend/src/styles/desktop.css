@@ -1,0 +1,64 @@
+.desktop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 36px; /* Leave room for taskbar */
+  background-color: #008080;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Desktop icon grid */
+.desktop-icon-grid {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  padding: 12px;
+  height: 100%;
+}
+
+/* Individual desktop icon */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75px;
+  padding: 4px 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.desktop-icon:hover {
+  border: 1px dotted #ffffff44;
+}
+
+.desktop-icon.selected {
+  border: 1px dotted white;
+}
+
+.desktop-icon.selected .desktop-icon-label {
+  background: #000080;
+  color: white;
+}
+
+.desktop-icon-image {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  margin-bottom: 4px;
+}
+
+.desktop-icon-label {
+  color: white;
+  font-size: 11px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+  word-wrap: break-word;
+  max-width: 70px;
+  padding: 1px 2px;
+  line-height: 1.3;
+}

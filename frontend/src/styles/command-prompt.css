@@ -1,0 +1,67 @@
+.cmd-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000000;
+  color: #00ff00;
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 8px 12px;
+  overflow-y: auto;
+  cursor: text;
+}
+
+.cmd-line {
+  display: flex;
+  align-items: flex-start;
+}
+
+.cmd-prompt-text {
+  color: #00ff00;
+  white-space: pre;
+  flex-shrink: 0;
+}
+
+.cmd-input {
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  outline: none;
+  caret-color: #00ff00;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.cmd-output {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  padding: 0;
+}
+
+.cmd-output a {
+  color: #00ffff;
+  text-decoration: underline;
+}
+
+.cmd-output a:hover {
+  color: #ffffff;
+}
+
+/* Blinking cursor after the last output */
+.cmd-cursor-blink::after {
+  content: '█';
+  animation: cmd-blink 1s step-end infinite;
+}
+
+@keyframes cmd-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

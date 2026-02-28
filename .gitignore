@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.venv/
+
+# Build output
+dist/
+build/
+.next/
+
+# Environment — NEVER commit secrets
+.env
+.env.local
+.env.production
+.env.development
+frontend/.env
+frontend/.env.local
+backend/.env
+backend/.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Misc
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.cache/
+
+# Claude
+.claude/

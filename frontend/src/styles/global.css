@@ -1,0 +1,65 @@
+@import '98.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* Prevent text selection on UI elements */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Window overrides for absolute positioning */
+.window {
+  position: absolute;
+}
+
+/* Active window has blue title bar, inactive has grey */
+.window.inactive .title-bar {
+  background: linear-gradient(90deg, #808080, #c0c0c0);
+}
+
+/* Make windows cast a shadow */
+.window-shadow {
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Pixel-perfect icon rendering */
+.pixel-icon {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Scrollbar styling (keep Win95 feel) */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #c0c0c0;
+  border: 1px solid #808080;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px outset #dfdfdf;
+}
+
+::-webkit-scrollbar-button {
+  background: #c0c0c0;
+  border: 2px outset #dfdfdf;
+  width: 16px;
+  height: 16px;
+}
