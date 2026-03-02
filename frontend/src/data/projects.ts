@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'week3-project',
-    name: 'Week 3 Project',
+    name: 'TBD',
     description: 'Placeholder for Week 3 Gauntlet project',
     longDescription: 'Replace this with your actual Week 3 project details.',
     category: 'gauntlet',
@@ -59,7 +59,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'week4-project',
-    name: 'Week 4 Project',
+    name: 'TBD',
     description: 'Placeholder for Week 4 Gauntlet project',
     longDescription: 'Replace this with your actual Week 4 project details.',
     category: 'gauntlet',
@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'week5-project',
-    name: 'Week 5 Project',
+    name: 'TBD',
     description: 'Placeholder for Week 5 Gauntlet project',
     longDescription: 'Replace this with your actual Week 5 project details.',
     category: 'gauntlet',
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'week6-project',
-    name: 'Week 6 Project',
+    name: 'TBD',
     description: 'Placeholder for Week 6 Gauntlet project',
     longDescription: 'Replace this with your actual Week 6 project details.',
     category: 'gauntlet',
