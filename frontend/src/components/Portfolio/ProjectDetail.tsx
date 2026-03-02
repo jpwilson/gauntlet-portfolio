@@ -1,31 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Project } from '../../types/project';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { getProject } from '../../data/projects';
 
 interface ProjectDetailProps {
   projectId: string;
 }
 
 export const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId }) => {
-  const [project, setProject] = useState<Project | null>(null);
   const [activeTab, setActiveTab] = useState('general');
-  const [loading, setLoading] = useState(true);
+  const project = getProject(projectId);
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const res = await axios.get(`/api/v1/projects/${projectId}`);
-        setProject(res.data);
-      } catch {
-        setProject(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProject();
-  }, [projectId]);
-
-  if (loading) return <div style={{ padding: 8 }}>Loading...</div>;
   if (!project) return <div style={{ padding: 8 }}>Project not found.</div>;
 
   const tabs = [

@@ -1,33 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Win95Icon } from '../shared/Win95Icon';
 import { useWindowStore } from '../../store/useWindowStore';
 import { Project } from '../../types/project';
-import axios from 'axios';
+import { getProjects } from '../../data/projects';
 
 interface ProjectExplorerProps {
   category: string;
 }
 
 export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const projects = getProjects(category);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const openWindow = useWindowStore((s) => s.openWindow);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await axios.get(`/api/v1/projects?category=${category}`);
-        setProjects(res.data.projects);
-      } catch {
-        // Fallback to empty — API might not be ready yet
-        setProjects([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, [category]);
 
   const handleDoubleClick = (project: Project) => {
     openWindow({
@@ -39,17 +23,10 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
     });
   };
 
-  if (loading) {
-    return <div style={{ padding: 8 }}>Loading projects...</div>;
-  }
-
   if (projects.length === 0) {
     return (
       <div style={{ padding: 16, textAlign: 'center', color: '#808080' }}>
         <p>No projects found.</p>
-        <p style={{ fontSize: 10, marginTop: 8 }}>
-          (Connect the backend API to see projects here)
-        </p>
       </div>
     );
   }

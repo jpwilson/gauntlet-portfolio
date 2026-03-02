@@ -41,6 +41,32 @@ html, body, #root {
   image-rendering: crisp-edges;
 }
 
+/* Force CMD input to not be styled by 98.css */
+.cmd-view input[type="text"].cmd-input {
+  background: #000000 !important;
+  border: none !important;
+  color: #00ff00 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  min-height: unset !important;
+}
+
+/* CMD scrollbar: black track, no ugly grey Win95 scrollbar */
+.cmd-view::-webkit-scrollbar-track {
+  background: #000000;
+  border: none;
+}
+.cmd-view::-webkit-scrollbar-thumb {
+  background: #333333;
+  border: 1px solid #00ff00;
+}
+.cmd-view::-webkit-scrollbar-button {
+  background: #000000;
+  border: none;
+}
+
 /* Scrollbar styling (keep Win95 feel) */
 ::-webkit-scrollbar {
   width: 16px;

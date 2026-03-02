@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useViewModeStore } from '../../store/useViewModeStore';
-import axios from 'axios';
+import { getProjects } from '../../data/projects';
 import { Project } from '../../types/project';
 
 interface HistoryEntry {
@@ -44,7 +44,7 @@ export const CommandPromptView: React.FC = () => {
   }, []);
 
   const executeCommand = useCallback(
-    async (input: string) => {
+    (input: string) => {
       const trimmed = input.trim();
       setHistory((prev) => [...prev, { type: 'input', text: `${prompt}${trimmed}` }]);
 
@@ -80,31 +80,26 @@ export const CommandPromptView: React.FC = () => {
           break;
 
         case 'dir': {
-          try {
-            const cat = currentPath.length > 2 ? currentPath[2].toLowerCase() : null;
-            let dirContent = '';
+          const cat = currentPath.length > 2 ? currentPath[2].toLowerCase() : null;
+          let dirContent = '';
 
-            if (cat === 'gauntlet' || cat === 'other') {
-              const res = await axios.get(`/api/v1/projects?category=${cat}`);
-              const projects: Project[] = res.data.projects;
-              dirContent = ` Volume in drive C is PORTFOLIO\n Directory of ${currentPath.join('\\')}\n\n`;
-              dirContent += '  .             <DIR>\n  ..            <DIR>\n';
-              projects.forEach((p) => {
-                dirContent += `  ${p.name.padEnd(20)} <DIR>    ${p.description.substring(0, 40)}\n`;
-              });
-              dirContent += `\n        ${projects.length} Dir(s)  640,000 bytes free`;
-            } else {
-              dirContent = ` Volume in drive C is PORTFOLIO\n Directory of ${currentPath.join('\\')}\n\n`;
-              dirContent += '  .             <DIR>\n  ..            <DIR>\n';
-              dirContent += '  Gauntlet      <DIR>    The Gauntlet Projects\n';
-              dirContent += '  Other         <DIR>    Other Projects\n';
-              dirContent += '  README.txt    1,337    About this portfolio\n';
-              dirContent += '\n        3 Dir(s)  1 File(s)  640,000 bytes free';
-            }
-            addOutput(dirContent);
-          } catch {
-            addOutput(` Volume in drive C is PORTFOLIO\n Directory of ${currentPath.join('\\')}\n\n  Gauntlet      <DIR>\n  Other         <DIR>\n\n        2 Dir(s)  640,000 bytes free`);
+          if (cat === 'gauntlet' || cat === 'other') {
+            const projects: Project[] = getProjects(cat);
+            dirContent = ` Volume in drive C is PORTFOLIO\n Directory of ${currentPath.join('\\')}\n\n`;
+            dirContent += '  .             <DIR>\n  ..            <DIR>\n';
+            projects.forEach((p) => {
+              dirContent += `  ${p.name.padEnd(20)} <DIR>    ${p.description.substring(0, 40)}\n`;
+            });
+            dirContent += `\n        ${projects.length} Dir(s)  640,000 bytes free`;
+          } else {
+            dirContent = ` Volume in drive C is PORTFOLIO\n Directory of ${currentPath.join('\\')}\n\n`;
+            dirContent += '  .             <DIR>\n  ..            <DIR>\n';
+            dirContent += '  Gauntlet      <DIR>    The Gauntlet Projects\n';
+            dirContent += '  Other         <DIR>    Other Projects\n';
+            dirContent += '  README.txt    1,337    About this portfolio\n';
+            dirContent += '\n        3 Dir(s)  1 File(s)  640,000 bytes free';
           }
+          addOutput(dirContent);
           break;
         }
 
@@ -132,10 +127,9 @@ export const CommandPromptView: React.FC = () => {
             addOutput('Usage: open <project-name>');
             break;
           }
-          try {
-            const res = await axios.get('/api/v1/projects');
-            const projects: Project[] = res.data.projects;
-            const found = projects.find(
+          {
+            const allProjects: Project[] = getProjects();
+            const found = allProjects.find(
               (p) => p.name.toLowerCase().includes(projectName.toLowerCase()) ||
                      p.id.toLowerCase().includes(projectName.toLowerCase())
             );
@@ -151,18 +145,15 @@ export const CommandPromptView: React.FC = () => {
             } else {
               addOutput(`Project '${projectName}' not found. Type 'dir' to see available projects.`);
             }
-          } catch {
-            addOutput('Error: Could not fetch project data. Is the backend running?');
           }
           break;
         }
 
         case 'tree': {
-          try {
-            const res = await axios.get('/api/v1/projects');
-            const projects: Project[] = res.data.projects;
-            const gauntlet = projects.filter((p) => p.category === 'gauntlet');
-            const other = projects.filter((p) => p.category === 'other');
+          {
+            const allProjects: Project[] = getProjects();
+            const gauntlet = allProjects.filter((p) => p.category === 'gauntlet');
+            const other = allProjects.filter((p) => p.category === 'other');
 
             let tree = 'C:\\Portfolio\n';
             tree += '├── Gauntlet\n';
@@ -176,8 +167,6 @@ export const CommandPromptView: React.FC = () => {
               tree += `${prefix}${p.name}\n`;
             });
             addOutput(tree);
-          } catch {
-            addOutput('C:\\Portfolio\n├── Gauntlet\n│   └── (connect backend to see projects)\n└── Other\n    └── (connect backend to see projects)');
           }
           break;
         }
