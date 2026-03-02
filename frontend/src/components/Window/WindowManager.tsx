@@ -7,26 +7,39 @@ import { WindowState } from '../../types/window';
 const Minesweeper = lazy(() => import('../Games/Minesweeper/Minesweeper').then(m => ({ default: m.Minesweeper })));
 const SkiFree = lazy(() => import('../Games/SkiFree/SkiFree').then(m => ({ default: m.SkiFree })));
 const PipeDream = lazy(() => import('../Games/PipeDream/PipeDream').then(m => ({ default: m.PipeDream })));
+const Snake = lazy(() => import('../Games/Snake/Snake').then(m => ({ default: m.Snake })));
 
 // Eagerly loaded components
 import { ProjectExplorer } from '../Portfolio/ProjectExplorer';
 import { ProjectDetail } from '../Portfolio/ProjectDetail';
+import { ProjectFolder } from '../Portfolio/ProjectFolder';
 import { AboutWindow } from '../Portfolio/AboutWindow';
 import { ChangelogWindow } from '../Portfolio/ChangelogWindow';
+import { GamesFolder } from '../Portfolio/GamesFolder';
 
 const WindowContent: React.FC<{ windowState: WindowState }> = ({ windowState }) => {
   switch (windowState.type) {
     case 'project-explorer':
     case 'project-explorer-other':
       return <ProjectExplorer category={windowState.data?.category as string || 'gauntlet'} />;
+    case 'project-folder':
+      return <ProjectFolder projectId={windowState.data?.projectId as string} />;
     case 'project-detail':
       return <ProjectDetail projectId={windowState.data?.projectId as string} />;
     case 'about':
       return <AboutWindow />;
+    case 'games-folder':
+      return <GamesFolder />;
     case 'minesweeper':
       return (
         <Suspense fallback={<div style={{ padding: 8 }}>Loading...</div>}>
           <Minesweeper />
+        </Suspense>
+      );
+    case 'snake':
+      return (
+        <Suspense fallback={<div style={{ padding: 8 }}>Loading...</div>}>
+          <Snake />
         </Suspense>
       );
     case 'skifree':

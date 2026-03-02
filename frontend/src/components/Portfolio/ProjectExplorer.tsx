@@ -14,13 +14,38 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
   const openWindow = useWindowStore((s) => s.openWindow);
 
   const handleDoubleClick = (project: Project) => {
-    openWindow({
-      type: 'project-detail',
-      title: project.name,
-      icon: 'file',
-      size: { width: 450, height: 400 },
-      data: { projectId: project.id },
-    });
+    if (category === 'gauntlet') {
+      // Open a sub-folder with app link, GitHub link, and Info notepad
+      const folderName = project.week
+        ? `Week ${project.week} - ${project.name}`
+        : project.name;
+      openWindow({
+        type: 'project-folder',
+        title: folderName,
+        icon: 'folder',
+        size: { width: 500, height: 350 },
+        data: { projectId: project.id },
+      });
+    } else {
+      // Other projects: open URL directly in new tab
+      if (project.liveUrl) {
+        window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+      }
+    }
+  };
+
+  const getDisplayName = (project: Project) => {
+    if (category === 'gauntlet' && project.week) {
+      return `Week ${project.week} -\n${project.name}`;
+    }
+    return project.name;
+  };
+
+  const getIconType = (project: Project) => {
+    if (category === 'other') {
+      return project.icon || 'internet';
+    }
+    return 'folder';
   };
 
   if (projects.length === 0) {
@@ -58,16 +83,17 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
               }}
               onDoubleClick={() => handleDoubleClick(project)}
             >
-              <Win95Icon type="folder" size={32} />
+              <Win95Icon type={getIconType(project)} size={32} />
               <span
                 className="desktop-icon-label"
                 style={{
                   color: selectedProject === project.id ? 'white' : 'black',
                   textShadow: 'none',
                   background: selectedProject === project.id ? '#000080' : 'transparent',
+                  whiteSpace: 'pre-line',
                 }}
               >
-                {project.name}
+                {getDisplayName(project)}
               </span>
             </div>
           ))}

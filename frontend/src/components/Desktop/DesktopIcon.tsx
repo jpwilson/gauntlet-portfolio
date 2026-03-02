@@ -49,7 +49,7 @@ export const DesktopIcon: React.FC<DesktopIconProps> = ({ config }) => {
       onDoubleClick={handleDoubleClick}
     >
       <Win95Icon type={config.iconType} size={32} className="desktop-icon-image" />
-      <span className="desktop-icon-label">{config.label}</span>
+      <span className="desktop-icon-label" style={{ whiteSpace: 'pre-line' }}>{config.label}</span>
     </div>
   );
 };

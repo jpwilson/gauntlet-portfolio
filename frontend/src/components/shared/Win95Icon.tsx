@@ -138,6 +138,46 @@ export const Win95Icon: React.FC<Win95IconProps> = ({ type, size = 32, className
         <line x1="9" y1="24" x2="18" y2="24" stroke="#808080" strokeWidth="0.5"/>
       </svg>
     ),
+    github: (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        <rect x="2" y="2" width="28" height="28" rx="4" fill="#ffffff" stroke="#000" strokeWidth="1"/>
+        <circle cx="16" cy="14" r="8" fill="#000000"/>
+        <ellipse cx="16" cy="24" rx="5" ry="3" fill="#000000"/>
+        <circle cx="12" cy="12" r="1.5" fill="#ffffff"/>
+        <circle cx="20" cy="12" r="1.5" fill="#ffffff"/>
+        <path d="M10 18 Q16 22 22 18" fill="none" stroke="#ffffff" strokeWidth="1"/>
+        <path d="M8 16 Q6 22 9 24" fill="none" stroke="#000000" strokeWidth="1.5"/>
+        <path d="M24 16 Q26 22 23 24" fill="none" stroke="#000000" strokeWidth="1.5"/>
+      </svg>
+    ),
+    snake: (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        <rect x="2" y="2" width="28" height="28" fill="#006400" stroke="#004d00" strokeWidth="1"/>
+        {/* Snake body */}
+        <rect x="4" y="14" width="4" height="4" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        <rect x="8" y="14" width="4" height="4" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        <rect x="12" y="14" width="4" height="4" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        <rect x="12" y="10" width="4" height="4" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        <rect x="16" y="10" width="4" height="4" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        {/* Snake head */}
+        <rect x="20" y="10" width="4" height="4" fill="#00cc00" stroke="#008000" strokeWidth="0.5"/>
+        <circle cx="22" cy="11.5" r="0.8" fill="#000"/>
+        {/* Apple */}
+        <rect x="22" y="20" width="4" height="4" fill="#ff0000" stroke="#cc0000" strokeWidth="0.5"/>
+        <line x1="24" y1="18.5" x2="24" y2="20" stroke="#008000" strokeWidth="1"/>
+      </svg>
+    ),
+    'games-folder': (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        <path d="M2 8 L2 28 L30 28 L30 10 L14 10 L12 8 Z" fill="#ffff00" stroke="#808000" strokeWidth="1"/>
+        <path d="M2 10 L30 10 L30 28 L2 28 Z" fill="#ffff80" stroke="#808000" strokeWidth="0.5"/>
+        <path d="M2 8 L12 8 L14 10 L2 10 Z" fill="#ffff00" stroke="#808000" strokeWidth="0.5"/>
+        {/* Joystick icon on folder */}
+        <circle cx="16" cy="19" r="4" fill="#c0c0c0" stroke="#808080" strokeWidth="0.5"/>
+        <line x1="16" y1="15" x2="14" y2="12" stroke="#000" strokeWidth="1.5"/>
+        <circle cx="14" cy="12" r="1.5" fill="#ff0000"/>
+      </svg>
+    ),
   };
 
   return <>{iconMap[type] || iconMap['file']}</>;

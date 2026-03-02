@@ -64,32 +64,16 @@ export const StartMenu: React.FC = () => {
             onClick={() =>
               handleItemClick(() =>
                 openWindow({
-                  type: 'minesweeper',
-                  title: 'Minesweeper',
-                  icon: 'minesweeper',
-                  size: { width: 280, height: 380 },
+                  type: 'games-folder',
+                  title: 'Games',
+                  icon: 'games-folder',
+                  size: { width: 500, height: 350 },
                 })
               )
             }
           >
-            <Win95Icon type="minesweeper" size={32} className="start-menu-item-icon" />
-            <span>Minesweeper</span>
-          </button>
-          <button
-            className="start-menu-item"
-            onClick={() =>
-              handleItemClick(() =>
-                openWindow({
-                  type: 'skifree',
-                  title: 'SkiFree',
-                  icon: 'skifree',
-                  size: { width: 660, height: 520 },
-                })
-              )
-            }
-          >
-            <Win95Icon type="skifree" size={32} className="start-menu-item-icon" />
-            <span>SkiFree</span>
+            <Win95Icon type="games-folder" size={32} className="start-menu-item-icon" />
+            <span>Games</span>
           </button>
 
           <button
