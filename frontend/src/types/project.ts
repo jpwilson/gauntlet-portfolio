@@ -10,6 +10,7 @@ export interface Project {
   techStack: string[];
   repoUrl?: string;
   liveUrl?: string;
+  vizUrl?: string;
   writeupUrl?: string;
   thumbnail?: string;
   screenshots?: string[];
@@ -18,6 +19,7 @@ export interface Project {
   featured: boolean;
   challenges?: string;
   learnings?: string;
+  passwordProtected?: boolean;
 }
 
 export interface Category {

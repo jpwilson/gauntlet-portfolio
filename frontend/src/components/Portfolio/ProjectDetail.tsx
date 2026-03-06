@@ -117,6 +117,20 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId }) => {
                     </a>
                   </div>
                 )}
+                {project.vizUrl && (
+                  <div>
+                    <label style={{ fontSize: 11, fontWeight: 'bold' }}>Visualization:</label>
+                    <br />
+                    <a
+                      href={project.vizUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: 11, color: '#0000ff' }}
+                    >
+                      {project.vizUrl}
+                    </a>
+                  </div>
+                )}
                 {project.writeupUrl && (
                   <div>
                     <label style={{ fontSize: 11, fontWeight: 'bold' }}>Write-up:</label>

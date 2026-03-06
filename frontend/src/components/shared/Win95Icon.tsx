@@ -167,6 +167,40 @@ export const Win95Icon: React.FC<Win95IconProps> = ({ type, size = 32, className
         <line x1="24" y1="18.5" x2="24" y2="20" stroke="#008000" strokeWidth="1"/>
       </svg>
     ),
+    tetris: (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        <rect x="2" y="2" width="28" height="28" fill="#000000" stroke="#808080" strokeWidth="1"/>
+        {/* T piece */}
+        <rect x="10" y="6" width="6" height="6" fill="#a000a0" stroke="#ff00ff" strokeWidth="0.5"/>
+        <rect x="16" y="6" width="6" height="6" fill="#a000a0" stroke="#ff00ff" strokeWidth="0.5"/>
+        <rect x="22" y="6" width="6" height="6" fill="#a000a0" stroke="#ff00ff" strokeWidth="0.5"/>
+        <rect x="16" y="12" width="6" height="6" fill="#a000a0" stroke="#ff00ff" strokeWidth="0.5"/>
+        {/* Landed blocks */}
+        <rect x="4" y="20" width="6" height="6" fill="#ff0000" stroke="#cc0000" strokeWidth="0.5"/>
+        <rect x="10" y="20" width="6" height="6" fill="#00ff00" stroke="#008000" strokeWidth="0.5"/>
+        <rect x="16" y="20" width="6" height="6" fill="#0000ff" stroke="#000080" strokeWidth="0.5"/>
+        <rect x="22" y="20" width="6" height="6" fill="#ffff00" stroke="#808000" strokeWidth="0.5"/>
+        <rect x="4" y="14" width="6" height="6" fill="#00ffff" stroke="#008080" strokeWidth="0.5"/>
+      </svg>
+    ),
+    solitaire: (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        <rect x="2" y="2" width="28" height="28" fill="#008000" stroke="#004d00" strokeWidth="1"/>
+        {/* Card */}
+        <rect x="8" y="5" width="16" height="22" rx="1" fill="#ffffff" stroke="#000" strokeWidth="0.5"/>
+        {/* Heart */}
+        <text x="10" y="13" fill="#ff0000" fontSize="6" fontFamily="serif">A</text>
+        <text x="10" y="19" fill="#ff0000" fontSize="8" fontFamily="serif">&hearts;</text>
+        {/* Second card peeking */}
+        <rect x="4" y="7" width="16" height="22" rx="1" fill="#0000aa" stroke="#000" strokeWidth="0.5"/>
+        <line x1="7" y1="10" x2="17" y2="10" stroke="#0000cc" strokeWidth="0.5"/>
+        <line x1="7" y1="13" x2="17" y2="13" stroke="#0000cc" strokeWidth="0.5"/>
+        <line x1="7" y1="16" x2="17" y2="16" stroke="#0000cc" strokeWidth="0.5"/>
+        <line x1="7" y1="19" x2="17" y2="19" stroke="#0000cc" strokeWidth="0.5"/>
+        <line x1="7" y1="22" x2="17" y2="22" stroke="#0000cc" strokeWidth="0.5"/>
+        <line x1="7" y1="25" x2="17" y2="25" stroke="#0000cc" strokeWidth="0.5"/>
+      </svg>
+    ),
     'games-folder': (
       <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
         <path d="M2 8 L2 28 L30 28 L30 10 L14 10 L12 8 Z" fill="#ffff00" stroke="#808000" strokeWidth="1"/>

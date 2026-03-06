@@ -37,6 +37,16 @@ export const ProjectFolder: React.FC<ProjectFolderProps> = ({ projectId }) => {
     });
   }
 
+  // Visualization link (e.g. LegacyLens CodeGraph)
+  if (project.vizUrl) {
+    items.push({
+      id: 'viz',
+      label: 'Visualization',
+      iconType: 'internet',
+      action: () => window.open(project.vizUrl, '_blank', 'noopener,noreferrer'),
+    });
+  }
+
   // GitHub link
   if (project.repoUrl) {
     items.push({

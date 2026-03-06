@@ -9,7 +9,6 @@ interface GameItem {
   windowType: string;
   windowTitle: string;
   windowSize: { width: number; height: number };
-  comingSoon: boolean;
 }
 
 const GAMES: GameItem[] = [
@@ -20,7 +19,14 @@ const GAMES: GameItem[] = [
     windowType: 'minesweeper',
     windowTitle: 'Minesweeper',
     windowSize: { width: 280, height: 380 },
-    comingSoon: false,
+  },
+  {
+    id: 'tetris',
+    label: 'Tetris',
+    iconType: 'tetris',
+    windowType: 'tetris',
+    windowTitle: 'Tetris',
+    windowSize: { width: 480, height: 580 },
   },
   {
     id: 'snake',
@@ -29,43 +35,22 @@ const GAMES: GameItem[] = [
     windowType: 'snake',
     windowTitle: 'Snake',
     windowSize: { width: 420, height: 480 },
-    comingSoon: false,
   },
   {
-    id: 'skifree',
-    label: 'SkiFree',
-    iconType: 'skifree',
-    windowType: 'skifree',
-    windowTitle: 'SkiFree',
-    windowSize: { width: 660, height: 520 },
-    comingSoon: true,
-  },
-  {
-    id: 'pipedream',
-    label: 'Pipe Dream',
-    iconType: 'pipedream',
-    windowType: 'pipedream',
-    windowTitle: 'Pipe Dream',
-    windowSize: { width: 660, height: 520 },
-    comingSoon: true,
+    id: 'solitaire',
+    label: 'Solitaire',
+    iconType: 'solitaire',
+    windowType: 'solitaire',
+    windowTitle: 'Solitaire',
+    windowSize: { width: 700, height: 550 },
   },
 ];
 
 export const GamesFolder: React.FC = () => {
   const openWindow = useWindowStore((s) => s.openWindow);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; visible: boolean }>({
-    x: 0,
-    y: 0,
-    visible: false,
-  });
 
-  const handleDoubleClick = (game: GameItem, e: React.MouseEvent) => {
-    if (game.comingSoon) {
-      setTooltip({ x: e.clientX, y: e.clientY - 30, visible: true });
-      setTimeout(() => setTooltip((prev) => ({ ...prev, visible: false })), 2000);
-      return;
-    }
+  const handleDoubleClick = (game: GameItem) => {
     openWindow({
       type: game.windowType,
       title: game.windowTitle,
@@ -111,13 +96,12 @@ export const GamesFolder: React.FC = () => {
             <div
               key={game.id}
               className={`desktop-icon ${selectedGame === game.id ? 'selected' : ''}`}
-              style={{ width: 80, cursor: 'pointer', position: 'relative', opacity: game.comingSoon ? 0.6 : 1 }}
+              style={{ width: 80, cursor: 'pointer' }}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedGame(game.id);
               }}
-              onDoubleClick={(e) => handleDoubleClick(game, e)}
-              title={game.comingSoon ? 'Coming Soon!' : ''}
+              onDoubleClick={() => handleDoubleClick(game)}
             >
               <Win95Icon type={game.iconType} size={32} />
               <span
@@ -130,42 +114,10 @@ export const GamesFolder: React.FC = () => {
               >
                 {game.label}
               </span>
-              {game.comingSoon && (
-                <span
-                  style={{
-                    fontSize: 9,
-                    color: '#808080',
-                    fontStyle: 'italic',
-                    display: 'block',
-                    marginTop: 1,
-                  }}
-                >
-                  Coming Soon
-                </span>
-              )}
             </div>
           ))}
         </div>
       </div>
-
-      {/* Tooltip */}
-      {tooltip.visible && (
-        <div
-          style={{
-            position: 'fixed',
-            left: tooltip.x,
-            top: tooltip.y,
-            background: '#ffffe1',
-            border: '1px solid #000',
-            padding: '2px 6px',
-            fontSize: 11,
-            zIndex: 99999,
-            pointerEvents: 'none',
-          }}
-        >
-          Coming Soon!
-        </div>
-      )}
 
       {/* Status bar */}
       <div style={{ marginTop: 4, fontSize: 11, color: '#808080' }}>

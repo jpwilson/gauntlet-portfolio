@@ -5,9 +5,9 @@ import { WindowState } from '../../types/window';
 
 // Lazy load heavy components (games)
 const Minesweeper = lazy(() => import('../Games/Minesweeper/Minesweeper').then(m => ({ default: m.Minesweeper })));
-const SkiFree = lazy(() => import('../Games/SkiFree/SkiFree').then(m => ({ default: m.SkiFree })));
-const PipeDream = lazy(() => import('../Games/PipeDream/PipeDream').then(m => ({ default: m.PipeDream })));
 const Snake = lazy(() => import('../Games/Snake/Snake').then(m => ({ default: m.Snake })));
+const Tetris = lazy(() => import('../Games/Tetris/Tetris').then(m => ({ default: m.Tetris })));
+const Solitaire = lazy(() => import('../Games/Solitaire/Solitaire').then(m => ({ default: m.Solitaire })));
 
 // Eagerly loaded components
 import { ProjectExplorer } from '../Portfolio/ProjectExplorer';
@@ -42,16 +42,16 @@ const WindowContent: React.FC<{ windowState: WindowState }> = ({ windowState }) 
           <Snake />
         </Suspense>
       );
-    case 'skifree':
+    case 'tetris':
       return (
         <Suspense fallback={<div style={{ padding: 8 }}>Loading...</div>}>
-          <SkiFree />
+          <Tetris />
         </Suspense>
       );
-    case 'pipedream':
+    case 'solitaire':
       return (
         <Suspense fallback={<div style={{ padding: 8 }}>Loading...</div>}>
-          <PipeDream />
+          <Solitaire />
         </Suspense>
       );
     case 'changelog':

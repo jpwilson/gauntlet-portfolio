@@ -21,7 +21,7 @@ export const desktopIcons: DesktopIconConfig[] = [
     iconType: 'folder',
     windowType: 'project-explorer',
     windowTitle: 'Gauntlet Projects',
-    windowSize: { width: 600, height: 450 },
+    windowSize: { width: 700, height: 500 },
   },
   {
     id: 'other-projects',
