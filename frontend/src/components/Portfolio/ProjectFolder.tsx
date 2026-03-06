@@ -21,7 +21,7 @@ export const ProjectFolder: React.FC<ProjectFolderProps> = ({ projectId }) => {
 
   if (!project) return <div style={{ padding: 8 }}>Project not found.</div>;
 
-  const folderName = project.week
+  const folderName = project.week && project.week <= 3
     ? `Week ${project.week} - ${project.name}`
     : project.name;
 
@@ -110,7 +110,7 @@ export const ProjectFolder: React.FC<ProjectFolderProps> = ({ projectId }) => {
             <div
               key={item.id}
               className={`desktop-icon ${selectedItem === item.id ? 'selected' : ''}`}
-              style={{ width: 80, cursor: 'pointer' }}
+              style={{ width: 90, cursor: 'pointer' }}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedItem(item.id);
@@ -124,6 +124,7 @@ export const ProjectFolder: React.FC<ProjectFolderProps> = ({ projectId }) => {
                   color: selectedItem === item.id ? 'white' : 'black',
                   textShadow: 'none',
                   background: selectedItem === item.id ? '#000080' : 'transparent',
+                  maxWidth: 85,
                 }}
               >
                 {item.label}

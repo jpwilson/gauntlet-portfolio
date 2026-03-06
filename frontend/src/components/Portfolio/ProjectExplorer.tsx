@@ -16,7 +16,7 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
   const openWindow = useWindowStore((s) => s.openWindow);
 
   const openProjectFolder = (project: Project) => {
-    const folderName = project.week
+    const folderName = project.week && project.week <= 3
       ? `Week ${project.week} - ${project.name}`
       : project.name;
     openWindow({
@@ -72,7 +72,7 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
   };
 
   const getDisplayName = (project: Project) => {
-    if (category === 'gauntlet' && project.week) {
+    if (category === 'gauntlet' && project.week && project.week <= 3) {
       return `Week ${project.week} -\n${project.name}`;
     }
     return project.name;
@@ -113,7 +113,7 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
             <div
               key={project.id}
               className={`desktop-icon ${selectedProject === project.id ? 'selected' : ''}`}
-              style={{ width: 80 }}
+              style={{ width: 90 }}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedProject(project.id);
@@ -128,6 +128,7 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
                   textShadow: 'none',
                   background: selectedProject === project.id ? '#000080' : 'transparent',
                   whiteSpace: 'pre-line',
+                  maxWidth: 85,
                 }}
               >
                 {getDisplayName(project)}
