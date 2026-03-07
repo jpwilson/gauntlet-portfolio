@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { TouchControls } from '../TouchControls';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Point = { x: number; y: number };
@@ -408,6 +409,15 @@ export const Snake: React.FC = () => {
       <div style={{ marginTop: 4, fontSize: 10, color: '#808080', textAlign: 'center' }}>
         Arrow keys / WASD to move | Space to pause
       </div>
+
+      <TouchControls
+        onUp={() => { if (dirRef.current !== 'DOWN') { dirRef.current = 'UP'; setDirection('UP'); } }}
+        onDown={() => { if (dirRef.current !== 'UP') { dirRef.current = 'DOWN'; setDirection('DOWN'); } }}
+        onLeft={() => { if (dirRef.current !== 'RIGHT') { dirRef.current = 'LEFT'; setDirection('LEFT'); } }}
+        onRight={() => { if (dirRef.current !== 'LEFT') { dirRef.current = 'RIGHT'; setDirection('RIGHT'); } }}
+        onAction={() => { if (!isStarted) { resetGame(); } else { setIsPaused((p) => !p); } }}
+        actionLabel={!isStarted ? 'Start' : isPaused ? 'Resume' : 'Pause'}
+      />
     </div>
   );
 };

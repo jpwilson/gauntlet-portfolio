@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { TouchControls } from '../TouchControls';
 
 // Board dimensions
 const COLS = 10;
@@ -627,6 +628,15 @@ export const Tetris: React.FC = () => {
       <div style={{ marginTop: 6, fontSize: 10, color: '#808080', textAlign: 'center', fontFamily: 'monospace' }}>
         Arrows: move/rotate | Down: soft drop | Space: hard drop
       </div>
+
+      <TouchControls
+        onUp={rotate}
+        onDown={() => { moveDown(); setScore((prev) => prev + 1); }}
+        onLeft={moveLeft}
+        onRight={moveRight}
+        onAction={hardDrop}
+        actionLabel="Drop"
+      />
     </div>
   );
 };

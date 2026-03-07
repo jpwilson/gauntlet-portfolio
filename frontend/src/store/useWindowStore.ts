@@ -20,7 +20,12 @@ interface WindowStore {
 const DEFAULT_SIZE = { width: 500, height: 400 };
 const CASCADE_STEP = 30;
 const MAX_CASCADE = 210;
-const ZOOM = 1.3;
+function getZoom(): number {
+  const w = window.innerWidth;
+  if (w < 600) return 1;
+  if (w < 1024) return 1.1;
+  return 1.3;
+}
 
 export const useWindowStore = create<WindowStore>((set, get) => ({
   windows: [],
@@ -93,7 +98,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
               prevPosition: w.position,
               prevSize: w.size,
               position: { x: 0, y: 0 },
-              size: { width: window.innerWidth / ZOOM, height: window.innerHeight / ZOOM - 36 },
+              size: { width: window.innerWidth / getZoom(), height: window.innerHeight / getZoom() - 36 },
               zIndex: state.nextZIndex,
             }
           : w

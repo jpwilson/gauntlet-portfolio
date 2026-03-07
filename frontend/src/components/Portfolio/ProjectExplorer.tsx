@@ -160,7 +160,7 @@ export const ProjectExplorer: React.FC<ProjectExplorerProps> = ({ category }) =>
         >
           <div
             className="window"
-            style={{ position: 'relative', width: 340, padding: 0 }}
+            style={{ position: 'relative', width: 340, maxWidth: 'calc(100vw - 32px)', padding: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="title-bar">

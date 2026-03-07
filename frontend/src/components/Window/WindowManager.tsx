@@ -23,7 +23,7 @@ const WindowContent: React.FC<{ windowState: WindowState }> = ({ windowState }) 
     case 'project-explorer-other':
       return <ProjectExplorer category={windowState.data?.category as string || 'gauntlet'} />;
     case 'project-folder':
-      return <ProjectFolder projectId={windowState.data?.projectId as string} />;
+      return <ProjectFolder projectId={windowState.data?.projectId as string} subFolder={windowState.data?.subFolder as any} parentPath={windowState.data?.parentPath as string} />;
     case 'project-detail':
       return <ProjectDetail projectId={windowState.data?.projectId as string} />;
     case 'about':

@@ -3,6 +3,7 @@ import { Rnd } from 'react-rnd';
 import { TitleBar } from './TitleBar';
 import { useWindowStore } from '../../store/useWindowStore';
 import { WindowState } from '../../types/window';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface WindowProps {
   windowState: WindowState;
@@ -20,6 +21,8 @@ export const Window: React.FC<WindowProps> = ({ windowState, children }) => {
     updateSize,
   } = useWindowStore();
 
+  const { isMobile } = useIsMobile();
+
   const handleClose = useCallback(() => closeWindow(windowState.id), [windowState.id, closeWindow]);
   const handleMinimize = useCallback(() => minimizeWindow(windowState.id), [windowState.id, minimizeWindow]);
   const handleMaximizeToggle = useCallback(() => {
@@ -36,6 +39,37 @@ export const Window: React.FC<WindowProps> = ({ windowState, children }) => {
 
   if (windowState.isMinimized) {
     return null;
+  }
+
+  // Mobile: render full-screen windows without drag/resize
+  if (isMobile) {
+    return (
+      <div
+        className="window window-shadow mobile-window"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: windowState.zIndex,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        onClick={handleFocus}
+      >
+        <TitleBar
+          title={windowState.title}
+          icon={windowState.icon}
+          onMinimize={handleMinimize}
+          onMaximize={handleMaximizeToggle}
+          onClose={handleClose}
+        />
+        <div className="window-body" style={{ flex: 1, overflow: 'auto', margin: 0 }}>
+          {children}
+        </div>
+      </div>
+    );
   }
 
   return (

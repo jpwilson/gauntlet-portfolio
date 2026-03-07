@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 
 // --- Types ---
 
@@ -480,7 +480,28 @@ export const Solitaire: React.FC = () => {
   const CASCADE_FACE_DOWN = 15;
   const CASCADE_FACE_UP = 22;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (containerRef.current) {
+        const parentWidth = containerRef.current.parentElement?.clientWidth || window.innerWidth;
+        const needed = FIELD_W + 16; // padding
+        if (parentWidth < needed) {
+          setScale(parentWidth / needed);
+        } else {
+          setScale(1);
+        }
+      }
+    };
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [FIELD_W]);
+
   return (
+    <div ref={containerRef} style={{ overflow: 'hidden', background: '#c0c0c0' }}>
     <div
       style={{
         display: 'flex',
@@ -489,6 +510,9 @@ export const Solitaire: React.FC = () => {
         background: '#c0c0c0',
         padding: 4,
         fontFamily: 'Arial, sans-serif',
+        transform: scale < 1 ? `scale(${scale})` : undefined,
+        transformOrigin: 'top left',
+        width: scale < 1 ? `${100 / scale}%` : undefined,
       }}
     >
       {/* Header */}
@@ -707,6 +731,7 @@ export const Solitaire: React.FC = () => {
       <div style={{ marginTop: 4, fontSize: 10, color: '#808080', textAlign: 'center' }}>
         Click to select, click target to move | Double-click to send to foundation
       </div>
+    </div>
     </div>
   );
 };

@@ -76,7 +76,20 @@ export const PROJECTS: Project[] = [
     icon: 'folder',
     createdAt: '2025-03-09',
     featured: false,
-    passwordProtected: true,
+    subFolders: [
+      {
+        name: 'AI SESH ANALYSIS',
+        subFolders: [{ name: 'Initial Thoughts - Ideation' }],
+      },
+      {
+        name: 'CONTENT CREATION',
+        subFolders: [{ name: 'Initial Thoughts - Ideation' }],
+      },
+      {
+        name: 'LOW LATENCY TUTOR',
+        subFolders: [{ name: 'Initial Thoughts - Ideation' }],
+      },
+    ],
   },
   {
     id: 'week4-gofundme',
@@ -89,7 +102,13 @@ export const PROJECTS: Project[] = [
     icon: 'folder',
     createdAt: '2025-03-09',
     featured: false,
-    passwordProtected: true,
+    subFolders: [
+      {
+        name: 'Initial Thoughts - Ideation',
+        liveUrl: 'https://gfmv1.vercel.app',
+        repoUrl: 'https://github.com/jpwilson/gfm-v1',
+      },
+    ],
   },
   {
     id: 'week5-zapier',

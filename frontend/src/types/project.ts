@@ -1,5 +1,12 @@
 export type ProjectCategory = 'gauntlet' | 'other';
 
+export interface SubFolder {
+  name: string;
+  subFolders?: SubFolder[];
+  liveUrl?: string;
+  repoUrl?: string;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -20,6 +27,7 @@ export interface Project {
   challenges?: string;
   learnings?: string;
   passwordProtected?: boolean;
+  subFolders?: SubFolder[];
 }
 
 export interface Category {
