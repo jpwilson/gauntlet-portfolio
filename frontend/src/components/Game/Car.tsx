@@ -77,18 +77,18 @@ export const Car: React.FC = () => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (showPasswordPrompt) return;
       switch (e.code) {
-        case 'KeyW': case 'ArrowUp': keys.current.forward = true; e.preventDefault(); break;
-        case 'KeyS': case 'ArrowDown': keys.current.backward = true; e.preventDefault(); break;
-        case 'KeyA': case 'ArrowLeft': keys.current.left = true; e.preventDefault(); break;
-        case 'KeyD': case 'ArrowRight': keys.current.right = true; e.preventDefault(); break;
+        case 'ArrowUp': case 'Space': case 'KeyW': keys.current.forward = true; e.preventDefault(); break;
+        case 'ArrowDown': case 'KeyS': keys.current.backward = true; e.preventDefault(); break;
+        case 'ArrowLeft': case 'KeyA': keys.current.left = true; e.preventDefault(); break;
+        case 'ArrowRight': case 'KeyD': keys.current.right = true; e.preventDefault(); break;
       }
     };
     const onKeyUp = (e: KeyboardEvent) => {
       switch (e.code) {
-        case 'KeyW': case 'ArrowUp': keys.current.forward = false; break;
-        case 'KeyS': case 'ArrowDown': keys.current.backward = false; break;
-        case 'KeyA': case 'ArrowLeft': keys.current.left = false; break;
-        case 'KeyD': case 'ArrowRight': keys.current.right = false; break;
+        case 'ArrowUp': case 'Space': case 'KeyW': keys.current.forward = false; break;
+        case 'ArrowDown': case 'KeyS': keys.current.backward = false; break;
+        case 'ArrowLeft': case 'KeyA': keys.current.left = false; break;
+        case 'ArrowRight': case 'KeyD': keys.current.right = false; break;
       }
     };
     window.addEventListener('keydown', onKeyDown);

@@ -62,6 +62,15 @@ const LoadingScreen: React.FC = () => (
 );
 
 export const GameView: React.FC = () => {
+  // Kill the body zoom that Win95 desktop uses - it breaks Canvas sizing
+  useEffect(() => {
+    const originalZoom = document.body.style.zoom;
+    document.body.style.zoom = '1';
+    return () => {
+      document.body.style.zoom = originalZoom;
+    };
+  }, []);
+
   return (
     <div className="game-container">
       <Suspense fallback={<LoadingScreen />}>

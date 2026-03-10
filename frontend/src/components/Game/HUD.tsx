@@ -46,7 +46,7 @@ export const HUD: React.FC = () => {
     setViewMode('desktop');
   }, [reset, setViewMode]);
 
-  // ESC to exit
+  // Keyboard shortcuts: ESC to exit, Enter to start
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.code === 'Escape') {
@@ -58,10 +58,13 @@ export const HUD: React.FC = () => {
           handleExit();
         }
       }
+      if (e.code === 'Enter' && !gameStarted && !showPasswordPrompt) {
+        setGameStarted(true);
+      }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [showPasswordPrompt, gameStarted, handleExit, setShowPasswordPrompt, setPasswordInput]);
+  }, [showPasswordPrompt, gameStarted, handleExit, setShowPasswordPrompt, setPasswordInput, setGameStarted]);
 
   const handlePasswordSubmit = useCallback(() => {
     if (!activeZone) return;
@@ -94,15 +97,18 @@ export const HUD: React.FC = () => {
         <div className="game-start-title">PORTFOLIO RACER</div>
         <div className="game-start-subtitle">Drive through JP Wilson's projects</div>
         <div className="game-start-controls">
-          <span className="key">W</span> / <span className="key">↑</span> Accelerate<br />
-          <span className="key">S</span> / <span className="key">↓</span> Brake<br />
-          <span className="key">A</span> / <span className="key">↑</span> Steer Left{' '}
-          <span className="key">D</span> / <span className="key">→</span> Steer Right<br />
+          <span className="key">↑</span> / <span className="key">Space</span> Accelerate<br />
+          <span className="key">↓</span> Brake<br />
+          <span className="key">←</span> Steer Left{' '}
+          <span className="key">→</span> Steer Right<br />
           Hit speed boosts, jump ramps, discover all 12 project zones!
         </div>
         <button className="game-start-btn" onClick={() => setGameStarted(true)}>
           START RACE
         </button>
+        <div style={{ color: '#666', fontSize: 12, marginTop: 8, fontFamily: "'Courier New', monospace" }}>
+          or press <span style={{ color: '#ff88ff' }}>Enter</span>
+        </div>
         <button className="game-start-back" onClick={handleExit}>
           ← Back to Desktop
         </button>
