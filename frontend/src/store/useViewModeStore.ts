@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ViewMode = 'desktop' | 'cmd';
+type ViewMode = 'desktop' | 'cmd' | 'game';
 
 interface ViewModeStore {
   viewMode: ViewMode;

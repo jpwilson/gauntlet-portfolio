@@ -97,6 +97,14 @@ export const StartMenu: React.FC = () => {
 
           <button
             className="start-menu-item"
+            onClick={() => handleItemClick(() => setViewMode('game'))}
+          >
+            <Win95Icon type="racing" size={32} className="start-menu-item-icon" />
+            <span>Portfolio v2 - Drive Mode</span>
+          </button>
+
+          <button
+            className="start-menu-item"
             onClick={() => handleItemClick(() => setViewMode('cmd'))}
           >
             <Win95Icon type="cmd" size={32} className="start-menu-item-icon" />

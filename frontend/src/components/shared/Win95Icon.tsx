@@ -201,6 +201,29 @@ export const Win95Icon: React.FC<Win95IconProps> = ({ type, size = 32, className
         <line x1="7" y1="25" x2="17" y2="25" stroke="#0000cc" strokeWidth="0.5"/>
       </svg>
     ),
+    racing: (
+      <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
+        {/* Road */}
+        <rect x="0" y="18" width="32" height="14" fill="#333333"/>
+        <rect x="0" y="18" width="32" height="1" fill="#ffff00"/>
+        {/* Car body */}
+        <rect x="6" y="12" width="20" height="8" rx="2" fill="#ff00ff"/>
+        <rect x="10" y="8" width="12" height="6" rx="1" fill="#cc00cc"/>
+        {/* Windshield */}
+        <rect x="11" y="9" width="10" height="4" rx="1" fill="#4400aa" opacity="0.7"/>
+        {/* Wheels */}
+        <circle cx="10" cy="20" r="3" fill="#222"/>
+        <circle cx="10" cy="20" r="1.5" fill="#444"/>
+        <circle cx="22" cy="20" r="3" fill="#222"/>
+        <circle cx="22" cy="20" r="1.5" fill="#444"/>
+        {/* Neon underglow */}
+        <rect x="8" y="19" width="16" height="1" fill="#00ffff" opacity="0.6"/>
+        {/* Speed lines */}
+        <line x1="0" y1="14" x2="4" y2="14" stroke="#00ffff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="0" y1="16" x2="3" y2="16" stroke="#ff00ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="1" y1="11" x2="5" y2="11" stroke="#00ffff" strokeWidth="0.8" opacity="0.3"/>
+      </svg>
+    ),
     'games-folder': (
       <svg width={size} height={size} viewBox="0 0 32 32" className={className}>
         <path d="M2 8 L2 28 L30 28 L30 10 L14 10 L12 8 Z" fill="#ffff00" stroke="#808000" strokeWidth="1"/>
