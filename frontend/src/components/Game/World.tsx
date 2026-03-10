@@ -9,7 +9,83 @@ import {
   SPEED_BOOSTS,
   OBSTACLES,
   BUILDINGS,
+  BuildingConfig,
 } from './roadConfig';
+
+// Solid building with glowing window rows
+const Building: React.FC<{ config: BuildingConfig }> = React.memo(({ config }) => {
+  const { x, z, width, height, depth, color } = config;
+  // Generate window rows
+  const windowRows = Math.max(1, Math.floor(height / 4));
+  const windowCols = Math.max(1, Math.floor(width / 2.5));
+
+  return (
+    <group position={[x, 0, z]}>
+      {/* Main building body - dark solid */}
+      <mesh position={[0, height / 2, 0]}>
+        <boxGeometry args={[width, height, depth]} />
+        <meshStandardMaterial
+          color="#0a0a15"
+          roughness={0.9}
+          metalness={0.1}
+        />
+      </mesh>
+      {/* Roof accent line */}
+      <mesh position={[0, height + 0.1, 0]}>
+        <boxGeometry args={[width + 0.2, 0.2, depth + 0.2]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.8}
+        />
+      </mesh>
+      {/* Base accent line */}
+      <mesh position={[0, 0.15, 0]}>
+        <boxGeometry args={[width + 0.1, 0.3, depth + 0.1]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.4}
+        />
+      </mesh>
+      {/* Windows on front face (facing road) */}
+      {Array.from({ length: windowRows }).map((_, row) =>
+        Array.from({ length: windowCols }).map((_, col) => {
+          const winX = -width / 2 + 1.2 + col * (width / windowCols);
+          const winY = 2 + row * (height / windowRows);
+          if (winY > height - 1) return null;
+          // Some windows lit, some dark
+          const lit = ((row * 7 + col * 13) % 3) !== 0;
+          return (
+            <mesh
+              key={`w-${row}-${col}`}
+              position={[winX, winY, depth / 2 + 0.01]}
+            >
+              <planeGeometry args={[1, 1.2]} />
+              <meshBasicMaterial
+                color={lit ? color : '#111122'}
+                transparent
+                opacity={lit ? 0.7 : 0.3}
+              />
+            </mesh>
+          );
+        })
+      )}
+      {/* Vertical edge lines */}
+      {[
+        [-width / 2, 0, -depth / 2],
+        [width / 2, 0, -depth / 2],
+        [-width / 2, 0, depth / 2],
+        [width / 2, 0, depth / 2],
+      ].map(([ex, _, ez], i) => (
+        <mesh key={`edge-${i}`} position={[ex, height / 2, ez]}>
+          <boxGeometry args={[0.08, height, 0.08]} />
+          <meshBasicMaterial color={color} transparent opacity={0.4} />
+        </mesh>
+      ))}
+    </group>
+  );
+});
 
 const ZONE_COLORS: Record<string, string> = {
   gauntlet: '#ff00ff',
@@ -311,19 +387,9 @@ export const World: React.FC = () => {
         </group>
       ))}
 
-      {/* BUILDINGS (wireframe neon) */}
+      {/* BUILDINGS (solid with neon windows) */}
       {BUILDINGS.map((b, i) => (
-        <mesh key={`bld-${i}`} position={[b.x, b.height / 2, b.z]}>
-          <boxGeometry args={[b.width, b.height, b.depth]} />
-          <meshStandardMaterial
-            color={b.color}
-            emissive={b.color}
-            emissiveIntensity={0.15}
-            wireframe
-            transparent
-            opacity={0.6}
-          />
-        </mesh>
+        <Building key={`bld-${i}`} config={b} />
       ))}
 
       {/* Ground plane (extends beyond grid for fog blending) */}

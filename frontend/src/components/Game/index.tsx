@@ -1,5 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import { Car } from './Car';
 import { World } from './World';
 import { HUD } from './HUD';
@@ -67,10 +68,13 @@ export const GameView: React.FC = () => {
         <Canvas
           className="game-canvas"
           camera={{
-            fov: 70,
+            fov: 65,
             near: 0.1,
             far: 1000,
-            position: [0, 7, 20],
+            position: [0, 6, 18],
+          }}
+          onCreated={({ camera }) => {
+            camera.lookAt(0, 0, -20);
           }}
           dpr={[1, 1.5]}
           gl={{

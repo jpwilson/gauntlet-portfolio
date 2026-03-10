@@ -64,6 +64,7 @@ export const Car: React.FC = () => {
   const boostCooldown = useRef<Set<number>>(new Set());
   const obstacleCooldown = useRef<Set<number>>(new Set());
   const speedUpdateTimer = useRef(0);
+  const firstFrame = useRef(true);
 
   // Expose touch controls globally
   useEffect(() => {
@@ -278,20 +279,28 @@ export const Car: React.FC = () => {
     });
 
     // --- CAMERA ---
+    const camBehindDist = 12;
+    const camHeight = 5.5;
     _camPos.set(
-      state.posX - Math.sin(state.rotation) * 14,
-      state.posY + 7,
-      state.posZ + Math.cos(state.rotation) * 14
+      state.posX - Math.sin(state.rotation) * camBehindDist,
+      state.posY + camHeight,
+      state.posZ + Math.cos(state.rotation) * camBehindDist
     );
-    _camLook.set(state.posX, state.posY + 1, state.posZ - 15);
+    _camLook.set(
+      state.posX + Math.sin(state.rotation) * 20,
+      state.posY + 1,
+      state.posZ - Math.cos(state.rotation) * 20
+    );
 
-    camera.position.lerp(_camPos, 0.04);
-    const lookTarget = _camLook;
-    camera.lookAt(
-      THREE.MathUtils.lerp(camera.position.x, lookTarget.x, 0.08),
-      THREE.MathUtils.lerp(camera.position.y, lookTarget.y, 0.08),
-      state.posZ - 25
-    );
+    if (firstFrame.current) {
+      // Snap camera on first frame - no lerp
+      camera.position.copy(_camPos);
+      camera.lookAt(_camLook);
+      firstFrame.current = false;
+    } else {
+      camera.position.lerp(_camPos, 0.06);
+      camera.lookAt(_camLook);
+    }
 
     // --- UPDATE HUD SPEED (throttled) ---
     speedUpdateTimer.current += dt;
