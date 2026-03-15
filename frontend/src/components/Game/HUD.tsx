@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useGameStore } from './gameStore';
 import { useViewModeStore } from '../../store/useViewModeStore';
-import { PROJECT_STOPS, ROAD_LENGTH } from './roadConfig';
+import { PROJECT_STOPS, TRACK_LENGTH } from './roadConfig';
 
 // Password format: ProjectName#321 (matching existing portfolio password scheme)
 function getPassword(projectName: string): string {
@@ -97,11 +97,10 @@ export const HUD: React.FC = () => {
         <div className="game-start-title">PORTFOLIO RACER</div>
         <div className="game-start-subtitle">Drive through JP Wilson's projects</div>
         <div className="game-start-controls">
-          <span className="key">↑</span> / <span className="key">Space</span> Accelerate<br />
-          <span className="key">↓</span> Brake<br />
+          <span className="key">Space</span> / <span className="key">↑</span> Gas (release to brake)<br />
           <span className="key">←</span> Steer Left{' '}
           <span className="key">→</span> Steer Right<br />
-          Hit speed boosts, jump ramps, discover all 12 project zones!
+          Race the loop! Hit boosts, jump ramps, find all 12 project zones!
         </div>
         <button className="game-start-btn" onClick={() => setGameStarted(true)}>
           START RACE
@@ -262,15 +261,6 @@ export const HUD: React.FC = () => {
             onMouseUp={() => handleTouchEnd('forward')}
           >
             GAS
-          </button>
-          <button
-            className="touch-btn brake"
-            onTouchStart={() => handleTouchStart('backward')}
-            onTouchEnd={() => handleTouchEnd('backward')}
-            onMouseDown={() => handleTouchStart('backward')}
-            onMouseUp={() => handleTouchEnd('backward')}
-          >
-            BRK
           </button>
         </div>
       </div>
