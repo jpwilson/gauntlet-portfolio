@@ -148,7 +148,7 @@ export const AboutPage: React.FC = () => {
             color: '#1a1a1a', lineHeight: 1.1, marginTop: 16, marginBottom: 20,
             textTransform: 'uppercase',
           }}>
-            Hey, I'm Jean-Paul Wilson
+            Hey, Nice To Meet You!
           </h1>
 
           <div className="nb-stat" style={{ padding: 24 }}>
