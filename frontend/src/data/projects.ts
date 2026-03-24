@@ -52,6 +52,7 @@ export const PROJECTS: Project[] = [
     id: 'week3-legacylens',
     name: 'LegacyLens',
     company: 'Gauntlet',
+    demoUrl: 'https://loom.com/share/folder/f73a7042dcbb40d39c2895a7f845b90a',
     description: 'RAG system that makes legacy Fortran codebases queryable through natural language. Achieves 92% precision with exact file and line citations from 2,376 indexed chunks.',
     longDescription:
       'A Retrieval-Augmented Generation system that helps developers query large legacy codebases using natural language. Built for the LAPACK Fortran codebase (116 MB, 1,750+ files, 2,376 indexed chunks). Users ask plain English questions and receive precise answers with exact file and line citations. Achieves 92% precision@5, 94% term coverage, and 96% citation rate.',
