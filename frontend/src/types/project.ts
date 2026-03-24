@@ -29,6 +29,7 @@ export interface Project {
   featured: boolean;
   challenges?: string;
   learnings?: string;
+  spec?: string;
   passwordProtected?: boolean;
   subFolders?: SubFolder[];
 }

@@ -9,13 +9,14 @@ const IMAGES: Record<string, string> = {
   'week2-agentfolio': `${BASE}images/agent-folio.png`,
   'week3-legacylens': `${BASE}images/legacylens.png`,
   'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
-  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
+  'week4-nerdy-tutor': `${BASE}images/nerdy-ai-tutor.png`,
   'week4-gofundme': `${BASE}images/gofundme.png`,
   'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
   'week5-skyfi': `${BASE}images/skyfi.png`,
   'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
   'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
-  'week6-equinox': `${BASE}images/service-core.png`,
+  'week6-servicecore': `${BASE}images/service-core.png`,
+  'week6-equinox': `${BASE}images/peak6-equinox.png`,
   'week6-st6': `${BASE}images/st6-commit.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
@@ -121,10 +122,12 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* 3 ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
+      {/* ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-teal">
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn" style={{
+            background: '#fff', color: '#1a1a1a', border: '3px solid #fd8b00',
+          }}>
             Deployed Site &rarr;
           </a>
         )}
@@ -143,7 +146,7 @@ export const ProjectDetailPage: React.FC = () => {
 
       {/* OVERVIEW */}
       {project.longDescription && (
-        <div className="nb-stat" style={{ marginBottom: 16 }}>
+        <div className="nb-stat" style={{ marginBottom: 20 }}>
           <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 18, marginBottom: 12, color: '#1a1a1a' }}>
             Overview
           </h2>
@@ -153,9 +156,9 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* COLLAPSIBLE PROJECT SPEC */}
-      {(project.challenges || project.learnings) && (
-        <div className="nb-stat" style={{ marginBottom: 24, cursor: 'pointer' }}>
+      {/* COLLAPSIBLE PROJECT SPEC — separate from challenges/learnings */}
+      {project.spec && (
+        <div className="nb-stat" style={{ marginBottom: 20 }}>
           <button
             onClick={() => setSpecOpen(!specOpen)}
             style={{
@@ -174,29 +177,37 @@ export const ProjectDetailPage: React.FC = () => {
             </span>
             Project Spec
           </button>
-
           {specOpen && (
             <div style={{ marginTop: 16, animation: 'fadeIn 0.3s ease' }}>
-              {project.challenges && (
-                <div style={{ marginBottom: 16 }}>
-                  <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#904d00', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    Challenges
-                  </h3>
-                  <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
-                    {project.challenges}
-                  </p>
-                </div>
-              )}
-              {project.learnings && (
-                <div>
-                  <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#006673', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    Key Learnings
-                  </h3>
-                  <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
-                    {project.learnings}
-                  </p>
-                </div>
-              )}
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
+                {project.spec}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* CHALLENGES / KEY LEARNINGS — visible cards side by side */}
+      {(project.challenges || project.learnings) && (
+        <div style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
+          {project.challenges && (
+            <div className="nb-stat" style={{ borderColor: '#fd8b00' }}>
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#904d00', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Challenges
+              </h3>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                {project.challenges}
+              </p>
+            </div>
+          )}
+          {project.learnings && (
+            <div className="nb-stat" style={{ borderColor: '#006673' }}>
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#006673', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Key Learnings
+              </h3>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                {project.learnings}
+              </p>
             </div>
           )}
         </div>

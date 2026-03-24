@@ -107,7 +107,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'week4-gofundme',
-    name: 'GoFundMe Clone',
+    name: 'AI Enhanced GoFundMe',
     company: 'GoFundMe',
     description: 'High-fidelity GoFundMe reconstruction with an AI Giving Agent for automated, values-aligned monthly donations. Includes Metrics Lab analytics dashboard and 175 tests.',
     longDescription:
@@ -194,6 +194,24 @@ export const PROJECTS: Project[] = [
     featured: false,
     challenges: 'Session-based cart that merges on login, inventory management with concurrent stock updates.',
     learnings: 'Django e-commerce patterns, Stripe/PayPal integration stubs, session management across guest and authenticated users.',
+  },
+  {
+    id: 'week6-servicecore',
+    name: 'ServiceCore',
+    company: 'ServiceCore',
+    description: 'Employee time tracking and payroll dashboard for field service companies. Features AI-powered assistant, automatic overtime calculation, manager approval workflows, and real-time labor cost visibility.',
+    longDescription:
+      'A full-featured employee time tracking and payroll dashboard built for field service companies. Replaces manual spreadsheets with digital time clock in/out, automatic overtime calculation based on 40-hour weeks, manager approval workflows, real-time dashboards, and automated email reminders. Includes an AI agent with guardrails and evals, 108 tests, and comprehensive CI/CD pipeline.',
+    category: 'gauntlet',
+    week: 6,
+    techStack: ['TypeScript', 'Next.js', 'Playwright', 'React', 'Supabase', 'Tailwind CSS', 'Turborepo', 'Vitest', 'Vercel'],
+    repoUrl: 'https://github.com/jpwilson/service_core',
+    liveUrl: 'https://servicecore-six.vercel.app/',
+    icon: 'folder',
+    createdAt: '2025-03-23',
+    featured: false,
+    challenges: 'Automatic overtime calculation with edge cases, manager approval state machine, AI agent guardrails for payroll data.',
+    learnings: 'pnpm monorepo with Turborepo, Supabase row-level security for multi-tenant data, AI agent evals and tracing.',
   },
   {
     id: 'week6-equinox',

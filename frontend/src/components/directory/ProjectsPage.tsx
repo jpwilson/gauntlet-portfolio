@@ -10,13 +10,14 @@ const PROJECT_IMAGES: Record<string, string> = {
   'week2-agentfolio': `${BASE}images/agent-folio.png`,
   'week3-legacylens': `${BASE}images/legacylens.png`,
   'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
-  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
+  'week4-nerdy-tutor': `${BASE}images/nerdy-ai-tutor.png`,
   'week4-gofundme': `${BASE}images/gofundme.png`,
   'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
   'week5-skyfi': `${BASE}images/skyfi.png`,
   'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
   'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
-  'week6-equinox': `${BASE}images/service-core.png`,
+  'week6-servicecore': `${BASE}images/service-core.png`,
+  'week6-equinox': `${BASE}images/peak6-equinox.png`,
   'week6-st6': `${BASE}images/st6-commit.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
@@ -283,7 +284,7 @@ const CoverFlowView: React.FC = () => {
     <div>
       {/* Cover flow area */}
       <div style={{
-        height: 380, perspective: 1200, position: 'relative',
+        height: 410, perspective: 1200, position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
       }}>
@@ -306,8 +307,8 @@ const CoverFlowView: React.FC = () => {
               onClick={() => !isActive && goTo(activeIndex + offset)}
               style={{
                 position: 'absolute',
-                width: isActive ? 520 : 200,
-                height: isActive ? 320 : 140,
+                width: isActive ? 572 : 200,
+                height: isActive ? 352 : 140,
                 cursor: isActive ? 'default' : 'pointer',
                 transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`,
                 opacity: op, zIndex: z,
@@ -336,7 +337,7 @@ const CoverFlowView: React.FC = () => {
         marginTop: 20, padding: '16px 24px',
         background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
         animation: 'fadeIn 0.4s ease',
-        maxWidth: 800, margin: '20px auto 0',
+        maxWidth: 860, margin: '20px auto 0',
       }}>
         {/* Single row: info left, controls right */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -356,8 +357,8 @@ const CoverFlowView: React.FC = () => {
             </div>
             <p style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
             {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
-              <div style={{ display: 'flex', gap: 5, overflow: 'hidden' }}>
-                {project.techStack.map(t => <span key={t} className="nb-tag" style={{ flexShrink: 0 }}>{t}</span>)}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                {project.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
               </div>
             )}
           </div>
