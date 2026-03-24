@@ -122,8 +122,8 @@ const TilesView: React.FC = () => (
         </div>
         <div style={{ padding: '20px 24px 24px' }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
-            {p.category === 'gauntlet' && p.week && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700, background: '#006673', color: '#fff', padding: '3px 10px', borderRadius: 6, border: '2px solid #1a1a1a' }}>WEEK {p.week}</span>
+            {(p.company || p.category === 'gauntlet') && (
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '3px 10px', borderRadius: 6, border: '2px solid #1a1a1a' }}>{p.company || 'Gauntlet'}</span>
             )}
             {p.featured && (
               <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700, background: '#fd8b00', color: '#1a1a1a', padding: '3px 10px', borderRadius: 6, border: '2px solid #1a1a1a' }}>FEATURED</span>
@@ -388,7 +388,7 @@ const CoverFlowView: React.FC = () => {
                   ? `translateX(0px) scale(1)`
                   : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
                 opacity: op, zIndex: z,
-                transition: 'transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease',
+                transition: 'transform 1s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1s ease',
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
@@ -425,8 +425,8 @@ const CoverFlowView: React.FC = () => {
         <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
           <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{project.name}</h2>
-            {project.category === 'gauntlet' && project.week && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#006673', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>W{project.week}</span>
+            {(project.company || project.category === 'gauntlet') && (
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{project.company || 'Gauntlet'}</span>
             )}
             <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
               {activeIndex + 1}/{n}

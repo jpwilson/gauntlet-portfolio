@@ -59,21 +59,34 @@ export const ProjectDetailPage: React.FC = () => {
         &larr; All Projects
       </Link>
 
-      {/* Hero image */}
-      <div style={{
-        border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
-        marginBottom: 24, background: '#111',
-      }}>
-        {project.video ? (
-          <video src={project.video} autoPlay muted loop playsInline style={{
-            width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block',
-          }} />
-        ) : (
-          <img src={image} alt={project.name} style={{
-            width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block',
-          }} />
-        )}
-      </div>
+      {/* Hero image — clickable to live site */}
+      {project.liveUrl ? (
+        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{
+          display: 'block', border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
+          marginBottom: 24, background: '#111', cursor: 'pointer',
+          transition: 'transform 0.2s, box-shadow 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+        >
+          {project.video ? (
+            <video src={project.video} autoPlay muted loop playsInline style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
+          ) : (
+            <img src={image} alt={project.name} style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
+          )}
+        </a>
+      ) : (
+        <div style={{
+          border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
+          marginBottom: 24, background: '#111',
+        }}>
+          {project.video ? (
+            <video src={project.video} autoPlay muted loop playsInline style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
+          ) : (
+            <img src={image} alt={project.name} style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
+          )}
+        </div>
+      )}
 
       {/* Screenshot gallery */}
       {screenshots.length > 0 && (
@@ -97,7 +110,7 @@ export const ProjectDetailPage: React.FC = () => {
       <div style={{ marginBottom: 12 }}>
         <span style={{
           fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700,
-          background: '#e8e8e3', color: '#666',
+          background: '#2563eb', color: '#fff',
           padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a',
         }}>
           {company}
