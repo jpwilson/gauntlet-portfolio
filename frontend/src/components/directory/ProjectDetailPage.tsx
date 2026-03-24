@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProject } from '../../data/projects';
 
 const BASE = import.meta.env.BASE_URL;
 
 const IMAGES: Record<string, string> = {
-  'week1-colabboard': `${BASE}images/project-collabboard.jpg`,
-  'week2-ghostfolio': `${BASE}images/project-ghostfolio.jpg`,
-  'week3-legacylens': `${BASE}images/project-legacylens.jpg`,
-  'week4-nerdy': `${BASE}images/project-nerdy.jpg`,
-  'week4-gofundme': `${BASE}images/project-gofundme.jpg`,
-  'week5-zapier': `${BASE}images/project-zapier.jpg`,
-  'week5-skyfi': `${BASE}images/project-skyfi.jpg`,
-  'week6-upstream-literacy': `${BASE}images/project-upstream.jpg`,
-  'week6-servicecore': `${BASE}images/project-servicecore.jpg`,
-  'other-family-socials': `${BASE}images/project-family.jpg`,
-  'other-ev-lineup': `${BASE}images/project-ev.jpg`,
-  'other-news-platform': `${BASE}images/project-news.jpg`,
+  'week1-colabboard': `${BASE}images/collabboard.png`,
+  'week2-agentfolio': `${BASE}images/agent-folio.png`,
+  'week3-legacylens': `${BASE}images/legacylens.png`,
+  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
+  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
+  'week4-gofundme': `${BASE}images/gofundme.png`,
+  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
+  'week5-skyfi': `${BASE}images/skyfi.png`,
+  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
+  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
+  'week6-equinox': `${BASE}images/service-core.png`,
+  'week6-st6': `${BASE}images/st6-commit.png`,
+  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
+  'other-ev-lineup': `${BASE}images/evlineup.png`,
+  'other-news-platform': `${BASE}images/newsplatform.png`,
 };
 
-const GIF_PROJECTS = new Set<string>(); // Add IDs here when you have GIFs
+const GIF_PROJECTS = new Set<string>();
 
 const getImage = (id: string) => {
   const base = IMAGES[id];
@@ -31,11 +34,12 @@ const getImage = (id: string) => {
 export const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const project = id ? getProject(id) : undefined;
+  const [specOpen, setSpecOpen] = useState(false);
 
   if (!project) {
     return (
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '100px 32px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 36, marginBottom: 24 }}>
+        <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 36, marginBottom: 24, textTransform: 'uppercase' }}>
           Project not found
         </h1>
         <Link to="/" className="nb-btn nb-btn-teal">&larr; Back to projects</Link>
@@ -45,6 +49,7 @@ export const ProjectDetailPage: React.FC = () => {
 
   const image = project.thumbnail || getImage(project.id);
   const screenshots = project.screenshots || [];
+  const company = project.company || (project.category === 'gauntlet' ? 'Gauntlet' : 'Personal');
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '48px 32px 96px' }}>
@@ -87,20 +92,14 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* Badges */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-        {project.category === 'gauntlet' && project.week && (
-          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#006673', color: '#fff', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
-            WEEK {project.week}
-          </span>
-        )}
-        {project.featured && (
-          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#fd8b00', color: '#1a1a1a', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
-            FEATURED
-          </span>
-        )}
-        <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#e8e8e3', color: '#666', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
-          {project.company || (project.category === 'gauntlet' ? 'THE GAUNTLET' : 'PERSONAL')}
+      {/* Company badge only */}
+      <div style={{ marginBottom: 12 }}>
+        <span style={{
+          fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700,
+          background: '#e8e8e3', color: '#666',
+          padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a',
+        }}>
+          {company}
         </span>
       </div>
 
@@ -113,7 +112,7 @@ export const ProjectDetailPage: React.FC = () => {
         {project.name}
       </h1>
 
-      {/* Tech pills inline under title */}
+      {/* Tech pills */}
       {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
           {project.techStack.map(t => (
@@ -122,28 +121,29 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* 3 ACTION BUTTONS: Deployed Site, GitHub, Demo Video */}
+      {/* 3 ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-teal">
             Deployed Site &rarr;
           </a>
         )}
+        <a href={project.demoUrl || '#'} target="_blank" rel="noopener noreferrer"
+          className={`nb-btn ${project.demoUrl ? 'nb-btn-orange' : 'nb-btn-white'}`}
+          style={!project.demoUrl ? { opacity: 0.4, pointerEvents: 'none' } : {}}
+        >
+          ▶ Demo Video
+        </a>
         {project.repoUrl && (
           <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-white">
             GitHub
-          </a>
-        )}
-        {project.demoUrl && (
-          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-orange">
-            ▶ Demo Video
           </a>
         )}
       </div>
 
       {/* OVERVIEW */}
       {project.longDescription && (
-        <div className="nb-stat" style={{ marginBottom: 24 }}>
+        <div className="nb-stat" style={{ marginBottom: 16 }}>
           <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 18, marginBottom: 12, color: '#1a1a1a' }}>
             Overview
           </h2>
@@ -153,27 +153,50 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* CHALLENGES / LEARNINGS */}
+      {/* COLLAPSIBLE PROJECT SPEC */}
       {(project.challenges || project.learnings) && (
-        <div style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
-          {project.challenges && (
-            <div className="nb-stat" style={{ borderColor: '#fd8b00' }}>
-              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#904d00', marginBottom: 10 }}>
-                Challenges
-              </h3>
-              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
-                {project.challenges}
-              </p>
-            </div>
-          )}
-          {project.learnings && (
-            <div className="nb-stat" style={{ borderColor: '#006673' }}>
-              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#006673', marginBottom: 10 }}>
-                Key Learnings
-              </h3>
-              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
-                {project.learnings}
-              </p>
+        <div className="nb-stat" style={{ marginBottom: 24, cursor: 'pointer' }}>
+          <button
+            onClick={() => setSpecOpen(!specOpen)}
+            style={{
+              fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 14,
+              color: '#1a1a1a', background: 'none', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: 0,
+            }}
+          >
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 20, height: 20, borderRadius: 4, border: '2px solid #1a1a1a',
+              fontSize: 12, fontWeight: 700, transition: 'transform 0.2s',
+              transform: specOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            }}>
+              ▶
+            </span>
+            Project Spec
+          </button>
+
+          {specOpen && (
+            <div style={{ marginTop: 16, animation: 'fadeIn 0.3s ease' }}>
+              {project.challenges && (
+                <div style={{ marginBottom: 16 }}>
+                  <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#904d00', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Challenges
+                  </h3>
+                  <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                    {project.challenges}
+                  </p>
+                </div>
+              )}
+              {project.learnings && (
+                <div>
+                  <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#006673', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Key Learnings
+                  </h3>
+                  <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                    {project.learnings}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

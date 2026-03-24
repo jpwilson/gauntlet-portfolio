@@ -6,18 +6,21 @@ import { Project } from '../../types/project';
 const BASE = import.meta.env.BASE_URL;
 
 const PROJECT_IMAGES: Record<string, string> = {
-  'week1-colabboard': `${BASE}images/project-collabboard.jpg`,
-  'week2-ghostfolio': `${BASE}images/project-ghostfolio.jpg`,
-  'week3-legacylens': `${BASE}images/project-legacylens.jpg`,
-  'week4-nerdy': `${BASE}images/project-nerdy.jpg`,
-  'week4-gofundme': `${BASE}images/project-gofundme.jpg`,
-  'week5-zapier': `${BASE}images/project-zapier.jpg`,
-  'week5-skyfi': `${BASE}images/project-skyfi.jpg`,
-  'week6-upstream-literacy': `${BASE}images/project-upstream.jpg`,
-  'week6-servicecore': `${BASE}images/project-servicecore.jpg`,
-  'other-family-socials': `${BASE}images/project-family.jpg`,
-  'other-ev-lineup': `${BASE}images/project-ev.jpg`,
-  'other-news-platform': `${BASE}images/project-news.jpg`,
+  'week1-colabboard': `${BASE}images/collabboard.png`,
+  'week2-agentfolio': `${BASE}images/agent-folio.png`,
+  'week3-legacylens': `${BASE}images/legacylens.png`,
+  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
+  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
+  'week4-gofundme': `${BASE}images/gofundme.png`,
+  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
+  'week5-skyfi': `${BASE}images/skyfi.png`,
+  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
+  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
+  'week6-equinox': `${BASE}images/service-core.png`,
+  'week6-st6': `${BASE}images/st6-commit.png`,
+  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
+  'other-ev-lineup': `${BASE}images/evlineup.png`,
+  'other-news-platform': `${BASE}images/newsplatform.png`,
 };
 // Supports both .gif and .jpg — put a .gif in public/images/ with same name to use it
 // e.g. project-collabboard.gif will be used if it exists, otherwise falls back to .jpg
