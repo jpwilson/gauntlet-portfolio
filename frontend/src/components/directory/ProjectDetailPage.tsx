@@ -1,0 +1,188 @@
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getProject } from '../../data/projects';
+
+const BASE = import.meta.env.BASE_URL;
+
+const IMAGES: Record<string, string> = {
+  'week1-colabboard': `${BASE}images/project-collabboard.jpg`,
+  'week2-ghostfolio': `${BASE}images/project-ghostfolio.jpg`,
+  'week3-legacylens': `${BASE}images/project-legacylens.jpg`,
+  'week4-nerdy': `${BASE}images/project-nerdy.jpg`,
+  'week4-gofundme': `${BASE}images/project-gofundme.jpg`,
+  'week5-zapier': `${BASE}images/project-zapier.jpg`,
+  'week5-skyfi': `${BASE}images/project-skyfi.jpg`,
+  'week6-upstream-literacy': `${BASE}images/project-upstream.jpg`,
+  'week6-servicecore': `${BASE}images/project-servicecore.jpg`,
+  'other-family-socials': `${BASE}images/project-family.jpg`,
+  'other-ev-lineup': `${BASE}images/project-ev.jpg`,
+  'other-news-platform': `${BASE}images/project-news.jpg`,
+};
+
+const GIF_PROJECTS = new Set<string>(); // Add IDs here when you have GIFs
+
+const getImage = (id: string) => {
+  const base = IMAGES[id];
+  if (!base) return `${BASE}images/project-1.jpg`;
+  if (GIF_PROJECTS.has(id)) return base.replace('.jpg', '.gif');
+  return base;
+};
+
+export const ProjectDetailPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const project = id ? getProject(id) : undefined;
+
+  if (!project) {
+    return (
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '100px 32px', textAlign: 'center' }}>
+        <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 36, marginBottom: 24 }}>
+          Project not found
+        </h1>
+        <Link to="/" className="nb-btn nb-btn-teal">&larr; Back to projects</Link>
+      </div>
+    );
+  }
+
+  const image = project.thumbnail || getImage(project.id);
+  const screenshots = project.screenshots || [];
+
+  return (
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: '48px 32px 96px' }}>
+      {/* Back link */}
+      <Link to="/" className="nb-btn nb-btn-white" style={{ marginBottom: 32, display: 'inline-flex' }}>
+        &larr; All Projects
+      </Link>
+
+      {/* Hero image */}
+      <div style={{
+        border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
+        marginBottom: 24, background: '#111',
+      }}>
+        {project.video ? (
+          <video src={project.video} autoPlay muted loop playsInline style={{
+            width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block',
+          }} />
+        ) : (
+          <img src={image} alt={project.name} style={{
+            width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block',
+          }} />
+        )}
+      </div>
+
+      {/* Screenshot gallery */}
+      {screenshots.length > 0 && (
+        <div style={{ display: 'flex', gap: 12, marginBottom: 24, overflowX: 'auto', paddingBottom: 8 }} className="gallery-scroll">
+          {screenshots.map((src, i) => (
+            <div key={i} style={{
+              flexShrink: 0, width: 200, height: 130,
+              border: '3px solid #1a1a1a', borderRadius: 10, overflow: 'hidden',
+              cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '4px 4px 0 #1a1a1a'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+            >
+              <img src={src} alt={`${project.name} screenshot ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Badges */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+        {project.category === 'gauntlet' && project.week && (
+          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#006673', color: '#fff', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
+            WEEK {project.week}
+          </span>
+        )}
+        {project.featured && (
+          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#fd8b00', color: '#1a1a1a', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
+            FEATURED
+          </span>
+        )}
+        <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, background: '#e8e8e3', color: '#666', padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a' }}>
+          {project.company || (project.category === 'gauntlet' ? 'THE GAUNTLET' : 'PERSONAL')}
+        </span>
+      </div>
+
+      {/* Title */}
+      <h1 style={{
+        fontFamily: "'Space Grotesk'", fontWeight: 700,
+        fontSize: 'clamp(32px, 5vw, 48px)',
+        color: '#1a1a1a', lineHeight: 1.1, marginBottom: 8, textTransform: 'uppercase',
+      }}>
+        {project.name}
+      </h1>
+
+      {/* Tech pills inline under title */}
+      {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
+          {project.techStack.map(t => (
+            <span key={t} className="nb-tag">{t}</span>
+          ))}
+        </div>
+      )}
+
+      {/* 3 ACTION BUTTONS: Deployed Site, GitHub, Demo Video */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+        {project.liveUrl && (
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-teal">
+            Deployed Site &rarr;
+          </a>
+        )}
+        {project.repoUrl && (
+          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-white">
+            GitHub
+          </a>
+        )}
+        {project.demoUrl && (
+          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-orange">
+            ▶ Demo Video
+          </a>
+        )}
+      </div>
+
+      {/* OVERVIEW */}
+      {project.longDescription && (
+        <div className="nb-stat" style={{ marginBottom: 24 }}>
+          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 18, marginBottom: 12, color: '#1a1a1a' }}>
+            Overview
+          </h2>
+          <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75 }}>
+            {project.longDescription}
+          </p>
+        </div>
+      )}
+
+      {/* CHALLENGES / LEARNINGS */}
+      {(project.challenges || project.learnings) && (
+        <div style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
+          {project.challenges && (
+            <div className="nb-stat" style={{ borderColor: '#fd8b00' }}>
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#904d00', marginBottom: 10 }}>
+                Challenges
+              </h3>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                {project.challenges}
+              </p>
+            </div>
+          )}
+          {project.learnings && (
+            <div className="nb-stat" style={{ borderColor: '#006673' }}>
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#006673', marginBottom: 10 }}>
+                Key Learnings
+              </h3>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+                {project.learnings}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* BACK */}
+      <div style={{ marginTop: 48 }}>
+        <Link to="/" className="nb-btn nb-btn-teal">&larr; Back to all projects</Link>
+      </div>
+    </div>
+  );
+};

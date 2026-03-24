@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #e8e8e3;
+  background-image: url('/images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Overlay to tone down bg image */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(232, 232, 227, 0.55);
+  z-index: -1;
+}
+
+/* ---- Neo-brutalist card ---- */
+.nb-card {
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.nb-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 #1a1a1a;
+}
+
+/* ---- Buttons ---- */
+.nb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  border: 3px solid #1a1a1a;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nb-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+.nb-btn:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.nb-btn-teal { background: #006673; color: #fff; }
+.nb-btn-orange { background: #fd8b00; color: #fff; }
+.nb-btn-white { background: #fff; color: #1a1a1a; }
+
+/* ---- Tag pill ---- */
+.nb-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  border: 2px solid #1a1a1a;
+  border-radius: 999px;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+/* ---- Section label ---- */
+.nb-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  background: #fd8b00;
+  color: #1a1a1a;
+}
+
+/* ---- Stat box ---- */
+.nb-stat {
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+/* ---- Connect card ---- */
+.nb-connect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nb-connect:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 #006673;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Staggered card entrance */
+.nb-card {
+  animation: fadeInUp 0.5s ease both;
+}
+.nb-card:nth-child(1) { animation-delay: 0.03s; }
+.nb-card:nth-child(2) { animation-delay: 0.08s; }
+.nb-card:nth-child(3) { animation-delay: 0.13s; }
+.nb-card:nth-child(4) { animation-delay: 0.18s; }
+.nb-card:nth-child(5) { animation-delay: 0.23s; }
+.nb-card:nth-child(6) { animation-delay: 0.28s; }
+.nb-card:nth-child(7) { animation-delay: 0.33s; }
+.nb-card:nth-child(8) { animation-delay: 0.38s; }
+.nb-card:nth-child(9) { animation-delay: 0.43s; }
+.nb-card:nth-child(10) { animation-delay: 0.48s; }
+.nb-card:nth-child(11) { animation-delay: 0.53s; }
+.nb-card:nth-child(12) { animation-delay: 0.58s; }
+
+/* Smooth image zoom inside cards */
+.nb-card img {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.nb-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Label + stat entrance */
+.nb-label {
+  animation: scaleIn 0.4s ease both;
+}
+.nb-stat {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* Button subtle pulse on idle */
+.nb-btn {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+}
+
+/* Connect card image zoom */
+.nb-connect {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Tag subtle hover */
+.nb-tag {
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.nb-tag:hover {
+  background: #006673;
+  color: #fff;
+  border-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+/* Table row neo-brutalist hover */
+table tbody tr {
+  animation: fadeIn 0.3s ease both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.15s ease;
+  position: relative;
+}
+table tbody tr:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+  background: #fff !important;
+  z-index: 2;
+}
+table tbody tr td {
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+table tbody tr:hover td {
+  border-bottom-color: #fd8b00;
+}
+table tbody tr:nth-child(1) { animation-delay: 0.02s; }
+table tbody tr:nth-child(2) { animation-delay: 0.05s; }
+table tbody tr:nth-child(3) { animation-delay: 0.08s; }
+table tbody tr:nth-child(4) { animation-delay: 0.11s; }
+table tbody tr:nth-child(5) { animation-delay: 0.14s; }
+table tbody tr:nth-child(6) { animation-delay: 0.17s; }
+table tbody tr:nth-child(7) { animation-delay: 0.20s; }
+table tbody tr:nth-child(8) { animation-delay: 0.23s; }
+table tbody tr:nth-child(9) { animation-delay: 0.26s; }
+table tbody tr:nth-child(10) { animation-delay: 0.29s; }
+table tbody tr:nth-child(11) { animation-delay: 0.32s; }
+table tbody tr:nth-child(12) { animation-delay: 0.35s; }
+
+/* Hide scrollbar on gallery */
+.gallery-scroll::-webkit-scrollbar { display: none; }
+.gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }

@@ -17,8 +17,11 @@ export interface Project {
   techStack: string[];
   repoUrl?: string;
   liveUrl?: string;
+  demoUrl?: string;
   vizUrl?: string;
   writeupUrl?: string;
+  company?: string;
+  video?: string;
   thumbnail?: string;
   screenshots?: string[];
   icon: string;

@@ -1,32 +1,19 @@
-import React, { lazy, Suspense } from 'react';
-import { Desktop } from './components/Desktop/Desktop';
-import { WindowManager } from './components/Window/WindowManager';
-import { Taskbar } from './components/Taskbar/Taskbar';
-import { CommandPromptView } from './components/CommandPrompt/CommandPromptView';
-import { useViewModeStore } from './store/useViewModeStore';
-
-// Lazy-load the game to keep Win95 desktop fast
-const GameView = lazy(() => import('./components/Game'));
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from './components/directory/Layout';
+import { ProjectsPage } from './components/directory/ProjectsPage';
+import { ProjectDetailPage } from './components/directory/ProjectDetailPage';
+import { AboutPage } from './components/directory/AboutPage';
 
 const App: React.FC = () => {
-  const viewMode = useViewModeStore((s) => s.viewMode);
-
   return (
-    <>
-      {viewMode === 'desktop' && (
-        <>
-          <Desktop />
-          <WindowManager />
-          <Taskbar />
-        </>
-      )}
-      {viewMode === 'cmd' && <CommandPromptView />}
-      {viewMode === 'game' && (
-        <Suspense fallback={null}>
-          <GameView />
-        </Suspense>
-      )}
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<ProjectsPage />} />
+        <Route path="/project/:id" element={<ProjectDetailPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Route>
+    </Routes>
   );
 };
 
