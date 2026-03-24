@@ -1,0 +1,80 @@
+name: Update project commit dates
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update commit dates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Map of project ID -> repo name
+          declare -A REPOS
+          REPOS[week1-colabboard]=colabboard
+          REPOS[week2-agentfolio]=agent-folio
+          REPOS[week3-legacylens]=legacylens
+          REPOS[week4-nerdy-live]=nerdy-live-v1
+          REPOS[week4-nerdy-tutor]=nerdy-vid-tutor
+          REPOS[week4-gofundme]=gfm-v1
+          REPOS[week5-zapier-triggers]=triggers-api
+          REPOS[week5-skyfi]=skyfi-mcp
+          REPOS[week6-upstream-community]=literacy-community
+          REPOS[week6-upstream-ecommerce]=Upstream-e-Commerce
+          REPOS[week6-servicecore]=service_core
+          REPOS[week6-equinox]=equinox
+          REPOS[week6-st6]=weekly-commit-module
+          REPOS[other-family-socials]=OFS_Sept25
+          REPOS[other-ev-lineup]=eeveecars
+          REPOS[other-news-platform]=NewsPlatformFTW
+
+          FILE="frontend/src/data/projects.ts"
+          CHANGED=false
+
+          for id in "${!REPOS[@]}"; do
+            repo="${REPOS[$id]}"
+            date=$(gh api "repos/jpwilson/$repo/commits?per_page=1" --jq '.[0].commit.committer.date' 2>/dev/null | cut -dT -f1)
+            if [ -n "$date" ]; then
+              # Find the project block and update its createdAt
+              current=$(grep -A 20 "id: '$id'" "$FILE" | grep "createdAt:" | head -1 | grep -o "'[0-9-]*'" | tr -d "'")
+              if [ -n "$current" ] && [ "$current" != "$date" ]; then
+                echo "Updating $id: $current -> $date"
+                sed -i "/$id/,/createdAt:/{s/createdAt: '$current'/createdAt: '$date'/}" "$FILE"
+                CHANGED=true
+              fi
+            fi
+          done
+
+          if [ "$CHANGED" = true ]; then
+            echo "Changes detected, committing..."
+          else
+            echo "No date changes needed."
+          fi
+
+      - name: Build
+        if: success()
+        working-directory: frontend
+        run: |
+          npm ci
+          npx vite build
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-update project commit dates"
+            git push
+          fi

@@ -210,7 +210,7 @@ const TableView: React.FC = () => {
                 Tech
               </th>
               <SortHeader label="Company" k="company" />
-              <SortHeader label="Last Commit" k="date" />
+              <SortHeader label="Latest Commit" k="date" />
             </tr>
           </thead>
           <tbody>
