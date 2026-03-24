@@ -130,12 +130,17 @@ body::before {
 
 /* Desktop: hide mobile-only elements */
 .view-toggle-compact { display: none; }
-.countries-chevron { display: none; }
-.countries-toggle { cursor: default !important; }
+.personal-chevron { display: none; }
+.personal-toggle { cursor: default !important; }
 
 /* Desktop: photo on right side */
 .about-photo { order: 2; }
 .about-bio { order: 1; }
+
+@keyframes subtleBounce {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-4px) translateX(0px); }
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -272,7 +277,7 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
 
   /* Carousel: large active card, nearly full width on mobile */
   .coverflow-stage {
-    height: 260px !important;
+    height: 280px !important;
     margin-left: -16px !important;
     margin-right: -16px !important;
     padding-left: 8px !important;
@@ -280,11 +285,12 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     touch-action: pan-y;
   }
   .coverflow-card[data-active="true"] {
-    width: 92vw !important;
-    max-width: 420px !important;
-    height: 240px !important;
+    width: 94vw !important;
+    max-width: 440px !important;
+    height: 255px !important;
     /* Floating effect instead of hard border */
     filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35));
+    animation: subtleBounce 2.5s ease-in-out infinite;
   }
   .coverflow-card[data-active="true"] > div {
     border: none !important;
@@ -313,7 +319,7 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     justify-content: center !important;
   }
   .coverflow-detail-title h2 {
-    font-size: 15px !important;
+    font-size: 14px !important;
   }
   .coverflow-detail-controls {
     width: 100% !important;
@@ -322,14 +328,14 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     display: flex !important;
   }
   .coverflow-detail-controls .nb-btn {
-    padding: 5px 12px !important;
-    font-size: 13px !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
     border-width: 2px !important;
   }
   .coverflow-detail-controls .nb-btn-teal {
     order: 0 !important;
-    padding: 5px 14px !important;
-    font-size: 11px !important;
+    padding: 4px 12px !important;
+    font-size: 10px !important;
   }
   .coverflow-detail-controls .nb-btn-white {
     order: -1 !important;
@@ -343,8 +349,9 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     margin-bottom: 2px !important;
     white-space: normal !important;
     display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
+    -webkit-line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
+    line-height: 1.5 !important;
   }
   /* Hide tech pills on mobile */
   .coverflow-tech-pills {
@@ -401,17 +408,17 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     font-size: 22px !important;
   }
 
-  /* Countries: collapsible on mobile */
-  .countries-chevron {
+  /* Collapsible sections on mobile */
+  .personal-chevron {
     display: inline !important;
   }
-  .countries-toggle {
+  .personal-toggle {
     cursor: pointer !important;
   }
-  .countries-section.countries-closed {
+  .personal-section.personal-closed {
     display: none !important;
   }
-  .countries-section.countries-open {
+  .personal-section.personal-open {
     display: block !important;
   }
 
@@ -460,12 +467,12 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   }
 
   .coverflow-stage {
-    height: 230px !important;
+    height: 240px !important;
   }
   .coverflow-card[data-active="true"] {
-    width: 94vw !important;
-    max-width: 360px !important;
-    height: 210px !important;
+    width: 96vw !important;
+    max-width: 380px !important;
+    height: 225px !important;
   }
   .coverflow-card[data-active="false"] {
     width: 35px !important;

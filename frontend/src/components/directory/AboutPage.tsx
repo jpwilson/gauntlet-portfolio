@@ -86,6 +86,7 @@ export const AboutPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [countriesOpen, setCountriesOpen] = useState(false);
+  const [runningOpen, setRunningOpen] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -284,44 +285,62 @@ export const AboutPage: React.FC = () => {
           PERSONAL
         </span>
 
-        {/* Running */}
-        <div className="personal-stats" style={{ marginTop: 16, display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
-          <div className="nb-stat" style={{
-            background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a',
-            display: 'flex', alignItems: 'center', gap: 16, padding: '16px 24px',
-            flex: '1 1 200px',
+        {/* Running - collapsible on mobile */}
+        <div
+          className="personal-toggle"
+          onClick={() => setRunningOpen(!runningOpen)}
+          style={{ marginTop: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
+        >
+          <span style={{ fontSize: 28 }}>🏃</span>
+          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Running</h3>
+          <span className="personal-chevron" style={{
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+            transition: 'transform 0.2s',
+            transform: runningOpen ? 'rotate(180deg)' : 'rotate(0deg)',
           }}>
-            <span style={{ fontSize: 28 }}>🏃</span>
-            <div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#fd8b00', textTransform: 'uppercase' }}>
-                NYC MARATHON
-              </div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 28, fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
-                3:27
+            ▼
+          </span>
+        </div>
+
+        <div className={`personal-section ${runningOpen ? 'personal-open' : 'personal-closed'}`}>
+          <div className="personal-stats" style={{ display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
+            <div className="nb-stat" style={{
+              background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a',
+              display: 'flex', alignItems: 'center', gap: 16, padding: '16px 24px',
+              flex: '1 1 200px',
+            }}>
+              <span style={{ fontSize: 28 }}>🏅</span>
+              <div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#fd8b00', textTransform: 'uppercase' }}>
+                  NYC MARATHON
+                </div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 28, fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
+                  3:27
+                </div>
               </div>
             </div>
-          </div>
-          <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
-            <span style={{ fontSize: 20 }}>📍</span>
-            <div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>DISTANCE</div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>26.2 mi</div>
+            <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
+              <span style={{ fontSize: 20 }}>📍</span>
+              <div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>DISTANCE</div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>26.2 mi</div>
+              </div>
             </div>
-          </div>
-          <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
-            <span style={{ fontSize: 20 }}>⚡</span>
-            <div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>PACE</div>
-              <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>7:56 /mi</div>
+            <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
+              <span style={{ fontSize: 20 }}>⚡</span>
+              <div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>PACE</div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>7:56 /mi</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Travel */}
+        {/* Travel - collapsible on mobile */}
         <div
-          className="countries-toggle"
+          className="personal-toggle"
           onClick={() => setCountriesOpen(!countriesOpen)}
-          style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
+          style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
         >
           <span style={{ fontSize: 28 }}>🌍</span>
           <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Travel</h3>
@@ -332,8 +351,8 @@ export const AboutPage: React.FC = () => {
           }}>
             {totalCountries} COUNTRIES
           </span>
-          <span className="countries-chevron" style={{
-            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#999',
+          <span className="personal-chevron" style={{
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
             transition: 'transform 0.2s',
             transform: countriesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
           }}>
@@ -341,7 +360,7 @@ export const AboutPage: React.FC = () => {
           </span>
         </div>
 
-        <div className={`countries-section ${countriesOpen ? 'countries-open' : 'countries-closed'}`}>
+        <div className={`personal-section ${countriesOpen ? 'personal-open' : 'personal-closed'}`}>
           {COUNTRIES.map(region => (
             <div key={region.region} style={{ marginBottom: 14 }}>
               <h4 style={{
