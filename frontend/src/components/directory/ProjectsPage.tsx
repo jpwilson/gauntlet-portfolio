@@ -43,13 +43,13 @@ export const ProjectsPage: React.FC = () => {
   return (
     <div className="page-projects" style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 80px' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+      <div className="page-projects-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 32, color: '#1a1a1a' }}>
           PROJECTS
         </h1>
 
-        {/* Triple toggle */}
-        <div style={{
+        {/* Full toggle (desktop) */}
+        <div className="view-toggle-full" style={{
           display: 'inline-flex', border: '3px solid #1a1a1a', borderRadius: 10, overflow: 'hidden',
         }}>
           {(['tiles', 'table', 'coverflow'] as ViewMode[]).map(v => (
@@ -67,6 +67,33 @@ export const ProjectsPage: React.FC = () => {
               }}
             >
               {v === 'tiles' ? '⊞ Tiles' : v === 'table' ? '☰ Table' : '◆ Carousel'}
+            </button>
+          ))}
+        </div>
+
+        {/* Compact icon toggle (mobile) */}
+        <div className="view-toggle-compact" style={{
+          display: 'none', border: '2px solid #1a1a1a', borderRadius: 8, overflow: 'hidden',
+        }}>
+          {([
+            { mode: 'tiles' as ViewMode, icon: '⊞' },
+            { mode: 'table' as ViewMode, icon: '☰' },
+            { mode: 'coverflow' as ViewMode, icon: '◆' },
+          ]).map(({ mode, icon }) => (
+            <button
+              key={mode}
+              onClick={() => setView(mode)}
+              style={{
+                fontSize: 14, padding: '5px 10px', border: 'none', cursor: 'pointer',
+                background: view === mode ? '#1a1a1a' : '#fff',
+                color: view === mode ? '#fff' : '#1a1a1a',
+                borderRight: mode !== 'coverflow' ? '1.5px solid #1a1a1a' : 'none',
+                transition: 'background 0.15s, color 0.15s',
+                lineHeight: 1,
+              }}
+              title={mode.charAt(0).toUpperCase() + mode.slice(1)}
+            >
+              {icon}
             </button>
           ))}
         </div>

@@ -85,6 +85,7 @@ export const AboutPage: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
+  const [countriesOpen, setCountriesOpen] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +120,22 @@ export const AboutPage: React.FC = () => {
 
       {/* ---- HERO: Bio left (2/3), Photo right (1/3) ---- */}
       <div className="about-hero" style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap' }}>
-        <div style={{ flex: '2 1 320px' }}>
+
+        <div className="about-photo" style={{ flex: '1 1 200px', maxWidth: 240 }}>
+          <div style={{
+            border: '3px solid #1a1a1a', borderRadius: 14,
+            overflow: 'hidden', boxShadow: '6px 6px 0 #fd8b00',
+            aspectRatio: '3/4',
+          }}>
+            <img
+              src={`${BASE}images/hero-portrait.png`}
+              alt="Jean-Paul Wilson"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+        </div>
+
+        <div className="about-bio" style={{ flex: '2 1 320px' }}>
           <span className="nb-label" style={{ marginBottom: 16, display: 'inline-flex' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1a1a1a' }} />
             ABOUT ME
@@ -145,20 +161,6 @@ export const AboutPage: React.FC = () => {
             <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75 }}>
               I believe in shipping real software, learning by building, and writing code that other people can read.
             </p>
-          </div>
-        </div>
-
-        <div className="about-photo" style={{ flex: '1 1 200px', maxWidth: 240 }}>
-          <div style={{
-            border: '3px solid #1a1a1a', borderRadius: 14,
-            overflow: 'hidden', boxShadow: '6px 6px 0 #fd8b00',
-            aspectRatio: '3/4',
-          }}>
-            <img
-              src={`${BASE}images/hero-portrait.png`}
-              alt="Jean-Paul Wilson"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
           </div>
         </div>
       </div>
@@ -316,7 +318,11 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Travel */}
-        <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div
+          className="countries-toggle"
+          onClick={() => setCountriesOpen(!countriesOpen)}
+          style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
+        >
           <span style={{ fontSize: 28 }}>🌍</span>
           <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Travel</h3>
           <span style={{
@@ -326,33 +332,42 @@ export const AboutPage: React.FC = () => {
           }}>
             {totalCountries} COUNTRIES
           </span>
+          <span className="countries-chevron" style={{
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#999',
+            transition: 'transform 0.2s',
+            transform: countriesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}>
+            ▼
+          </span>
         </div>
 
-        {COUNTRIES.map(region => (
-          <div key={region.region} style={{ marginBottom: 14 }}>
+        <div className={`countries-section ${countriesOpen ? 'countries-open' : 'countries-closed'}`}>
+          {COUNTRIES.map(region => (
+            <div key={region.region} style={{ marginBottom: 14 }}>
+              <h4 style={{
+                fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
+                color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
+                marginBottom: 8,
+              }}>
+                {region.region}
+              </h4>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {region.items.map(c => <NbCheck key={c} label={c} />)}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ marginTop: 14 }}>
             <h4 style={{
               fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
               color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
               marginBottom: 8,
             }}>
-              {region.region}
+              US States ({US_STATES.length})
             </h4>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {region.items.map(c => <NbCheck key={c} label={c} />)}
+              {US_STATES.map(s => <NbCheck key={s} label={s} />)}
             </div>
-          </div>
-        ))}
-
-        <div style={{ marginTop: 14 }}>
-          <h4 style={{
-            fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
-            color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
-            marginBottom: 8,
-          }}>
-            US States ({US_STATES.length})
-          </h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {US_STATES.map(s => <NbCheck key={s} label={s} />)}
           </div>
         </div>
       </div>

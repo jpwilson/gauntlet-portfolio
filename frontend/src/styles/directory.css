@@ -128,6 +128,15 @@ body::before {
   box-shadow: 6px 6px 0 #006673;
 }
 
+/* Desktop: hide mobile-only elements */
+.view-toggle-compact { display: none; }
+.countries-chevron { display: none; }
+.countries-toggle { cursor: default !important; }
+
+/* Desktop: photo on right side */
+.about-photo { order: 2; }
+.about-bio { order: 1; }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -271,46 +280,55 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     touch-action: pan-y;
   }
   .coverflow-card[data-active="true"] {
-    width: 90vw !important;
-    max-width: 380px !important;
-    height: 220px !important;
+    width: 92vw !important;
+    max-width: 420px !important;
+    height: 240px !important;
+    /* Floating effect instead of hard border */
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35));
+  }
+  .coverflow-card[data-active="true"] > div {
+    border: none !important;
+    box-shadow: none !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 60px !important;
-    height: 42px !important;
-    opacity: 0.3 !important;
+    width: 50px !important;
+    height: 35px !important;
+    opacity: 0.25 !important;
   }
 
-  /* Detail card: compact, centered layout */
+  /* Detail card: compact, centered, narrower than image */
   .coverflow-detail {
-    padding: 10px 14px !important;
-    margin-top: 12px !important;
+    padding: 10px 16px !important;
+    margin-top: 10px !important;
+    max-width: 80vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   .coverflow-detail-top {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
   }
   .coverflow-detail-title {
     justify-content: center !important;
   }
   .coverflow-detail-title h2 {
-    font-size: 16px !important;
+    font-size: 15px !important;
   }
   .coverflow-detail-controls {
     width: 100% !important;
-    justify-content: center !important;
+    justify-content: space-between !important;
     gap: 8px !important;
-    /* Reorder: ← then View then → */
     display: flex !important;
   }
   .coverflow-detail-controls .nb-btn {
-    padding: 6px 12px !important;
+    padding: 5px 12px !important;
     font-size: 13px !important;
+    border-width: 2px !important;
   }
   .coverflow-detail-controls .nb-btn-teal {
     order: 0 !important;
-    padding: 6px 14px !important;
+    padding: 5px 14px !important;
     font-size: 11px !important;
   }
   .coverflow-detail-controls .nb-btn-white {
@@ -321,25 +339,80 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   }
   .coverflow-detail-desc {
     text-align: center !important;
-    font-size: 12px !important;
-    margin-bottom: 4px !important;
+    font-size: 11px !important;
+    margin-bottom: 2px !important;
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
   }
   /* Hide tech pills on mobile */
   .coverflow-tech-pills {
     display: none !important;
   }
 
-  /* About page: hero stacks vertically */
-  .about-hero {
+  /* Smoother coverflow transition */
+  .coverflow-card {
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+
+  /* Projects page header: centered title, small view toggle */
+  .page-projects-header {
     flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+  .page-projects-header h1 {
+    font-size: 24px !important;
+    text-align: center !important;
+  }
+  .view-toggle-full {
+    display: none !important;
+  }
+  .view-toggle-compact {
+    display: inline-flex !important;
+  }
+
+  /* About page: photo small, inline with heading */
+  .about-hero {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
   }
   .about-photo {
-    max-width: 100% !important;
-    width: 100% !important;
+    max-width: 80px !important;
+    width: 80px !important;
+    flex: 0 0 80px !important;
+    order: 1 !important;
+    margin-top: 4px;
   }
   .about-photo > div {
-    max-width: 240px;
-    margin: 0 auto;
+    max-width: 80px !important;
+    margin: 0 !important;
+    border-radius: 10px !important;
+    box-shadow: 3px 3px 0 #fd8b00 !important;
+  }
+  .about-bio {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    order: 0 !important;
+  }
+  .about-bio h1 {
+    font-size: 22px !important;
+  }
+
+  /* Countries: collapsible on mobile */
+  .countries-chevron {
+    display: inline !important;
+  }
+  .countries-toggle {
+    cursor: pointer !important;
+  }
+  .countries-section.countries-closed {
+    display: none !important;
+  }
+  .countries-section.countries-open {
+    display: block !important;
   }
 
   /* Project detail: challenges/learnings stack */
@@ -387,16 +460,19 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   }
 
   .coverflow-stage {
-    height: 220px !important;
+    height: 230px !important;
   }
   .coverflow-card[data-active="true"] {
-    width: 92vw !important;
-    max-width: 340px !important;
-    height: 195px !important;
+    width: 94vw !important;
+    max-width: 360px !important;
+    height: 210px !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 40px !important;
-    height: 28px !important;
+    width: 35px !important;
+    height: 24px !important;
+  }
+  .coverflow-detail {
+    max-width: 85vw !important;
   }
 
   /* Action buttons stack on very small screens */
