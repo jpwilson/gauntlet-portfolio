@@ -304,12 +304,18 @@ const CoverFlowView: React.FC = () => {
           return (
             <div
               key={p.id}
-              onClick={() => !isActive && goTo(activeIndex + offset)}
+              onClick={() => {
+                if (isActive) {
+                  window.location.hash = `/project/${p.id}`;
+                } else {
+                  goTo(activeIndex + offset);
+                }
+              }}
               style={{
                 position: 'absolute',
                 width: isActive ? 572 : 200,
                 height: isActive ? 352 : 140,
-                cursor: isActive ? 'default' : 'pointer',
+                cursor: 'pointer',
                 transform: isActive
                   ? `translateX(0px)`
                   : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`,

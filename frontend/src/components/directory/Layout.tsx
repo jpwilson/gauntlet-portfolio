@@ -91,10 +91,10 @@ export const Layout: React.FC = () => {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
         }}>
           <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 600, color: '#888' }}>&copy; 2026 Jean-Paul Wilson</span>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex' }}><GitHubIcon /></a>
-            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex' }}><LinkedInIcon /></a>
-            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex' }}><XIcon /></a>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'center', position: 'relative', zIndex: 10 }}>
+            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><GitHubIcon /></a>
+            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><LinkedInIcon /></a>
+            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><XIcon /></a>
           </div>
         </div>
       </footer>
