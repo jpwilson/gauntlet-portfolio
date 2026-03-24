@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../../data/projects';
 import { Project } from '../../types/project';
@@ -258,6 +258,8 @@ const CoverFlowView: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const n = PROJECTS.length;
   const project = PROJECTS[activeIndex];
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
 
   const goTo = useCallback((i: number) => {
     // Wrap around
@@ -273,6 +275,24 @@ const CoverFlowView: React.FC = () => {
     return () => window.removeEventListener('keydown', handler);
   }, [activeIndex, goTo]);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only swipe if horizontal movement is dominant and > 50px
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) goTo(activeIndex + 1);
+      else goTo(activeIndex - 1);
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [activeIndex, goTo]);
+
   // Build a map of projectIndex -> offset from active
   const offsets = new Map<number, number>();
   for (let off = -4; off <= 4; off++) {
@@ -283,11 +303,16 @@ const CoverFlowView: React.FC = () => {
   return (
     <div>
       {/* Cover flow area */}
-      <div className="coverflow-stage" style={{
-        height: 410, perspective: 1200, position: 'relative',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
-      }}>
+      <div
+        className="coverflow-stage"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          height: 410, perspective: 1200, position: 'relative',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
+        }}
+      >
         {PROJECTS.map((p, idx) => {
           const offset = offsets.get(idx);
           if (offset === undefined) return null;
@@ -357,7 +382,7 @@ const CoverFlowView: React.FC = () => {
       }}>
         {/* Top row: title + badges + controls */}
         <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{project.name}</h2>
             {project.category === 'gauntlet' && project.week && (
               <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#006673', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>W{project.week}</span>
@@ -375,7 +400,7 @@ const CoverFlowView: React.FC = () => {
           </div>
         </div>
         {/* Description */}
-        <p style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
+        <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
         {/* Tech pills — full width, wrapping (hidden on mobile) */}
         {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
           <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>

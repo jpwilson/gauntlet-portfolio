@@ -261,33 +261,68 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     min-width: 640px;
   }
 
-  /* Carousel: smaller active card, hide side cards further out */
+  /* Carousel: large active card, nearly full width on mobile */
   .coverflow-stage {
-    height: 240px !important;
+    height: 260px !important;
     margin-left: -16px !important;
     margin-right: -16px !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    touch-action: pan-y;
   }
   .coverflow-card[data-active="true"] {
-    width: 280px !important;
-    height: 175px !important;
+    width: 90vw !important;
+    max-width: 380px !important;
+    height: 220px !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 80px !important;
-    height: 56px !important;
+    width: 60px !important;
+    height: 42px !important;
+    opacity: 0.3 !important;
   }
+
+  /* Detail card: compact, centered layout */
   .coverflow-detail {
-    padding: 12px 16px !important;
+    padding: 10px 14px !important;
+    margin-top: 12px !important;
   }
   .coverflow-detail-top {
     flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .coverflow-detail-title {
+    justify-content: center !important;
+  }
+  .coverflow-detail-title h2 {
+    font-size: 16px !important;
   }
   .coverflow-detail-controls {
     width: 100% !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    /* Reorder: ← then View then → */
+    display: flex !important;
+  }
+  .coverflow-detail-controls .nb-btn {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+  .coverflow-detail-controls .nb-btn-teal {
+    order: 0 !important;
+    padding: 6px 14px !important;
+    font-size: 11px !important;
+  }
+  .coverflow-detail-controls .nb-btn-white {
+    order: -1 !important;
+  }
+  .coverflow-detail-controls .nb-btn-orange {
+    order: 1 !important;
+  }
+  .coverflow-detail-desc {
+    text-align: center !important;
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
   }
   /* Hide tech pills on mobile */
   .coverflow-tech-pills {
@@ -352,15 +387,16 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   }
 
   .coverflow-stage {
-    height: 200px !important;
+    height: 220px !important;
   }
   .coverflow-card[data-active="true"] {
-    width: 240px !important;
-    height: 150px !important;
+    width: 92vw !important;
+    max-width: 340px !important;
+    height: 195px !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 60px !important;
-    height: 42px !important;
+    width: 40px !important;
+    height: 28px !important;
   }
 
   /* Action buttons stack on very small screens */
