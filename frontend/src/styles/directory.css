@@ -263,19 +263,19 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
 
   /* Carousel: smaller active card, hide side cards further out */
   .coverflow-stage {
-    height: 280px !important;
+    height: 240px !important;
     margin-left: -16px !important;
     margin-right: -16px !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
   .coverflow-card[data-active="true"] {
-    width: 320px !important;
-    height: 200px !important;
+    width: 280px !important;
+    height: 175px !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 100px !important;
-    height: 70px !important;
+    width: 80px !important;
+    height: 56px !important;
   }
   .coverflow-detail {
     padding: 12px 16px !important;
@@ -288,6 +288,10 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   .coverflow-detail-controls {
     width: 100% !important;
     justify-content: space-between !important;
+  }
+  /* Hide tech pills on mobile */
+  .coverflow-tech-pills {
+    display: none !important;
   }
 
   /* About page: hero stacks vertically */
@@ -348,15 +352,15 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
   }
 
   .coverflow-stage {
-    height: 240px !important;
+    height: 200px !important;
   }
   .coverflow-card[data-active="true"] {
-    width: 260px !important;
-    height: 165px !important;
+    width: 240px !important;
+    height: 150px !important;
   }
   .coverflow-card[data-active="false"] {
-    width: 80px !important;
-    height: 56px !important;
+    width: 60px !important;
+    height: 42px !important;
   }
 
   /* Action buttons stack on very small screens */

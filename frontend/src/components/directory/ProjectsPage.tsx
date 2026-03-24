@@ -376,9 +376,9 @@ const CoverFlowView: React.FC = () => {
         </div>
         {/* Description */}
         <p style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
-        {/* Tech pills — full width, wrapping */}
+        {/* Tech pills — full width, wrapping (hidden on mobile) */}
         {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
             {project.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
           </div>
         )}

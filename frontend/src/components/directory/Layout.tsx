@@ -37,10 +37,11 @@ export const Layout: React.FC = () => {
             fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 22,
             color: '#1a1a1a', textDecoration: 'none',
           }}>
-            JEAN-PAUL WILSON
+            <span className="hidden md:inline">JEAN-PAUL WILSON</span>
+            <span className="md:hidden">JP WILSON</span>
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }} className="hidden md:flex">
+          <div className="hidden md:flex items-center gap-6">
             {LINKS.map(l => (
               <Link key={l.label} to={l.path} style={{
                 fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700,
