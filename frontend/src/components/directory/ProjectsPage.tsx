@@ -388,7 +388,7 @@ const CoverFlowView: React.FC = () => {
                   ? `translateX(0px) scale(1)`
                   : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
                 opacity: op, zIndex: z,
-                transition: 'transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease',
+                transition: 'transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease, width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), height 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)',
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
@@ -401,7 +401,7 @@ const CoverFlowView: React.FC = () => {
                 overflow: 'hidden',
                 boxShadow: isActive ? '0 20px 60px rgba(0,0,0,0.3)' : '0 8px 20px rgba(0,0,0,0.1)',
                 background: '#ddd',
-                transition: 'border 0.6s, box-shadow 0.6s',
+                transition: 'border 0.5s, box-shadow 0.5s',
               }}>
                 <img src={img(p)} alt={p.name} style={{
                   width: '100%', height: '100%', objectFit: 'cover', display: 'block',
