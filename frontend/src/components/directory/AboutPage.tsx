@@ -153,16 +153,39 @@ export const AboutPage: React.FC = () => {
 
           <div className="nb-stat" style={{ padding: 24 }}>
             <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 12 }}>
-              Software engineer building full-stack applications and AI-powered systems.
-              Currently in The Gauntlet — shipping a new project every week.
+              Hi, I'm JP, thanks for visiting my gauntletAI portfolio.
             </p>
             <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 12 }}>
-              React & TypeScript on the front end, Python & FastAPI on the back end,
-              with a growing focus on AI/ML, RAG pipelines, and developer tools.
+              I am a software engineer with over 8 years experience building production front end and
+              backend systems — from APIs and data pipelines to infrastructure, AI agents and product features.
             </p>
-            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75 }}>
-              I believe in shipping real software, learning by building, and writing code that other people can read.
+            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 16 }}>
+              My previous roles in the US (I moved here from South Africa in 2017) can be summarized as:
             </p>
+            <ul style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.75, paddingLeft: 20, listStyleType: 'disc' }}>
+              <li style={{ marginBottom: 14 }}>
+                <strong>VillageMD</strong> — Senior Software Engineer (IC + management)<br />
+                <span style={{ color: '#666' }}>
+                  Built patient onboarding systems used across clinics. Worked across React frontends,
+                  Flask (which I migrated to) FastAPI services, EMR integrations, and AWS infrastructure.
+                  I led development efforts while remaining a hands-on IC.
+                </span>
+              </li>
+              <li style={{ marginBottom: 14 }}>
+                <strong>C.H. Robinson</strong> — Senior Software Engineer<br />
+                <span style={{ color: '#666' }}>
+                  Developed APIs and automation systems within a large enterprise .NET ecosystem.
+                  Built ETL pipelines and internal tooling that improved operational workflows.
+                </span>
+              </li>
+              <li>
+                <strong>First Stop Health</strong> — Software Engineer<br />
+                <span style={{ color: '#666' }}>
+                  Worked on one of the early telehealth platforms prior to the pandemic. Built features
+                  using Django and React for patient-doctor interactions and telehealth workflows.
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
