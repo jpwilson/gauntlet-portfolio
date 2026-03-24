@@ -119,24 +119,16 @@ export const ProjectDetailPage: React.FC = () => {
 
       {/* Title */}
       <h1 style={{
-        fontFamily: "'Space Grotesk'", fontWeight: 700,
-        fontSize: 'clamp(32px, 5vw, 48px)',
-        color: '#1a1a1a', lineHeight: 1.1, marginBottom: 8, textTransform: 'uppercase',
+        fontFamily: "'Space Grotesk'", fontWeight: 900,
+        fontSize: 'clamp(36px, 6vw, 56px)',
+        color: '#1a1a1a', lineHeight: 1.05, marginBottom: 16, textTransform: 'uppercase',
+        letterSpacing: '-0.02em',
       }}>
         {project.name}
       </h1>
 
-      {/* Tech pills */}
-      {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
-          {project.techStack.map(t => (
-            <span key={t} className="nb-tag">{t}</span>
-          ))}
-        </div>
-      )}
-
       {/* ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
-      <div className="detail-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+      <div className="detail-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn" style={{
             background: '#fff', color: '#1a1a1a', border: '3px solid #fd8b00',
@@ -144,18 +136,33 @@ export const ProjectDetailPage: React.FC = () => {
             Deployed Site &rarr;
           </a>
         )}
-        <a href={project.demoUrl || '#'} target="_blank" rel="noopener noreferrer"
-          className={`nb-btn ${project.demoUrl ? 'nb-btn-orange' : 'nb-btn-white'}`}
-          style={!project.demoUrl ? { opacity: 0.4, pointerEvents: 'none' } : {}}
-        >
-          ▶ Demo Video
-        </a>
+        {project.demoUrl ? (
+          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-orange">
+            ▶ Demo Video
+          </a>
+        ) : (
+          <span style={{
+            fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 600,
+            color: '#999', fontStyle: 'italic', alignSelf: 'center', padding: '0 8px',
+          }}>
+            Demo Coming Soon
+          </span>
+        )}
         {project.repoUrl && (
           <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-white">
             GitHub
           </a>
         )}
       </div>
+
+      {/* Tech pills */}
+      {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 28 }}>
+          {project.techStack.map(t => (
+            <span key={t} className="nb-tag nb-tag-detail">{t}</span>
+          ))}
+        </div>
+      )}
 
       {/* OVERVIEW */}
       {project.longDescription && (

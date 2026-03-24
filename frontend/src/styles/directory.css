@@ -85,6 +85,13 @@ body::before {
   color: #1a1a1a;
 }
 
+/* Smaller tag on detail page (15% smaller) */
+.nb-tag-detail {
+  padding: 3px 10px;
+  font-size: 9.5px;
+  border-width: 1.5px;
+}
+
 /* ---- Section label ---- */
 .nb-label {
   display: inline-flex;
