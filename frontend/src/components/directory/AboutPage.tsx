@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { PROJECTS } from '../../data/projects';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -11,17 +13,39 @@ async function sha256(message: string): Promise<string> {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// Languages, Frameworks, Tools, Platforms — grouped in that order, alphabetical within
-const TECH_PILLS = [
-  // Languages
-  'CSS', 'Fortran', 'HTML', 'JavaScript', 'Python', 'SQL', 'TypeScript',
-  // Frameworks
-  'Angular', 'FastAPI', 'Flask', 'NestJS', 'Next.js', 'React',
-  // Tools & Libraries
-  'Claude API', 'Docker', 'Git', 'Pinecone', 'Prisma', 'Supabase', 'Tailwind CSS', 'Zustand',
-  // Platforms
-  'AWS', 'GitHub Actions', 'Railway', 'Vercel',
+// Languages (alpha), then Frameworks/Tools (alpha), then Platforms (alpha)
+const TECH_GROUPS = [
+  {
+    label: 'Languages',
+    items: ['Fortran', 'Go', 'JavaScript', 'Python', 'SQL', 'Swift', 'TypeScript'],
+  },
+  {
+    label: 'Frameworks & Tools',
+    items: ['Angular', 'Anthropic Claude', 'D3.js', 'Django', 'Docker', 'FastAPI', 'Flask', 'Groq', 'Konva.js', 'LangChain', 'Langfuse', 'LiteLLM', 'LiveKit', 'MCP Protocol', 'MediaPipe', 'NestJS', 'Next.js', 'OpenAI', 'Pinecone', 'Playwright', 'Pydantic', 'React', 'Recharts', 'Turborepo', 'Vite', 'Vitest', 'Voyage AI', 'Zod', 'Zustand'],
+  },
+  {
+    label: 'Platforms',
+    items: ['GCP Cloud Run', 'GitHub Actions', 'PostgreSQL', 'Railway', 'Supabase', 'Vercel'],
+  },
 ];
+
+const PROJECT_IMAGES: Record<string, string> = {
+  'week1-colabboard': `${BASE}images/collabboard.png`,
+  'week2-agentfolio': `${BASE}images/agent-folio.png`,
+  'week3-legacylens': `${BASE}images/legacylens.png`,
+  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
+  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
+  'week4-gofundme': `${BASE}images/gofundme.png`,
+  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
+  'week5-skyfi': `${BASE}images/skyfi.png`,
+  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
+  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
+  'week6-equinox': `${BASE}images/service-core.png`,
+  'week6-st6': `${BASE}images/st6-commit.png`,
+  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
+  'other-ev-lineup': `${BASE}images/evlineup.png`,
+  'other-news-platform': `${BASE}images/newsplatform.png`,
+};
 
 const COUNTRIES: { region: string; items: string[] }[] = [
   { region: 'Americas', items: ['United States', 'Canada', 'Mexico', 'Argentina', 'Uruguay'] },
@@ -60,6 +84,7 @@ const NbCheck: React.FC<{ label: string }> = ({ label }) => (
 export const AboutPage: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
+  const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +99,19 @@ export const AboutPage: React.FC = () => {
     setPassword('');
   };
 
+  const toggleTech = (tech: string) => {
+    setSelectedTechs(prev => {
+      if (prev.includes(tech)) return prev.filter(t => t !== tech);
+      if (prev.length >= 3) return prev; // max 3
+      return [...prev, tech];
+    });
+  };
+
+  // Find projects matching ALL selected techs
+  const matchingProjects = selectedTechs.length > 0
+    ? PROJECTS.filter(p => selectedTechs.every(t => p.techStack.includes(t)))
+    : [];
+
   const totalCountries = COUNTRIES.reduce((a, r) => a + r.items.length, 0);
 
   return (
@@ -81,7 +119,6 @@ export const AboutPage: React.FC = () => {
 
       {/* ---- HERO: Bio left (2/3), Photo right (1/3) ---- */}
       <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap' }}>
-        {/* Left — bio in white card */}
         <div style={{ flex: '2 1 320px' }}>
           <span className="nb-label" style={{ marginBottom: 16, display: 'inline-flex' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1a1a1a' }} />
@@ -111,7 +148,6 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right — photo */}
         <div style={{ flex: '1 1 200px', maxWidth: 240 }}>
           <div style={{
             border: '3px solid #1a1a1a', borderRadius: 14,
@@ -127,20 +163,114 @@ export const AboutPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ---- TECH PILLS ---- */}
+      {/* ---- INTERACTIVE TECH PILLS ---- */}
       <div style={{ marginBottom: 48 }}>
-        <h3 style={{
-          fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700,
-          color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
-          marginBottom: 12,
-        }}>
-          Technologies
-        </h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          {TECH_PILLS.map(t => (
-            <span key={t} className="nb-tag">{t}</span>
-          ))}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <h3 style={{
+            fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700,
+            color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
+          }}>
+            Technologies
+          </h3>
+          {selectedTechs.length > 0 && (
+            <button
+              onClick={() => setSelectedTechs([])}
+              className="nb-btn nb-btn-white"
+              style={{ padding: '4px 12px', fontSize: 11 }}
+            >
+              Clear ({selectedTechs.length}/3)
+            </button>
+          )}
         </div>
+
+        {TECH_GROUPS.map(group => (
+          <div key={group.label} style={{ marginBottom: 12 }}>
+            <span style={{
+              fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700,
+              color: '#999', textTransform: 'uppercase', letterSpacing: '0.08em',
+              display: 'block', marginBottom: 6,
+            }}>
+              {group.label}
+            </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {group.items.map(tech => {
+                const isSelected = selectedTechs.includes(tech);
+                const isMaxed = selectedTechs.length >= 3 && !isSelected;
+                return (
+                  <button
+                    key={tech}
+                    onClick={() => toggleTech(tech)}
+                    disabled={isMaxed}
+                    style={{
+                      display: 'inline-block',
+                      padding: '4px 12px',
+                      fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 600,
+                      border: isSelected ? '2px solid #006673' : '2px solid #1a1a1a',
+                      borderRadius: 999,
+                      background: isSelected ? '#006673' : '#fff',
+                      color: isSelected ? '#fff' : '#1a1a1a',
+                      cursor: isMaxed ? 'not-allowed' : 'pointer',
+                      opacity: isMaxed ? 0.4 : 1,
+                      transition: 'all 0.2s ease',
+                      transform: isSelected ? 'translate(-2px, -2px)' : 'translate(0, 0)',
+                      boxShadow: isSelected ? '3px 3px 0 #1a1a1a' : 'none',
+                    }}
+                  >
+                    {tech}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        {/* Matching projects */}
+        {selectedTechs.length > 0 && (
+          <div style={{ marginTop: 20, animation: 'fadeIn 0.3s ease' }}>
+            <span style={{
+              fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
+              color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em',
+              display: 'block', marginBottom: 10,
+            }}>
+              {matchingProjects.length} project{matchingProjects.length !== 1 ? 's' : ''} using {selectedTechs.join(' + ')}
+            </span>
+            {matchingProjects.length > 0 ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {matchingProjects.map(p => (
+                  <Link
+                    key={p.id}
+                    to={`/project/${p.id}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '8px 14px 8px 8px',
+                      background: '#fff', border: '2px solid #1a1a1a', borderRadius: 10,
+                      textDecoration: 'none', color: '#1a1a1a',
+                      transition: 'transform 0.15s, box-shadow 0.15s',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '4px 4px 0 #006673'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+                  >
+                    <img
+                      src={PROJECT_IMAGES[p.id] || `${BASE}images/project-1.jpg`}
+                      alt={p.name}
+                      style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', border: '2px solid #1a1a1a' }}
+                    />
+                    <span style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700 }}>
+                      {p.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div style={{
+                fontFamily: "'Space Grotesk'", fontSize: 13, color: '#999',
+                padding: '16px 20px', background: '#fff', border: '2px solid #ddd', borderRadius: 10,
+              }}>
+                No projects match this combination
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ============================================ */}
@@ -152,7 +282,7 @@ export const AboutPage: React.FC = () => {
           PERSONAL
         </span>
 
-        {/* ---- Running ---- */}
+        {/* Running */}
         <div style={{ marginTop: 16, display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
           <div className="nb-stat" style={{
             background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a',
@@ -169,7 +299,6 @@ export const AboutPage: React.FC = () => {
               </div>
             </div>
           </div>
-
           <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
             <span style={{ fontSize: 20 }}>📍</span>
             <div>
@@ -177,7 +306,6 @@ export const AboutPage: React.FC = () => {
               <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>26.2 mi</div>
             </div>
           </div>
-
           <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
             <span style={{ fontSize: 20 }}>⚡</span>
             <div>
@@ -187,12 +315,10 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        {/* ---- Travel ---- */}
+        {/* Travel */}
         <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 28 }}>🌍</span>
-          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>
-            Travel
-          </h3>
+          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Travel</h3>
           <span style={{
             fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
             background: '#fd8b00', border: '2px solid #1a1a1a', borderRadius: 6,
@@ -244,7 +370,6 @@ export const AboutPage: React.FC = () => {
         >
           ·
         </button>
-
         {showLogin && (
           <form onSubmit={handleLogin} style={{
             background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,

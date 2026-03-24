@@ -38,7 +38,7 @@ const img = (p: Project) => {
 type ViewMode = 'tiles' | 'table' | 'coverflow';
 
 export const ProjectsPage: React.FC = () => {
-  const [view, setView] = useState<ViewMode>('tiles');
+  const [view, setView] = useState<ViewMode>('coverflow');
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 80px' }}>
@@ -296,7 +296,7 @@ const CoverFlowView: React.FC = () => {
           const absOff = Math.abs(offset);
 
           const tx = isActive ? 0 : offset * 180 + (offset > 0 ? 120 : -120);
-          const tz = isActive ? 80 : -80;
+          const tz = isActive ? 0 : -120;
           const ry = isActive ? 0 : (offset < 0 ? 50 : -50);
           const op = isActive ? 1 : Math.max(0.35, 1 - absOff * 0.18);
           const z = isActive ? 20 : 10 - absOff;
@@ -310,10 +310,14 @@ const CoverFlowView: React.FC = () => {
                 width: isActive ? 572 : 200,
                 height: isActive ? 352 : 140,
                 cursor: isActive ? 'default' : 'pointer',
-                transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`,
+                transform: isActive
+                  ? `translateX(0px)`
+                  : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`,
                 opacity: op, zIndex: z,
                 transition: 'all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)',
                 transformStyle: 'preserve-3d',
+                willChange: 'transform, opacity',
+                backfaceVisibility: 'hidden',
               }}
             >
               <div style={{
@@ -325,7 +329,11 @@ const CoverFlowView: React.FC = () => {
                 background: '#ddd',
                 transition: 'border 0.6s, box-shadow 0.6s',
               }}>
-                <img src={img(p)} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <img src={img(p)} alt={p.name} style={{
+                  width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                  imageRendering: 'auto',
+                  backfaceVisibility: 'hidden',
+                }} />
               </div>
             </div>
           );
@@ -339,32 +347,18 @@ const CoverFlowView: React.FC = () => {
         animation: 'fadeIn 0.4s ease',
         maxWidth: 860, margin: '20px auto 0',
       }}>
-        {/* Single row: info left, controls right */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          {/* Left: title + description + tags all inline-ish */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'nowrap' }}>
-              <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a', whiteSpace: 'nowrap' }}>{project.name}</h2>
-              {project.category === 'gauntlet' && project.week && (
-                <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#006673', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a', flexShrink: 0 }}>W{project.week}</span>
-              )}
-              {project.featured && (
-                <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#fd8b00', color: '#1a1a1a', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a', flexShrink: 0 }}>★</span>
-              )}
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb', flexShrink: 0 }}>
-                {activeIndex + 1}/{n}
-              </span>
-            </div>
-            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
-            {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                {project.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
-              </div>
+        {/* Top row: title + badges + controls */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{project.name}</h2>
+            {project.category === 'gauntlet' && project.week && (
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#006673', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>W{project.week}</span>
             )}
+            <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
+              {activeIndex + 1}/{n}
+            </span>
           </div>
-
-          {/* Right: controls */}
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
             <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
             <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
             <Link to={`/project/${project.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>
@@ -372,6 +366,14 @@ const CoverFlowView: React.FC = () => {
             </Link>
           </div>
         </div>
+        {/* Description */}
+        <p style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
+        {/* Tech pills — full width, wrapping */}
+        {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            {project.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
+          </div>
+        )}
       </div>
     </div>
   );
