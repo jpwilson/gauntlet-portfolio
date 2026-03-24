@@ -12,6 +12,7 @@ export const PROJECTS: Project[] = [
     id: 'week1-colabboard',
     name: 'CollabBoard (Orim)',
     company: 'Gauntlet',
+    demoUrl: 'https://loom.com/share/folder/a7333ade7f394d8b98b021833ae26eb3',
     description: 'Real-time collaborative whiteboard with AI-powered content generation. Teams brainstorm simultaneously while an AI agent creates and arranges sticky notes, shapes, and connectors through natural language commands.',
     longDescription:
       'A full-featured collaborative whiteboard platform where teams can brainstorm and run workshops in real time. Features an AI agent that creates and arranges board content through natural language commands, with support for 6+ distinct command types. Includes Google/GitHub OAuth, email auth, and last-write-wins conflict resolution for real-time sync across multiple clients.',
