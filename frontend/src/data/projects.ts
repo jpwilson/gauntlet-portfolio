@@ -73,6 +73,7 @@ export const PROJECTS: Project[] = [
     id: 'week4-nerdy-live',
     name: 'Nerdy Live Session Analysis',
     company: 'Nerdy',
+    demoUrl: 'https://loom.com/share/folder/6c9cf7a8be0249d2a36b66831e5215d3',
     description: 'Real-time AI-powered tutoring session analysis using face mesh detection. Tracks student engagement metrics like eye contact, speaking time, and attention drift with live coaching nudges.',
     longDescription:
       'Built for Nerdy/Varsity Tutors, this app analyzes student engagement during live tutoring sessions using MediaPipe face mesh detection. Tracks metrics like eye contact, speaking time, energy, and attention drift, then provides real-time coaching nudges and post-session AI summaries. Includes a force-directed session graph visualization, per-student engagement trends, and a companion iOS app.',
