@@ -243,6 +243,17 @@ table tbody tr:nth-child(10) { animation-delay: 0.29s; }
 table tbody tr:nth-child(11) { animation-delay: 0.32s; }
 table tbody tr:nth-child(12) { animation-delay: 0.35s; }
 
+/* Collapsible personal sections (all viewports) */
+.personal-toggle {
+  cursor: pointer;
+}
+.personal-section.personal-closed {
+  display: none;
+}
+.personal-section.personal-open {
+  display: block;
+}
+
 /* Hide scrollbar on gallery */
 .gallery-scroll::-webkit-scrollbar { display: none; }
 .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
