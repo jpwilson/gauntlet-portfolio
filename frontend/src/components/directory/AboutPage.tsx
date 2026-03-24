@@ -87,6 +87,7 @@ export const AboutPage: React.FC = () => {
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [countriesOpen, setCountriesOpen] = useState(false);
   const [runningOpen, setRunningOpen] = useState(false);
+  const [techOpen, setTechOpen] = useState(true);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,16 +169,28 @@ export const AboutPage: React.FC = () => {
 
       {/* ---- INTERACTIVE TECH PILLS ---- */}
       <div style={{ marginBottom: 48 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <div
+          className="personal-toggle"
+          onClick={() => setTechOpen(!techOpen)}
+          style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4, cursor: 'pointer' }}
+        >
           <h3 style={{
-            fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700,
-            color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
+            fontFamily: "'Space Grotesk'", fontSize: 20, fontWeight: 700,
+            color: '#1a1a1a',
           }}>
-            Technologies
+            Tech Stack
           </h3>
+          <span className="personal-chevron" style={{
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+            transition: 'transform 0.2s',
+            transform: techOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            display: 'inline-block',
+          }}>
+            ▶
+          </span>
           {selectedTechs.length > 0 && (
             <button
-              onClick={() => setSelectedTechs([])}
+              onClick={(e) => { e.stopPropagation(); setSelectedTechs([]); }}
               className="nb-btn nb-btn-white"
               style={{ padding: '4px 12px', fontSize: 11 }}
             >
@@ -185,7 +198,14 @@ export const AboutPage: React.FC = () => {
             </button>
           )}
         </div>
+        <p style={{
+          fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666',
+          marginBottom: 16,
+        }}>
+          Technologies used across these projects
+        </p>
 
+        <div className={`personal-section ${techOpen ? 'personal-open' : 'personal-closed'}`}>
         {TECH_GROUPS.map(group => (
           <div key={group.label} style={{ marginBottom: 12 }}>
             <span style={{
@@ -274,6 +294,7 @@ export const AboutPage: React.FC = () => {
             )}
           </div>
         )}
+        </div>
       </div>
 
       {/* ============================================ */}
@@ -296,9 +317,10 @@ export const AboutPage: React.FC = () => {
           <span className="personal-chevron" style={{
             fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
             transition: 'transform 0.2s',
-            transform: runningOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transform: runningOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            display: 'inline-block',
           }}>
-            ▼
+            ▶
           </span>
         </div>
 
@@ -344,19 +366,13 @@ export const AboutPage: React.FC = () => {
         >
           <span style={{ fontSize: 28 }}>🌍</span>
           <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Travel</h3>
-          <span style={{
-            fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
-            background: '#fd8b00', border: '2px solid #1a1a1a', borderRadius: 6,
-            padding: '2px 10px', color: '#1a1a1a',
-          }}>
-            {totalCountries} COUNTRIES
-          </span>
           <span className="personal-chevron" style={{
             fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
             transition: 'transform 0.2s',
-            transform: countriesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transform: countriesOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            display: 'inline-block',
           }}>
-            ▼
+            ▶
           </span>
         </div>
 

@@ -302,13 +302,15 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     opacity: 0.25 !important;
   }
 
-  /* Detail card: compact, centered, narrower than image */
+  /* Detail card: compact, centered, narrower than image — ~10% smaller so image takes precedence */
   .coverflow-detail {
-    padding: 10px 16px !important;
-    margin-top: 10px !important;
-    max-width: 80vw !important;
+    padding: 8px 14px !important;
+    margin-top: 8px !important;
+    max-width: 72vw !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    transform: scale(0.9);
+    transform-origin: top center;
   }
   .coverflow-detail-top {
     flex-direction: column !important;
@@ -358,9 +360,9 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     display: none !important;
   }
 
-  /* Smoother coverflow transition */
+  /* Smoother coverflow transition on mobile */
   .coverflow-card {
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s ease !important;
   }
 
   /* Projects page header: centered title, small view toggle */
@@ -479,7 +481,7 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
     height: 24px !important;
   }
   .coverflow-detail {
-    max-width: 85vw !important;
+    max-width: 78vw !important;
   }
 
   /* Action buttons stack on very small screens */

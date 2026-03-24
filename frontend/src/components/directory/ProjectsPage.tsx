@@ -283,10 +283,17 @@ const TableView: React.FC = () => {
 /* ============================================ */
 const CoverFlowView: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const n = PROJECTS.length;
   const project = PROJECTS[activeIndex];
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const goTo = useCallback((i: number) => {
     // Wrap around
@@ -320,9 +327,9 @@ const CoverFlowView: React.FC = () => {
     touchStartY.current = null;
   }, [activeIndex, goTo]);
 
-  // Build a map of projectIndex -> offset from active
+  // Build a map of projectIndex -> offset from active (show more cards for smoother entry)
   const offsets = new Map<number, number>();
-  for (let off = -4; off <= 4; off++) {
+  for (let off = -6; off <= 6; off++) {
     const idx = ((activeIndex + off) % n + n) % n;
     if (!offsets.has(idx)) offsets.set(idx, off);
   }
@@ -347,10 +354,17 @@ const CoverFlowView: React.FC = () => {
           const isActive = offset === 0;
           const absOff = Math.abs(offset);
 
-          const tx = isActive ? 0 : offset * 180 + (offset > 0 ? 120 : -120);
-          const tz = isActive ? 0 : -120;
-          const ry = isActive ? 0 : (offset < 0 ? 50 : -50);
-          const op = isActive ? 1 : Math.max(0.35, 1 - absOff * 0.18);
+          // Tighter spacing on mobile so side cards stay visible in viewport
+          const spacing = isMobile ? 60 : 180;
+          const gap = isMobile ? 30 : 120;
+          const depth = isMobile ? -60 : -120;
+          const angle = isMobile ? 40 : 50;
+
+          const tx = isActive ? 0 : offset * spacing + (offset > 0 ? gap : -gap);
+          const tz = isActive ? 0 : depth;
+          const ry = isActive ? 0 : (offset < 0 ? angle : -angle);
+          const op = isActive ? 1 : Math.max(0.15, 1 - absOff * 0.2);
+          const sc = isActive ? 1 : Math.max(0.6, 1 - absOff * 0.08);
           const z = isActive ? 20 : 10 - absOff;
 
           return (
@@ -371,10 +385,10 @@ const CoverFlowView: React.FC = () => {
                 height: isActive ? 352 : 140,
                 cursor: 'pointer',
                 transform: isActive
-                  ? `translateX(0px)`
-                  : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`,
+                  ? `translateX(0px) scale(1)`
+                  : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
                 opacity: op, zIndex: z,
-                transition: 'all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)',
+                transition: 'transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease',
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
