@@ -53,7 +53,7 @@ export const ProjectDetailPage: React.FC = () => {
   const company = project.company || (project.category === 'gauntlet' ? 'Gauntlet' : 'Personal');
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto', padding: '48px 32px 96px' }}>
+    <div className="page-detail" style={{ maxWidth: 900, margin: '0 auto', padding: '48px 32px 96px' }}>
       {/* Back link */}
       <Link to="/" className="nb-btn nb-btn-white" style={{ marginBottom: 32, display: 'inline-flex' }}>
         &larr; All Projects
@@ -123,7 +123,7 @@ export const ProjectDetailPage: React.FC = () => {
       )}
 
       {/* ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+      <div className="detail-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn" style={{
             background: '#fff', color: '#1a1a1a', border: '3px solid #fd8b00',
@@ -189,7 +189,7 @@ export const ProjectDetailPage: React.FC = () => {
 
       {/* CHALLENGES / KEY LEARNINGS — visible cards side by side */}
       {(project.challenges || project.learnings) && (
-        <div style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
+        <div className="detail-grid" style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
           {project.challenges && (
             <div className="nb-stat" style={{ borderColor: '#fd8b00' }}>
               <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#904d00', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>

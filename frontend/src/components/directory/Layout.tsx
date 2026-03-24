@@ -29,7 +29,7 @@ export const Layout: React.FC = () => {
         background: '#fd8b00', borderBottom: '3px solid #1a1a1a',
         boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
       }}>
-        <div style={{
+        <div className="nav-inner" style={{
           maxWidth: 1200, margin: '0 auto', padding: '0 32px',
           height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
@@ -86,7 +86,7 @@ export const Layout: React.FC = () => {
       <main style={{ flex: 1 }}><Outlet /></main>
 
       <footer style={{ background: '#1a1a1a', padding: '20px 32px' }}>
-        <div style={{
+        <div className="footer-inner" style={{
           maxWidth: 1200, margin: '0 auto',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
         }}>

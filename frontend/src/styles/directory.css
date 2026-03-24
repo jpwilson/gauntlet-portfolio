@@ -232,3 +232,139 @@ table tbody tr:nth-child(12) { animation-delay: 0.35s; }
 /* Hide scrollbar on gallery */
 .gallery-scroll::-webkit-scrollbar { display: none; }
 .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================ */
+/* RESPONSIVE: Tablet (768px and below) */
+/* ============================================ */
+@media (max-width: 768px) {
+  /* Reduce page-level padding */
+  .page-projects,
+  .page-detail,
+  .page-about {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 24px !important;
+  }
+
+  /* Tiles grid: single column */
+  .tiles-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Table: horizontal scroll wrapper */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-wrapper table {
+    min-width: 640px;
+  }
+
+  /* Carousel: smaller active card, hide side cards further out */
+  .coverflow-stage {
+    height: 280px !important;
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .coverflow-card[data-active="true"] {
+    width: 320px !important;
+    height: 200px !important;
+  }
+  .coverflow-card[data-active="false"] {
+    width: 100px !important;
+    height: 70px !important;
+  }
+  .coverflow-detail {
+    padding: 12px 16px !important;
+  }
+  .coverflow-detail-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .coverflow-detail-controls {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  /* About page: hero stacks vertically */
+  .about-hero {
+    flex-direction: column !important;
+  }
+  .about-photo {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .about-photo > div {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  /* Project detail: challenges/learnings stack */
+  .detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Nav padding reduce */
+  .nav-inner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Footer padding reduce */
+  .footer-inner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Stat cards in about personal section */
+  .personal-stats {
+    flex-direction: column !important;
+  }
+
+  /* Reduce nb-stat padding on mobile */
+  .nb-stat {
+    padding: 16px 18px;
+  }
+
+  /* Reduce nb-card inner padding */
+  .nb-card > div:last-child {
+    padding: 16px 18px 20px !important;
+  }
+}
+
+/* ============================================ */
+/* RESPONSIVE: Small phones (480px and below) */
+/* ============================================ */
+@media (max-width: 480px) {
+  .page-projects,
+  .page-detail,
+  .page-about {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .coverflow-stage {
+    height: 240px !important;
+  }
+  .coverflow-card[data-active="true"] {
+    width: 260px !important;
+    height: 165px !important;
+  }
+  .coverflow-card[data-active="false"] {
+    width: 80px !important;
+    height: 56px !important;
+  }
+
+  /* Action buttons stack on very small screens */
+  .detail-actions {
+    flex-direction: column !important;
+  }
+  .detail-actions .nb-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -41,7 +41,7 @@ export const ProjectsPage: React.FC = () => {
   const [view, setView] = useState<ViewMode>('coverflow');
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 80px' }}>
+    <div className="page-projects" style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 80px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 32, color: '#1a1a1a' }}>
@@ -83,7 +83,7 @@ export const ProjectsPage: React.FC = () => {
 /* TILES VIEW */
 /* ============================================ */
 const TilesView: React.FC = () => (
-  <div style={{
+  <div className="tiles-grid" style={{
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
     gap: 24,
@@ -198,7 +198,7 @@ const TableView: React.FC = () => {
         />
       </div>
 
-      <div style={{ border: '3px solid #1a1a1a', borderRadius: 12, overflow: 'hidden', background: '#fff' }}>
+      <div className="table-wrapper" style={{ border: '3px solid #1a1a1a', borderRadius: 12, overflow: 'hidden', background: '#fff' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Space Grotesk'" }}>
           <thead>
             <tr style={{ background: '#1a1a1a', color: '#fff' }}>
@@ -283,7 +283,7 @@ const CoverFlowView: React.FC = () => {
   return (
     <div>
       {/* Cover flow area */}
-      <div style={{
+      <div className="coverflow-stage" style={{
         height: 410, perspective: 1200, position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
@@ -304,6 +304,8 @@ const CoverFlowView: React.FC = () => {
           return (
             <div
               key={p.id}
+              className="coverflow-card"
+              data-active={isActive ? "true" : "false"}
               onClick={() => {
                 if (isActive) {
                   window.location.hash = `/project/${p.id}`;
@@ -347,15 +349,15 @@ const CoverFlowView: React.FC = () => {
       </div>
 
       {/* Details panel for active project */}
-      <div key={project.id} style={{
+      <div key={project.id} className="coverflow-detail" style={{
         marginTop: 20, padding: '16px 24px',
         background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
         animation: 'fadeIn 0.4s ease',
         maxWidth: 860, margin: '20px auto 0',
       }}>
         {/* Top row: title + badges + controls */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{project.name}</h2>
             {project.category === 'gauntlet' && project.week && (
               <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#006673', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>W{project.week}</span>
@@ -364,7 +366,7 @@ const CoverFlowView: React.FC = () => {
               {activeIndex + 1}/{n}
             </span>
           </div>
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
             <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
             <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
             <Link to={`/project/${project.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>

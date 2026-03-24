@@ -115,10 +115,10 @@ export const AboutPage: React.FC = () => {
   const totalCountries = COUNTRIES.reduce((a, r) => a + r.items.length, 0);
 
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto', padding: '48px 32px 96px' }}>
+    <div className="page-about" style={{ maxWidth: 800, margin: '0 auto', padding: '48px 32px 96px' }}>
 
       {/* ---- HERO: Bio left (2/3), Photo right (1/3) ---- */}
-      <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap' }}>
+      <div className="about-hero" style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap' }}>
         <div style={{ flex: '2 1 320px' }}>
           <span className="nb-label" style={{ marginBottom: 16, display: 'inline-flex' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1a1a1a' }} />
@@ -148,7 +148,7 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        <div style={{ flex: '1 1 200px', maxWidth: 240 }}>
+        <div className="about-photo" style={{ flex: '1 1 200px', maxWidth: 240 }}>
           <div style={{
             border: '3px solid #1a1a1a', borderRadius: 14,
             overflow: 'hidden', boxShadow: '6px 6px 0 #fd8b00',
@@ -283,7 +283,7 @@ export const AboutPage: React.FC = () => {
         </span>
 
         {/* Running */}
-        <div style={{ marginTop: 16, display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
+        <div className="personal-stats" style={{ marginTop: 16, display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
           <div className="nb-stat" style={{
             background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a',
             display: 'flex', alignItems: 'center', gap: 16, padding: '16px 24px',
