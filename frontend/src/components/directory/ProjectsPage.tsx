@@ -311,7 +311,7 @@ const CoverFlowView: React.FC = () => {
     }));
     exitTimerRef.current = setTimeout(() => {
       setPanelState(prev => ({ ...prev, exiting: null }));
-    }, 380);
+    }, 500);
   }, [activeIndex]);
 
   const goTo = useCallback((i: number) => {
@@ -387,7 +387,7 @@ const CoverFlowView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)', paddingBottom: 56 }}>
       {/* Cover flow area */}
       <div
         className="coverflow-stage"
@@ -440,7 +440,7 @@ const CoverFlowView: React.FC = () => {
                   ? `translateX(0px) scale(1)`
                   : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
                 opacity: op, zIndex: z,
-                transition: 'transform 1s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1s ease, width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), height 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)',
+                transition: 'transform 1.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1.3s ease, width 1.04s cubic-bezier(0.22, 0.61, 0.36, 1), height 1.04s cubic-bezier(0.22, 0.61, 0.36, 1)',
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
@@ -466,29 +466,32 @@ const CoverFlowView: React.FC = () => {
         })}
       </div>
 
-      {/* Details panel — two-panel crossfade: flip-in on enter, slide-out-left on exit */}
-      <div style={{ position: 'relative', maxWidth: 860, margin: '12px auto 0', marginTop: 'auto' }}>
+      {/* Details panel — card swap: old slides out left, new slides in from right */}
+      <div style={{
+        position: 'relative', maxWidth: 860, margin: '12px auto 0', marginTop: 'auto',
+        borderRadius: 12, overflow: 'hidden',
+      }}>
         {/* Exiting panel — slides out to the left */}
         {panelState.exiting && (
           <div
             style={{
               ...panelStyle,
               position: 'absolute', top: 0, left: 0, right: 0,
-              animation: 'cardSlideOutLeft 0.35s ease forwards',
+              animation: 'cardSlideOutLeft 0.46s ease forwards',
               zIndex: 1, pointerEvents: 'none',
             }}
           >
             {renderPanelInner(panelState.exiting)}
           </div>
         )}
-        {/* Entering panel — flips up from flat */}
+        {/* Entering panel — slides in from the right */}
         <div
           key={panelState.enterKey}
           className="coverflow-detail"
           style={{
             ...panelStyle,
             position: 'relative', zIndex: 2,
-            animation: panelState.enterKey > 0 ? 'cardFlipIn 0.42s ease forwards' : 'none',
+            animation: panelState.enterKey > 0 ? 'cardSlideInRight 0.46s ease forwards' : 'none',
           }}
         >
           {renderPanelInner(panelState.current)}
