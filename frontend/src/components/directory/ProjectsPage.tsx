@@ -294,6 +294,8 @@ const CoverFlowView: React.FC = () => {
   const isFirstPanel = useRef(true);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const mouseStartX = useRef<number | null>(null);
+  const wheelLock = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 768);
@@ -337,13 +339,35 @@ const CoverFlowView: React.FC = () => {
     if (touchStartX.current === null || touchStartY.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
     const dy = e.changedTouches[0].clientY - touchStartY.current;
-    // Only swipe if horizontal movement is dominant and > 50px
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
       if (dx < 0) goTo(activeIndex + 1);
       else goTo(activeIndex - 1);
     }
     touchStartX.current = null;
     touchStartY.current = null;
+  }, [activeIndex, goTo]);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+  }, []);
+
+  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+    if (mouseStartX.current === null) return;
+    const dx = e.clientX - mouseStartX.current;
+    mouseStartX.current = null;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) goTo(activeIndex + 1);
+      else goTo(activeIndex - 1);
+    }
+  }, [activeIndex, goTo]);
+
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (wheelLock.current) return;
+    const delta = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) < 30) return;
+    if (delta > 0) goTo(activeIndex + 1);
+    else goTo(activeIndex - 1);
+    wheelLock.current = setTimeout(() => { wheelLock.current = null; }, 900);
   }, [activeIndex, goTo]);
 
   // Build a map of projectIndex -> offset from active (show more cards for smoother entry)
@@ -387,16 +411,21 @@ const CoverFlowView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)', paddingBottom: 56 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)', paddingBottom: 32 }}>
       {/* Cover flow area */}
       <div
         className="coverflow-stage"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={() => { mouseStartX.current = null; }}
+        onWheel={handleWheel}
         style={{
           height: 410, perspective: 1200, position: 'relative',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
+          cursor: 'grab', userSelect: 'none',
         }}
       >
         {PROJECTS.map((p, idx) => {
@@ -466,32 +495,35 @@ const CoverFlowView: React.FC = () => {
         })}
       </div>
 
-      {/* Details panel — card swap: old slides out left, new slides in from right */}
+      {/* Details panel — fade crossfade: old fades out, new fades in */}
       <div style={{
         position: 'relative', maxWidth: 860, margin: '12px auto 0', marginTop: 'auto',
-        borderRadius: 12, overflow: 'hidden',
+        borderRadius: 12,
+        height: 118,  /* fixed height keeps button position consistent */
       }}>
-        {/* Exiting panel — slides out to the left */}
+        {/* Exiting panel — fades out */}
         {panelState.exiting && (
           <div
             style={{
               ...panelStyle,
-              position: 'absolute', top: 0, left: 0, right: 0,
-              animation: 'cardSlideOutLeft 0.46s ease forwards',
+              position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+              animation: 'cardFadeOut 0.46s ease forwards',
               zIndex: 1, pointerEvents: 'none',
             }}
           >
             {renderPanelInner(panelState.exiting)}
           </div>
         )}
-        {/* Entering panel — slides in from the right */}
+        {/* Entering panel — fades in */}
         <div
           key={panelState.enterKey}
           className="coverflow-detail"
           style={{
             ...panelStyle,
-            position: 'relative', zIndex: 2,
-            animation: panelState.enterKey > 0 ? 'cardSlideInRight 0.46s ease forwards' : 'none',
+            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: 2,
+            animation: panelState.enterKey > 0 ? 'cardFadeIn 0.46s ease forwards' : 'none',
+            opacity: panelState.enterKey > 0 ? undefined : 1,
           }}
         >
           {renderPanelInner(panelState.current)}
