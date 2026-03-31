@@ -411,7 +411,7 @@ const CoverFlowView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)', paddingBottom: 32 }}>
+    <div>
       {/* Cover flow area */}
       <div
         className="coverflow-stage"
@@ -495,39 +495,17 @@ const CoverFlowView: React.FC = () => {
         })}
       </div>
 
-      {/* Details panel — fade crossfade: old fades out, new fades in */}
-      <div style={{
-        position: 'relative', maxWidth: 860, margin: '12px auto 0', marginTop: 'auto',
-        borderRadius: 12,
-        height: 118,  /* fixed height keeps button position consistent */
-      }}>
-        {/* Exiting panel — fades out */}
-        {panelState.exiting && (
-          <div
-            style={{
-              ...panelStyle,
-              position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-              animation: 'cardFadeOut 0.46s ease forwards',
-              zIndex: 1, pointerEvents: 'none',
-            }}
-          >
-            {renderPanelInner(panelState.exiting)}
-          </div>
-        )}
-        {/* Entering panel — fades in */}
-        <div
-          key={panelState.enterKey}
-          className="coverflow-detail"
-          style={{
-            ...panelStyle,
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            zIndex: 2,
-            animation: panelState.enterKey > 0 ? 'cardFadeIn 0.46s ease forwards' : 'none',
-            opacity: panelState.enterKey > 0 ? undefined : 1,
-          }}
-        >
-          {renderPanelInner(panelState.current)}
-        </div>
+      {/* Details panel */}
+      <div
+        key={panelState.enterKey}
+        className="coverflow-detail"
+        style={{
+          ...panelStyle,
+          maxWidth: 860, margin: '20px auto 0',
+          animation: panelState.enterKey > 0 ? 'cardFadeIn 0.46s ease forwards' : 'none',
+        }}
+      >
+        {renderPanelInner(panelState.current)}
       </div>
     </div>
   );
