@@ -255,6 +255,25 @@ export const PROJECTS: Project[] = [
     learnings: 'Micro-frontend architecture, Recharts for analytics, Playwright E2E testing, Supabase row-level security.',
   },
 
+  {
+    id: 'week7-pilotbase',
+    name: 'PilotBase',
+    company: 'Gauntlet',
+    description: 'Automated scheduling optimization platform for flight schools with FSP integration. Manages instructor queues, student records, and approval workflows from a single dashboard.',
+    longDescription:
+      'A flight school management and scheduling platform that automates instructor scheduling and student coordination. Features an approval queue for pending requests, cancellation and waitlist management, activity feeds, and per-student records. Built with Next.js 15 App Router, Supabase for auth and persistence, and Zod for schema validation.',
+    category: 'gauntlet',
+    week: 7,
+    techStack: ['TypeScript', 'Next.js', 'Supabase', 'Tailwind CSS', 'Vercel', 'Vitest', 'Zod'],
+    repoUrl: 'https://github.com/jpwilson/pilotbase',
+    liveUrl: 'https://pilotbase-pink.vercel.app/',
+    icon: 'folder',
+    createdAt: '2026-03-31',
+    featured: false,
+    challenges: 'Modeling complex scheduling constraints for flight school operations, FSP integration, approval workflow state management.',
+    learnings: 'Next.js 15 App Router patterns, flight school domain modeling, Supabase PLpgSQL migrations for scheduling logic.',
+  },
+
   // ---- OTHER PROJECTS ----
   {
     id: 'other-family-socials',

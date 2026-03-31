@@ -141,11 +141,8 @@ export const ProjectDetailPage: React.FC = () => {
             ▶ Demo Video
           </a>
         ) : (
-          <span style={{
-            fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 600,
-            color: '#999', fontStyle: 'italic', alignSelf: 'center', padding: '0 8px',
-          }}>
-            Demo Coming Soon
+          <span className="nb-btn nb-btn-white" style={{ opacity: 0.5, cursor: 'default' }}>
+            Demo (coming soon)
           </span>
         )}
         {project.repoUrl && (
