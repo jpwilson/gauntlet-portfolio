@@ -285,9 +285,13 @@ const CoverFlowView: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const n = PROJECTS.length;
-  const project = PROJECTS[activeIndex];
-  const [displayedProject, setDisplayedProject] = useState(project);
-  const [panelVisible, setPanelVisible] = useState(true);
+  const [panelState, setPanelState] = useState<{
+    current: Project;
+    exiting: Project | null;
+    enterKey: number;
+  }>({ current: PROJECTS[0], exiting: null, enterKey: 0 });
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isFirstPanel = useRef(true);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
@@ -298,12 +302,16 @@ const CoverFlowView: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setPanelVisible(false);
-    const t = setTimeout(() => {
-      setDisplayedProject(PROJECTS[activeIndex]);
-      setPanelVisible(true);
-    }, 220);
-    return () => clearTimeout(t);
+    if (isFirstPanel.current) { isFirstPanel.current = false; return; }
+    if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    setPanelState(prev => ({
+      current: PROJECTS[activeIndex],
+      exiting: prev.current,
+      enterKey: prev.enterKey + 1,
+    }));
+    exitTimerRef.current = setTimeout(() => {
+      setPanelState(prev => ({ ...prev, exiting: null }));
+    }, 380);
   }, [activeIndex]);
 
   const goTo = useCallback((i: number) => {
@@ -345,8 +353,41 @@ const CoverFlowView: React.FC = () => {
     if (!offsets.has(idx)) offsets.set(idx, off);
   }
 
+  const renderPanelInner = (p: Project) => (
+    <>
+      <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+        <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{p.name}</h2>
+          {(p.company || p.category === 'gauntlet') && (
+            <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{p.company || 'Gauntlet'}</span>
+          )}
+          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
+            {activeIndex + 1}/{n}
+          </span>
+        </div>
+        <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
+          <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
+          <Link to={`/project/${p.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>View →</Link>
+        </div>
+      </div>
+      <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.description}</p>
+      {p.techStack.length > 0 && p.techStack[0] !== 'TBD' && (
+        <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          {p.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
+        </div>
+      )}
+    </>
+  );
+
+  const panelStyle: React.CSSProperties = {
+    padding: '16px 24px',
+    background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
+    boxShadow: '0 16px 48px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12)',
+  };
+
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 240px)' }}>
       {/* Cover flow area */}
       <div
         className="coverflow-stage"
@@ -399,7 +440,7 @@ const CoverFlowView: React.FC = () => {
                   ? `translateX(0px) scale(1)`
                   : `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
                 opacity: op, zIndex: z,
-                transition: 'transform 1s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1s ease',
+                transition: 'transform 1s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1s ease, width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), height 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)',
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
@@ -425,42 +466,33 @@ const CoverFlowView: React.FC = () => {
         })}
       </div>
 
-      {/* Details panel for active project */}
-      <div className="coverflow-detail" style={{
-        padding: '16px 24px',
-        background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
-        maxWidth: 860, margin: '12px auto 0',
-        opacity: panelVisible ? 1 : 0,
-        transition: 'opacity 0.22s ease',
-        boxShadow: '0 16px 48px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12)',
-      }}>
-        {/* Top row: title + badges + controls */}
-        <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-          <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{displayedProject.name}</h2>
-            {(displayedProject.company || displayedProject.category === 'gauntlet') && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{displayedProject.company || 'Gauntlet'}</span>
-            )}
-            <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
-              {activeIndex + 1}/{n}
-            </span>
-          </div>
-          <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-            <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
-            <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
-            <Link to={`/project/${displayedProject.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>
-              View →
-            </Link>
-          </div>
-        </div>
-        {/* Description */}
-        <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayedProject.description}</p>
-        {/* Tech pills — full width, wrapping (hidden on mobile) */}
-        {displayedProject.techStack.length > 0 && displayedProject.techStack[0] !== 'TBD' && (
-          <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-            {displayedProject.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
+      {/* Details panel — two-panel crossfade: flip-in on enter, slide-out-left on exit */}
+      <div style={{ position: 'relative', maxWidth: 860, margin: '12px auto 0', marginTop: 'auto' }}>
+        {/* Exiting panel — slides out to the left */}
+        {panelState.exiting && (
+          <div
+            style={{
+              ...panelStyle,
+              position: 'absolute', top: 0, left: 0, right: 0,
+              animation: 'cardSlideOutLeft 0.35s ease forwards',
+              zIndex: 1, pointerEvents: 'none',
+            }}
+          >
+            {renderPanelInner(panelState.exiting)}
           </div>
         )}
+        {/* Entering panel — flips up from flat */}
+        <div
+          key={panelState.enterKey}
+          className="coverflow-detail"
+          style={{
+            ...panelStyle,
+            position: 'relative', zIndex: 2,
+            animation: panelState.enterKey > 0 ? 'cardFlipIn 0.42s ease forwards' : 'none',
+          }}
+        >
+          {renderPanelInner(panelState.current)}
+        </div>
       </div>
     </div>
   );
