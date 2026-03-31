@@ -41,7 +41,7 @@ export const ProjectsPage: React.FC = () => {
   const [view, setView] = useState<ViewMode>('coverflow');
 
   return (
-    <div className="page-projects" style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 80px' }}>
+    <div className="page-projects" style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 0' }}>
       {/* Header */}
       <div className="page-projects-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 32, color: '#1a1a1a' }}>
@@ -286,6 +286,8 @@ const CoverFlowView: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const n = PROJECTS.length;
   const project = PROJECTS[activeIndex];
+  const [displayedProject, setDisplayedProject] = useState(project);
+  const [panelVisible, setPanelVisible] = useState(true);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
@@ -294,6 +296,15 @@ const CoverFlowView: React.FC = () => {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  useEffect(() => {
+    setPanelVisible(false);
+    const t = setTimeout(() => {
+      setDisplayedProject(PROJECTS[activeIndex]);
+      setPanelVisible(true);
+    }, 220);
+    return () => clearTimeout(t);
+  }, [activeIndex]);
 
   const goTo = useCallback((i: number) => {
     // Wrap around
@@ -415,18 +426,20 @@ const CoverFlowView: React.FC = () => {
       </div>
 
       {/* Details panel for active project */}
-      <div key={project.id} className="coverflow-detail" style={{
-        marginTop: 20, padding: '16px 24px',
+      <div className="coverflow-detail" style={{
+        padding: '16px 24px',
         background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
-        animation: 'fadeIn 0.4s ease',
-        maxWidth: 860, margin: '20px auto 0',
+        maxWidth: 860, margin: '12px auto 0',
+        opacity: panelVisible ? 1 : 0,
+        transition: 'opacity 0.22s ease',
+        boxShadow: '0 16px 48px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12)',
       }}>
         {/* Top row: title + badges + controls */}
         <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
           <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{project.name}</h2>
-            {(project.company || project.category === 'gauntlet') && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{project.company || 'Gauntlet'}</span>
+            <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{displayedProject.name}</h2>
+            {(displayedProject.company || displayedProject.category === 'gauntlet') && (
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{displayedProject.company || 'Gauntlet'}</span>
             )}
             <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
               {activeIndex + 1}/{n}
@@ -435,17 +448,17 @@ const CoverFlowView: React.FC = () => {
           <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
             <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
             <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
-            <Link to={`/project/${project.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>
+            <Link to={`/project/${displayedProject.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>
               View →
             </Link>
           </div>
         </div>
         {/* Description */}
-        <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.description}</p>
+        <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayedProject.description}</p>
         {/* Tech pills — full width, wrapping (hidden on mobile) */}
-        {project.techStack.length > 0 && project.techStack[0] !== 'TBD' && (
+        {displayedProject.techStack.length > 0 && displayedProject.techStack[0] !== 'TBD' && (
           <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-            {project.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
+            {displayedProject.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
           </div>
         )}
       </div>
