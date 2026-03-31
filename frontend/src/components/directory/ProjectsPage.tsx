@@ -19,6 +19,7 @@ const PROJECT_IMAGES: Record<string, string> = {
   'week6-servicecore': `${BASE}images/service-core.png`,
   'week6-equinox': `${BASE}images/peak6-equinox.png`,
   'week6-st6': `${BASE}images/st6-commit.png`,
+  'week7-pilotbase': `${BASE}images/pilotbase.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
   'other-news-platform': `${BASE}images/newsplatform.png`,
