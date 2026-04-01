@@ -258,7 +258,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'week7-pilotbase',
     name: 'PilotBase',
-    company: 'Gauntlet',
+    company: 'Pilotbase',
     description: 'Automated scheduling optimization platform for flight schools with FSP integration. Manages instructor queues, student records, and approval workflows from a single dashboard.',
     longDescription:
       'A flight school management and scheduling platform that automates instructor scheduling and student coordination. Features an approval queue for pending requests, cancellation and waitlist management, activity feeds, and per-student records. Built with Next.js 15 App Router, Supabase for auth and persistence, and Zod for schema validation.',
