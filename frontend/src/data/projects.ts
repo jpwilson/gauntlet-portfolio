@@ -275,7 +275,7 @@ export const PROJECTS: Project[] = [
   },
 
   {
-    id: 'week8-automattic',
+    id: 'automattic',
     name: 'WP Block Theme Generator',
     company: 'Automattic',
     description: 'AI-powered tool that converts natural language into complete, installable WordPress block themes. Zero Custom HTML blocks — uses only native core blocks via deterministic JSON serialization.',
