@@ -274,6 +274,25 @@ export const PROJECTS: Project[] = [
     learnings: 'Next.js 15 App Router patterns, flight school domain modeling, Supabase PLpgSQL migrations for scheduling logic.',
   },
 
+  {
+    id: 'week8-automattic',
+    name: 'WP Block Theme Generator',
+    company: 'Automattic',
+    description: 'AI-powered tool that converts natural language into complete, installable WordPress block themes. Zero Custom HTML blocks — uses only native core blocks via deterministic JSON serialization.',
+    longDescription:
+      'Converts natural language descriptions into downloadable WordPress block themes (compatible with WP 6.4+) using a three-layer validation pipeline: Zod schema checking, block allowlist enforcement, and WordPress parser round-trip verification. Generates 4 templates, 2 patterns, a full design system, and up to 8 pages. Features multi-turn chat for iterative refinement, live in-browser preview via WordPress Playground (WASM), 8 preset starting points, and flexible AI provider support (OpenRouter, Anthropic, OpenAI, Grok).',
+    category: 'gauntlet',
+    week: 8,
+    techStack: ['TypeScript', 'JSZip', 'Next.js', 'OpenRouter', 'React', 'shadcn/ui', 'Tailwind CSS', 'Vercel', 'WordPress Playground', 'Zod'],
+    repoUrl: 'https://github.com/jpwilson/wp-ai-block-theme-generator',
+    liveUrl: 'https://wp-block-theme-generator.vercel.app',
+    icon: 'folder',
+    createdAt: '2026-04-02',
+    featured: false,
+    challenges: 'Deterministic block serialization with zero Custom HTML, three-layer validation to ensure WordPress-compatible output, in-browser WASM preview.',
+    learnings: 'WordPress block theme architecture, JSZip packaging, WordPress Playground WASM integration, multi-provider AI routing with OpenRouter.',
+  },
+
   // ---- OTHER PROJECTS ----
   {
     id: 'other-family-socials',
