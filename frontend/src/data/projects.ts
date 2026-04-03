@@ -285,7 +285,7 @@ export const PROJECTS: Project[] = [
     week: 8,
     techStack: ['TypeScript', 'JSZip', 'Next.js', 'OpenRouter', 'React', 'shadcn/ui', 'Tailwind CSS', 'Vercel', 'WordPress Playground', 'Zod'],
     repoUrl: 'https://github.com/jpwilson/wp-ai-block-theme-generator',
-    liveUrl: 'https://wp-block-theme-generator.vercel.app',
+    liveUrl: 'https://wp-block-theme-generator-production.up.railway.app',
     icon: 'folder',
     createdAt: '2026-04-02',
     featured: false,
