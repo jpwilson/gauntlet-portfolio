@@ -64,16 +64,17 @@ const US_STATES = [
 const NbCheck: React.FC<{ label: string }> = ({ label }) => (
   <div style={{
     display: 'inline-flex', alignItems: 'center', gap: 6,
-    padding: '4px 10px', background: '#fff',
-    border: '2px solid #1a1a1a', borderRadius: 6,
-    fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 600, color: '#1a1a1a',
+    padding: '4px 10px', background: 'rgba(15,20,25,0.6)',
+    border: '1px solid rgba(0,219,233,0.35)', borderRadius: 0,
+    fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 600, color: '#dbfcff',
+    letterSpacing: '0.04em',
   }}>
     <div style={{
-      width: 14, height: 14, border: '2px solid #1a1a1a', borderRadius: 3,
-      background: '#006673', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      flexShrink: 0,
+      width: 14, height: 14, border: '1px solid #00dbe9', borderRadius: 0,
+      background: '#00f0ff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexShrink: 0, boxShadow: '0 0 8px rgba(0,240,255,0.5)',
     }}>
-      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#00222a" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="20 6 9 17 4 12"/>
       </svg>
     </div>
@@ -125,8 +126,8 @@ export const AboutPage: React.FC = () => {
 
         <div className="about-photo" style={{ flex: '1 1 200px', maxWidth: 240 }}>
           <div style={{
-            border: '3px solid #1a1a1a', borderRadius: 14,
-            overflow: 'hidden', boxShadow: '6px 6px 0 #fd8b00',
+            border: '1px solid rgba(0,219,233,0.5)', borderRadius: 0,
+            overflow: 'hidden', boxShadow: '0 0 32px rgba(0,240,255,0.35)',
             aspectRatio: '3/4',
           }}>
             <img
@@ -139,33 +140,33 @@ export const AboutPage: React.FC = () => {
 
         <div className="about-bio" style={{ flex: '2 1 320px' }}>
           <span className="nb-label" style={{ marginBottom: 16, display: 'inline-flex' }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1a1a1a' }} />
-            ABOUT ME
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 10px #00f0ff' }} />
+            // ABOUT ME
           </span>
 
           <h1 style={{
             fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 'clamp(28px, 4vw, 40px)',
-            color: '#1a1a1a', lineHeight: 1.1, marginTop: 16, marginBottom: 20,
+            color: '#dbfcff', lineHeight: 1.1, marginTop: 16, marginBottom: 20,
             textTransform: 'uppercase',
           }}>
             Hey, Nice To Meet You!
           </h1>
 
           <div className="nb-stat" style={{ padding: 24 }}>
-            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 12 }}>
+            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#b9cacb', lineHeight: 1.75, marginBottom: 12 }}>
               Hi, I'm JP, thanks for visiting my gauntletAI portfolio.
             </p>
-            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 12 }}>
+            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#b9cacb', lineHeight: 1.75, marginBottom: 12 }}>
               I am a software engineer with over 8 years experience building production front end and
               backend systems — from APIs and data pipelines to infrastructure, AI agents and product features.
             </p>
-            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75, marginBottom: 16 }}>
+            <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#b9cacb', lineHeight: 1.75, marginBottom: 16 }}>
               My previous roles in the US (I moved here from South Africa in 2017) can be summarized as:
             </p>
-            <ul style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.75, paddingLeft: 20, listStyleType: 'disc' }}>
+            <ul style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.75, paddingLeft: 20, listStyleType: 'disc' }}>
               <li style={{ marginBottom: 14 }}>
                 <strong>VillageMD</strong> — Senior Software Engineer (IC + management)<br />
-                <span style={{ color: '#666' }}>
+                <span style={{ color: '#849495' }}>
                   Built patient onboarding systems used across clinics. Worked across React frontends,
                   Flask (which I migrated to) FastAPI services, EMR integrations, and AWS infrastructure.
                   I led development efforts while remaining a hands-on IC.
@@ -173,14 +174,14 @@ export const AboutPage: React.FC = () => {
               </li>
               <li style={{ marginBottom: 14 }}>
                 <strong>C.H. Robinson</strong> — Senior Software Engineer<br />
-                <span style={{ color: '#666' }}>
+                <span style={{ color: '#849495' }}>
                   Developed APIs and automation systems within a large enterprise .NET ecosystem.
                   Built ETL pipelines and internal tooling that improved operational workflows.
                 </span>
               </li>
               <li>
                 <strong>First Stop Health</strong> — Software Engineer<br />
-                <span style={{ color: '#666' }}>
+                <span style={{ color: '#849495' }}>
                   Worked on one of the early telehealth platforms prior to the pandemic. Built features
                   using Django and React for patient-doctor interactions and telehealth workflows.
                 </span>
@@ -199,12 +200,12 @@ export const AboutPage: React.FC = () => {
         >
           <h3 style={{
             fontFamily: "'Space Grotesk'", fontSize: 20, fontWeight: 700,
-            color: '#1a1a1a',
+            color: '#dbfcff',
           }}>
             Tech Stack
           </h3>
           <span className="personal-chevron" style={{
-            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#dbfcff',
             transition: 'transform 0.2s',
             transform: techOpen ? 'rotate(90deg)' : 'rotate(0deg)',
             display: 'inline-block',
@@ -222,7 +223,7 @@ export const AboutPage: React.FC = () => {
           )}
         </div>
         <p style={{
-          fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666',
+          fontFamily: "'Space Grotesk'", fontSize: 13, color: '#849495',
           marginBottom: 16,
         }}>
           Technologies used across these projects
@@ -233,7 +234,7 @@ export const AboutPage: React.FC = () => {
           <div key={group.label} style={{ marginBottom: 12 }}>
             <span style={{
               fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700,
-              color: '#999', textTransform: 'uppercase', letterSpacing: '0.08em',
+              color: '#849495', textTransform: 'uppercase', letterSpacing: '0.08em',
               display: 'block', marginBottom: 6,
             }}>
               {group.label}
@@ -250,16 +251,16 @@ export const AboutPage: React.FC = () => {
                     style={{
                       display: 'inline-block',
                       padding: '4px 12px',
-                      fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 600,
-                      border: isSelected ? '2px solid #006673' : '2px solid #1a1a1a',
-                      borderRadius: 999,
-                      background: isSelected ? '#006673' : '#fff',
-                      color: isSelected ? '#fff' : '#1a1a1a',
+                      fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600,
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      border: isSelected ? '1px solid #00f0ff' : '1px solid rgba(0,219,233,0.35)',
+                      borderRadius: 0,
+                      background: isSelected ? '#00f0ff' : 'rgba(15,20,25,0.6)',
+                      color: isSelected ? '#00222a' : '#dbfcff',
                       cursor: isMaxed ? 'not-allowed' : 'pointer',
-                      opacity: isMaxed ? 0.4 : 1,
+                      opacity: isMaxed ? 0.3 : 1,
                       transition: 'all 0.2s ease',
-                      transform: isSelected ? 'translate(-2px, -2px)' : 'translate(0, 0)',
-                      boxShadow: isSelected ? '3px 3px 0 #1a1a1a' : 'none',
+                      boxShadow: isSelected ? '0 0 14px rgba(0,240,255,0.55)' : 'none',
                     }}
                   >
                     {tech}
@@ -275,7 +276,7 @@ export const AboutPage: React.FC = () => {
           <div style={{ marginTop: 20, animation: 'fadeIn 0.3s ease' }}>
             <span style={{
               fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
-              color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em',
+              color: '#849495', textTransform: 'uppercase', letterSpacing: '0.06em',
               display: 'block', marginBottom: 10,
             }}>
               {matchingProjects.length} project{matchingProjects.length !== 1 ? 's' : ''} using {selectedTechs.join(' + ')}
@@ -289,17 +290,17 @@ export const AboutPage: React.FC = () => {
                     style={{
                       display: 'flex', alignItems: 'center', gap: 10,
                       padding: '8px 14px 8px 8px',
-                      background: '#fff', border: '2px solid #1a1a1a', borderRadius: 10,
-                      textDecoration: 'none', color: '#1a1a1a',
-                      transition: 'transform 0.15s, box-shadow 0.15s',
+                      background: 'rgba(15,20,25,0.6)', border: '1px solid rgba(0,219,233,0.35)', borderRadius: 0,
+                      textDecoration: 'none', color: '#dbfcff',
+                      transition: 'all 0.2s ease',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '4px 4px 0 #006673'; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 16px rgba(0,240,255,0.4)'; e.currentTarget.style.borderColor = '#00f0ff'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = 'rgba(0,219,233,0.35)'; }}
                   >
                     <img
                       src={PROJECT_IMAGES[p.id] || `${BASE}images/project-1.jpg`}
                       alt={p.name}
-                      style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', border: '2px solid #1a1a1a' }}
+                      style={{ width: 36, height: 36, borderRadius: 0, objectFit: 'cover', border: '1px solid rgba(0,219,233,0.4)' }}
                     />
                     <span style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700 }}>
                       {p.name}
@@ -309,8 +310,8 @@ export const AboutPage: React.FC = () => {
               </div>
             ) : (
               <div style={{
-                fontFamily: "'Space Grotesk'", fontSize: 13, color: '#999',
-                padding: '16px 20px', background: '#fff', border: '2px solid #ddd', borderRadius: 10,
+                fontFamily: "'Space Grotesk'", fontSize: 13, color: '#849495',
+                padding: '16px 20px', background: 'rgba(15,20,25,0.6)', border: '1px solid rgba(0,219,233,0.25)', borderRadius: 0,
               }}>
                 No projects match this combination
               </div>
@@ -323,10 +324,10 @@ export const AboutPage: React.FC = () => {
       {/* ============================================ */}
       {/* ---- PERSONAL SECTION ---- */}
       {/* ============================================ */}
-      <div style={{ borderTop: '3px solid #1a1a1a', paddingTop: 32, marginBottom: 40 }}>
-        <span className="nb-label" style={{ marginBottom: 24, display: 'inline-flex', background: '#006673', color: '#fff' }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} />
-          PERSONAL
+      <div style={{ borderTop: '1px solid rgba(0,219,233,0.35)', paddingTop: 32, marginBottom: 40 }}>
+        <span className="nb-label" style={{ marginBottom: 24, display: 'inline-flex' }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 10px #00f0ff' }} />
+          // PERSONAL
         </span>
 
         {/* Running - collapsible on mobile */}
@@ -336,9 +337,9 @@ export const AboutPage: React.FC = () => {
           style={{ marginTop: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
         >
           <span style={{ fontSize: 28 }}>🏃</span>
-          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Running</h3>
+          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#dbfcff' }}>Running</h3>
           <span className="personal-chevron" style={{
-            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#dbfcff',
             transition: 'transform 0.2s',
             transform: runningOpen ? 'rotate(90deg)' : 'rotate(0deg)',
             display: 'inline-block',
@@ -350,16 +351,17 @@ export const AboutPage: React.FC = () => {
         <div className={`personal-section ${runningOpen ? 'personal-open' : 'personal-closed'}`}>
           <div className="personal-stats" style={{ display: 'flex', gap: 16, alignItems: 'stretch', marginBottom: 32, flexWrap: 'wrap' }}>
             <div className="nb-stat" style={{
-              background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a',
+              background: 'rgba(0,240,255,0.06)',
               display: 'flex', alignItems: 'center', gap: 16, padding: '16px 24px',
               flex: '1 1 200px',
+              boxShadow: '0 0 20px rgba(0,240,255,0.18)',
             }}>
               <span style={{ fontSize: 28 }}>🏅</span>
               <div>
-                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#fd8b00', textTransform: 'uppercase' }}>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', color: '#00f0ff', textTransform: 'uppercase' }}>
                   NYC MARATHON
                 </div>
-                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 28, fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 28, fontWeight: 700, color: '#dbfcff', lineHeight: 1.1, textShadow: '0 0 14px rgba(0,240,255,0.5)' }}>
                   3:27
                 </div>
               </div>
@@ -367,14 +369,14 @@ export const AboutPage: React.FC = () => {
             <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
               <span style={{ fontSize: 20 }}>📍</span>
               <div>
-                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>DISTANCE</div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#00f0ff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>DISTANCE</div>
                 <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>26.2 mi</div>
               </div>
             </div>
             <div className="nb-stat" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', flex: '0 1 auto' }}>
               <span style={{ fontSize: 20 }}>⚡</span>
               <div>
-                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em' }}>PACE</div>
+                <div style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, color: '#00f0ff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>PACE</div>
                 <div style={{ fontFamily: "'Space Grotesk'", fontSize: 16, fontWeight: 700 }}>7:56 /mi</div>
               </div>
             </div>
@@ -388,9 +390,9 @@ export const AboutPage: React.FC = () => {
           style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
         >
           <span style={{ fontSize: 28 }}>🌍</span>
-          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>Travel</h3>
+          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#dbfcff' }}>Travel</h3>
           <span className="personal-chevron" style={{
-            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+            fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, color: '#dbfcff',
             transition: 'transform 0.2s',
             transform: countriesOpen ? 'rotate(90deg)' : 'rotate(0deg)',
             display: 'inline-block',
@@ -404,7 +406,7 @@ export const AboutPage: React.FC = () => {
             <div key={region.region} style={{ marginBottom: 14 }}>
               <h4 style={{
                 fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
-                color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
+                color: '#00f0ff', textTransform: 'uppercase', letterSpacing: '0.08em',
                 marginBottom: 8,
               }}>
                 {region.region}
@@ -418,7 +420,7 @@ export const AboutPage: React.FC = () => {
           <div style={{ marginTop: 14 }}>
             <h4 style={{
               fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
-              color: '#006673', textTransform: 'uppercase', letterSpacing: '0.08em',
+              color: '#00f0ff', textTransform: 'uppercase', letterSpacing: '0.08em',
               marginBottom: 8,
             }}>
               US States ({US_STATES.length})
@@ -445,8 +447,8 @@ export const AboutPage: React.FC = () => {
         </button>
         {showLogin && (
           <form onSubmit={handleLogin} style={{
-            background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
-            padding: 24, marginTop: 12, boxShadow: '6px 6px 0 #1a1a1a',
+            background: 'rgba(15,20,25,0.8)', border: '1px solid rgba(0,219,233,0.4)', borderRadius: 0,
+            padding: 24, marginTop: 12, boxShadow: '0 0 24px rgba(0,240,255,0.18)',
             maxWidth: 320, margin: '12px auto 0',
           }}>
             <div style={{ display: 'flex', gap: 8 }}>
@@ -458,7 +460,7 @@ export const AboutPage: React.FC = () => {
                 autoComplete="off"
                 style={{
                   fontFamily: "'Space Grotesk'", fontSize: 14, padding: '10px 16px',
-                  border: '2px solid #1a1a1a', borderRadius: 8, flex: 1, outline: 'none',
+                  flex: 1, outline: 'none',
                 }}
               />
               <button type="submit" className="nb-btn nb-btn-teal" style={{ padding: '10px 20px' }}>

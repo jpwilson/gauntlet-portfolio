@@ -46,26 +46,32 @@ export const ProjectsPage: React.FC = () => {
     <div className="page-projects" style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 32px 0' }}>
       {/* Header */}
       <div className="page-projects-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 32, color: '#1a1a1a' }}>
+        <h1 style={{
+          fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 32,
+          color: '#dbfcff', letterSpacing: '0.08em', textTransform: 'uppercase',
+          textShadow: '0 0 18px rgba(0,240,255,0.4)',
+        }}>
           PROJECTS
         </h1>
 
         {/* Full toggle (desktop) */}
         <div className="view-toggle-full" style={{
-          display: 'inline-flex', border: '3px solid #1a1a1a', borderRadius: 10, overflow: 'hidden',
+          display: 'inline-flex', border: '1px solid #00dbe9', borderRadius: 0, overflow: 'hidden',
+          boxShadow: '0 0 12px rgba(0,240,255,0.2)',
         }}>
           {(['tiles', 'table', 'coverflow'] as ViewMode[]).map(v => (
             <button
               key={v}
               onClick={() => setView(v)}
               style={{
-                fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700,
+                fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
                 padding: '8px 18px', border: 'none', cursor: 'pointer',
-                textTransform: 'uppercase', letterSpacing: '0.05em',
-                background: view === v ? '#1a1a1a' : '#fff',
-                color: view === v ? '#fff' : '#1a1a1a',
-                borderRight: v !== 'coverflow' ? '2px solid #1a1a1a' : 'none',
-                transition: 'background 0.15s, color 0.15s',
+                textTransform: 'uppercase', letterSpacing: '0.12em',
+                background: view === v ? '#00f0ff' : 'transparent',
+                color: view === v ? '#00222a' : '#dbfcff',
+                borderRight: v !== 'coverflow' ? '1px solid rgba(0,219,233,0.35)' : 'none',
+                transition: 'all 0.2s ease',
+                boxShadow: view === v ? '0 0 18px rgba(0,240,255,0.5) inset' : 'none',
               }}
             >
               {v === 'tiles' ? '⊞ Tiles' : v === 'table' ? '☰ Table' : '◆ Carousel'}
@@ -75,7 +81,7 @@ export const ProjectsPage: React.FC = () => {
 
         {/* Compact icon toggle (mobile) */}
         <div className="view-toggle-compact" style={{
-          display: 'none', border: '2px solid #1a1a1a', borderRadius: 8, overflow: 'hidden',
+          display: 'none', border: '1px solid #00dbe9', borderRadius: 0, overflow: 'hidden',
         }}>
           {([
             { mode: 'tiles' as ViewMode, icon: '⊞' },
@@ -87,10 +93,10 @@ export const ProjectsPage: React.FC = () => {
               onClick={() => setView(mode)}
               style={{
                 fontSize: 14, padding: '5px 10px', border: 'none', cursor: 'pointer',
-                background: view === mode ? '#1a1a1a' : '#fff',
-                color: view === mode ? '#fff' : '#1a1a1a',
-                borderRight: mode !== 'coverflow' ? '1.5px solid #1a1a1a' : 'none',
-                transition: 'background 0.15s, color 0.15s',
+                background: view === mode ? '#00f0ff' : 'transparent',
+                color: view === mode ? '#00222a' : '#dbfcff',
+                borderRight: mode !== 'coverflow' ? '1px solid rgba(0,219,233,0.35)' : 'none',
+                transition: 'all 0.2s ease',
                 lineHeight: 1,
               }}
               title={mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -119,20 +125,20 @@ const TilesView: React.FC = () => (
   }}>
     {PROJECTS.map(p => (
       <Link key={p.id} to={`/project/${p.id}`} className="nb-card">
-        <div style={{ aspectRatio: '4/3', overflow: 'hidden', borderBottom: '3px solid #1a1a1a', background: '#ddd' }}>
+        <div style={{ aspectRatio: '4/3', overflow: 'hidden', borderBottom: '1px solid rgba(0,219,233,0.35)', background: '#05080d' }}>
           <img src={img(p)} alt={p.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
         <div style={{ padding: '20px 24px 24px' }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             {(p.company || p.category === 'gauntlet') && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '3px 10px', borderRadius: 6, border: '2px solid #1a1a1a' }}>{p.company || 'Gauntlet'}</span>
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: 'transparent', color: '#7df4ff', padding: '3px 10px', borderRadius: 0, border: '1px solid rgba(0,219,233,0.5)' }}>{p.company || 'Gauntlet'}</span>
             )}
             {p.featured && (
-              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700, background: '#fd8b00', color: '#1a1a1a', padding: '3px 10px', borderRadius: 6, border: '2px solid #1a1a1a' }}>FEATURED</span>
+              <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', background: '#00f0ff', color: '#00222a', padding: '3px 10px', borderRadius: 0, border: '1px solid #00f0ff', boxShadow: '0 0 10px rgba(0,240,255,0.5)' }}>FEATURED</span>
             )}
           </div>
-          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 22, marginBottom: 6, color: '#1a1a1a' }}>{p.name}</h3>
-          <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#666', lineHeight: 1.5, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.description}</p>
+          <h3 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 22, marginBottom: 6, color: '#dbfcff', letterSpacing: '0.02em' }}>{p.name}</h3>
+          <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.5, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.description}</p>
           {p.techStack.length > 0 && p.techStack[0] !== 'TBD' && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {p.techStack.slice(0, 3).map(t => <span key={t} className="nb-tag">{t}</span>)}
@@ -201,8 +207,10 @@ const TableView: React.FC = () => {
     <th
       onClick={() => toggleSort(k)}
       style={{
-        padding: '12px 16px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
-        letterSpacing: '0.08em', textAlign: 'left', borderBottom: '3px solid #1a1a1a',
+        padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+        letterSpacing: '0.15em', textAlign: 'left',
+        borderBottom: '1px solid rgba(0,219,233,0.4)',
+        color: '#00f0ff',
         cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
       }}
     >
@@ -218,24 +226,23 @@ const TableView: React.FC = () => {
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Search projects..."
+          placeholder="// SEARCH PROJECTS..."
           style={{
-            fontFamily: "'Space Grotesk'", fontSize: 14, padding: '10px 16px',
-            border: '3px solid #1a1a1a', borderRadius: 10, width: '100%', maxWidth: 360,
-            outline: 'none', background: '#fff',
+            fontFamily: "'Space Grotesk'", fontSize: 13, padding: '10px 16px',
+            width: '100%', maxWidth: 360, letterSpacing: '0.05em',
           }}
         />
       </div>
 
-      <div className="table-wrapper" style={{ border: '3px solid #1a1a1a', borderRadius: 12, overflow: 'hidden', background: '#fff' }}>
+      <div className="table-wrapper" style={{ border: '1px solid rgba(0,219,233,0.35)', borderRadius: 0, overflow: 'hidden', background: 'rgba(15,20,25,0.6)', boxShadow: '0 0 24px rgba(0,240,255,0.08)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Space Grotesk'" }}>
           <thead>
-            <tr style={{ background: '#1a1a1a', color: '#fff' }}>
+            <tr style={{ background: 'rgba(0,240,255,0.06)' }}>
               <SortHeader label="Project" k="name" />
-              <th style={{ padding: '12px 16px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'left', borderBottom: '3px solid #1a1a1a' }}>
+              <th style={{ padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', textAlign: 'left', borderBottom: '1px solid rgba(0,219,233,0.4)', color: '#00f0ff' }}>
                 Description
               </th>
-              <th style={{ padding: '12px 16px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'left', borderBottom: '3px solid #1a1a1a' }}>
+              <th style={{ padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', textAlign: 'left', borderBottom: '1px solid rgba(0,219,233,0.4)', color: '#00f0ff' }}>
                 Tech
               </th>
               <SortHeader label="Company" k="company" />
@@ -244,31 +251,31 @@ const TableView: React.FC = () => {
           </thead>
           <tbody>
             {sorted.length === 0 ? (
-              <tr><td colSpan={5} style={{ padding: 32, textAlign: 'center', color: '#999', fontSize: 14 }}>No projects match "{search}"</td></tr>
+              <tr><td colSpan={5} style={{ padding: 32, textAlign: 'center', color: '#849495', fontSize: 13 }}>No projects match "{search}"</td></tr>
             ) : sorted.map((p, i) => (
               <tr key={p.id} style={{ cursor: 'pointer' }}>
                 <td style={{ padding: '14px 16px' }}>
-                  <Link to={`/project/${p.id}`} style={{ fontWeight: 700, fontSize: 14, color: '#006673', textDecoration: 'none' }}>
+                  <Link to={`/project/${p.id}`} style={{ fontWeight: 700, fontSize: 14, color: '#00f0ff', textDecoration: 'none', textShadow: '0 0 8px rgba(0,240,255,0.4)' }}>
                     {p.name}
                   </Link>
                 </td>
-                <td style={{ padding: '14px 16px', fontSize: 13, color: '#666', maxWidth: 300 }}>
+                <td style={{ padding: '14px 16px', fontSize: 13, color: '#b9cacb', maxWidth: 300 }}>
                   <span style={{ display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.description}</span>
                 </td>
                 <td style={{ padding: '14px 16px' }}>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                     {p.techStack.length > 0 && p.techStack[0] !== 'TBD'
                       ? p.techStack.slice(0, 2).map(t => (
-                        <span key={t} style={{ fontSize: 10, fontWeight: 600, border: '1.5px solid #ddd', borderRadius: 4, padding: '2px 6px', color: '#666' }}>{t}</span>
+                        <span key={t} style={{ fontSize: 10, fontWeight: 600, border: '1px solid rgba(0,219,233,0.3)', borderRadius: 0, padding: '2px 6px', color: '#7df4ff', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{t}</span>
                       ))
-                      : <span style={{ fontSize: 10, color: '#ccc' }}>—</span>
+                      : <span style={{ fontSize: 10, color: '#3b494b' }}>—</span>
                     }
                   </div>
                 </td>
-                <td style={{ padding: '14px 16px', fontSize: 13, fontWeight: 600, color: '#1a1a1a' }}>
+                <td style={{ padding: '14px 16px', fontSize: 13, fontWeight: 600, color: '#dbfcff' }}>
                   {getCompany(p)}
                 </td>
-                <td style={{ padding: '14px 16px', fontSize: 12, color: '#999', whiteSpace: 'nowrap' }}>
+                <td style={{ padding: '14px 16px', fontSize: 12, color: '#849495', whiteSpace: 'nowrap', letterSpacing: '0.05em' }}>
                   {formatDate(p.createdAt)}
                 </td>
               </tr>
@@ -383,21 +390,21 @@ const CoverFlowView: React.FC = () => {
     <>
       <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
         <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#1a1a1a' }}>{p.name}</h2>
+          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#dbfcff', letterSpacing: '0.04em', textShadow: '0 0 10px rgba(0,240,255,0.35)' }}>{p.name}</h2>
           {(p.company || p.category === 'gauntlet') && (
-            <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 700, background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: 5, border: '2px solid #1a1a1a' }}>{p.company || 'Gauntlet'}</span>
+            <span style={{ fontFamily: "'Space Grotesk'", fontSize: 9, fontWeight: 700, background: 'transparent', color: '#7df4ff', padding: '2px 8px', borderRadius: 0, border: '1px solid rgba(0,219,233,0.5)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{p.company || 'Gauntlet'}</span>
           )}
-          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#bbb' }}>
-            {activeIndex + 1}/{n}
+          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 10, fontWeight: 600, color: '#849495', letterSpacing: '0.1em' }}>
+            [{String(activeIndex + 1).padStart(2, '0')}/{String(n).padStart(2, '0')}]
           </span>
         </div>
         <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
           <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
-          <Link to={`/project/${p.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 12 }}>View →</Link>
+          <Link to={`/project/${p.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 11 }}>View →</Link>
         </div>
       </div>
-      <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.description}</p>
+      <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#b9cacb', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.description}</p>
       {p.techStack.length > 0 && p.techStack[0] !== 'TBD' && (
         <div className="coverflow-tech-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
           {p.techStack.map(t => <span key={t} className="nb-tag">{t}</span>)}
@@ -408,8 +415,13 @@ const CoverFlowView: React.FC = () => {
 
   const panelStyle: React.CSSProperties = {
     padding: '16px 24px',
-    background: '#fff', border: '3px solid #1a1a1a', borderRadius: 12,
-    boxShadow: '0 16px 48px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12)',
+    background: 'rgba(15,20,25,0.85)',
+    border: '1px solid rgba(0,219,233,0.45)',
+    borderRadius: 0,
+    boxShadow: '0 0 32px rgba(0,240,255,0.18), inset 0 0 0 1px rgba(0,240,255,0.05)',
+    backdropFilter: 'blur(6px)',
+    WebkitBackdropFilter: 'blur(6px)',
+    position: 'relative',
   };
 
   return (
@@ -479,11 +491,13 @@ const CoverFlowView: React.FC = () => {
             >
               <div style={{
                 width: '100%', height: '100%',
-                border: isActive ? '3px solid #1a1a1a' : '2px solid rgba(0,0,0,0.2)',
-                borderRadius: 12,
+                border: isActive ? '1px solid #00f0ff' : '1px solid rgba(0,219,233,0.2)',
+                borderRadius: 0,
                 overflow: 'hidden',
-                boxShadow: isActive ? '0 20px 60px rgba(0,0,0,0.3)' : '0 8px 20px rgba(0,0,0,0.1)',
-                background: '#ddd',
+                boxShadow: isActive
+                  ? '0 0 24px rgba(0,240,255,0.55), 0 0 48px rgba(0,240,255,0.25), inset 0 0 0 1px rgba(0,240,255,0.2)'
+                  : '0 0 8px rgba(0,219,233,0.15)',
+                background: '#05080d',
                 transition: 'border 0.6s, box-shadow 0.6s',
               }}>
                 <img src={img(p)} alt={p.name} style={{
