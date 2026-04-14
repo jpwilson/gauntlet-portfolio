@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
 const LINKS = [
@@ -20,14 +20,20 @@ const XIcon = () => (
 
 export const Layout: React.FC = () => {
   const loc = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const onAbout = loc.pathname === '/about';
+  const otherLink = onAbout
+    ? { label: 'PROJECTS', path: '/' }
+    : { label: 'ABOUT', path: '/about' };
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <nav style={{
         position: 'sticky', top: 0, zIndex: 50,
-        background: '#fd8b00', borderBottom: '3px solid #1a1a1a',
-        boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+        background: 'rgba(10,15,19,0.85)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(0,219,233,0.35)',
+        boxShadow: '0 0 24px rgba(0,240,255,0.15)',
       }}>
         <div className="nav-inner" style={{
           maxWidth: 1200, margin: '0 auto', padding: '0 32px',
@@ -35,67 +41,66 @@ export const Layout: React.FC = () => {
         }}>
           <Link to="/" style={{
             fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 22,
-            color: '#1a1a1a', textDecoration: 'none',
+            letterSpacing: '0.08em',
+            color: '#dbfcff', textDecoration: 'none',
+            textShadow: '0 0 12px rgba(0,240,255,0.5)',
           }}>
             <span className="hidden md:inline">JEAN-PAUL WILSON</span>
             <span className="md:hidden">JP WILSON</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
-            {LINKS.map(l => (
-              <Link key={l.label} to={l.path} style={{
-                fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700,
-                textDecoration: 'none',
-                color: loc.pathname === l.path ? '#006673' : '#1a1a1a',
-              }}>
-                {l.label}
-              </Link>
-            ))}
-            <div style={{ width: 3, height: 20, background: '#1a1a1a', borderRadius: 2, opacity: 0.3 }} />
-            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a', display: 'flex' }} title="GitHub"><GitHubIcon /></a>
-            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a', display: 'flex' }} title="LinkedIn"><LinkedInIcon /></a>
-            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a', display: 'flex' }} title="X"><XIcon /></a>
+            {LINKS.map(l => {
+              const active = loc.pathname === l.path;
+              return (
+                <Link key={l.label} to={l.path} style={{
+                  fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700,
+                  letterSpacing: '0.15em', textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: active ? '#00f0ff' : 'rgba(219,252,255,0.6)',
+                  paddingBottom: 2,
+                  borderBottom: active ? '1px solid #00f0ff' : '1px solid transparent',
+                  textShadow: active ? '0 0 10px rgba(0,240,255,0.6)' : 'none',
+                  transition: 'all 0.2s ease',
+                }}>
+                  {l.label}
+                </Link>
+              );
+            })}
+            <div style={{ width: 1, height: 20, background: 'rgba(0,219,233,0.35)' }} />
+            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(219,252,255,0.6)', display: 'flex' }} title="GitHub"><GitHubIcon /></a>
+            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(219,252,255,0.6)', display: 'flex' }} title="LinkedIn"><LinkedInIcon /></a>
+            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(219,252,255,0.6)', display: 'flex' }} title="X"><XIcon /></a>
           </div>
 
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden" style={{
-            background: '#fff', border: '3px solid #1a1a1a', borderRadius: 8,
-            padding: '6px 12px', fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 14, cursor: 'pointer',
+          <Link to={otherLink.path} className="md:hidden" style={{
+            background: 'transparent', border: '1px solid #00dbe9', borderRadius: 0,
+            padding: '6px 14px', fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 12,
+            letterSpacing: '0.15em', color: '#00f0ff', textDecoration: 'none',
+            textShadow: '0 0 10px rgba(0,240,255,0.5)',
+            boxShadow: '0 0 10px rgba(0,240,255,0.15)',
           }}>
-            {menuOpen ? 'CLOSE' : 'MENU'}
-          </button>
+            {otherLink.label}
+          </Link>
         </div>
-
-        {menuOpen && (
-          <div className="md:hidden" style={{
-            padding: '16px 32px 20px', display: 'flex', flexDirection: 'column', gap: 12,
-            borderTop: '3px solid #1a1a1a', background: '#fd8b00',
-          }}>
-            {LINKS.map(l => (
-              <Link key={l.label} to={l.path} onClick={() => setMenuOpen(false)} style={{
-                fontFamily: "'Space Grotesk'", fontSize: 14, fontWeight: 700, textDecoration: 'none', color: '#1a1a1a',
-              }}>{l.label}</Link>
-            ))}
-            <div style={{ display: 'flex', gap: 16, marginTop: 8 }}>
-              <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a' }}><GitHubIcon /></a>
-              <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a' }}><LinkedInIcon /></a>
-              <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a' }}><XIcon /></a>
-            </div>
-          </div>
-        )}
       </nav>
 
       <main style={{ flex: 1 }}><Outlet /></main>
 
-      <footer style={{ background: '#1a1a1a', padding: '20px 32px' }}>
+      <footer style={{
+        background: 'rgba(5,8,13,0.9)',
+        borderTop: '1px solid rgba(0,219,233,0.25)',
+        padding: '20px 32px',
+      }}>
         <div className="footer-inner" style={{
           maxWidth: 1200, margin: '0 auto',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
         }}>
-          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 600, color: '#888' }}>&copy; 2026 Jean-Paul Wilson</span>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center', position: 'relative', zIndex: 10 }}>
-            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><GitHubIcon /></a>
-            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><LinkedInIcon /></a>
-            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#888', display: 'flex', cursor: 'pointer' }}><XIcon /></a>
+          <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 600, color: '#849495', letterSpacing: '0.1em', textTransform: 'uppercase' }}>&copy; 2026 Jean-Paul Wilson</span>
+          <div className="footer-socials" style={{ display: 'flex', gap: 16, alignItems: 'center', position: 'relative', zIndex: 10 }}>
+            <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><GitHubIcon /></a>
+            <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><LinkedInIcon /></a>
+            <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><XIcon /></a>
           </div>
         </div>
       </footer>

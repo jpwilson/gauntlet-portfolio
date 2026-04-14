@@ -292,6 +292,23 @@ export const PROJECTS: Project[] = [
     challenges: 'Deterministic block serialization with zero Custom HTML, three-layer validation to ensure WordPress-compatible output, in-browser WASM preview.',
     learnings: 'WordPress block theme architecture, JSZip packaging, WordPress Playground WASM integration, multi-provider AI routing with OpenRouter.',
   },
+  {
+    id: 'week9-terrafirma',
+    name: 'Terra Firma — Fleet Command Center',
+    company: 'Gauntlet',
+    description: 'Desktop command center for a fleet of 5 autonomous rovers streaming live pose + LiDAR telemetry over UDP. Reconstructs terrain in real time from point clouds on a worker thread, with sub-50ms click-to-ack command latency measured against the live emulator.',
+    longDescription:
+      'Note: the hosted rendering is a mockup — the original project belongs to a partner I don\'t have permission to share, so this is my own alternate self-made version of the HUD. A native Qt/OpenGL HUD that ingests binary UDP telemetry from a rover emulator at 10Hz and reconstructs the environment from LiDAR point clouds into a tiled heightfield on a background worker thread. Features a screen-space scene overlay (rover labels, selection rings, rotating LiDAR sweep arcs) drawn with QPainter on top of the GL viewport, a click-to-ack command pipeline with pending-commands state machine (49ms measured round trip), live FPS/CPU frame graph (F3), and a terrain coverage heatmap (V) tinted by actual LiDAR sample density. Five quests auto-complete from real telemetry — no scripted triggers.',
+    category: 'gauntlet',
+    week: 9,
+    techStack: ['C++', 'Assimp', 'CMake', 'Docker', 'GLM', 'GLSL', 'OpenGL', 'Qt 6'],
+    repoUrl: 'https://github.com/jpwilson/terrafirm-HUD',
+    icon: 'folder',
+    createdAt: '2026-04-11',
+    featured: true,
+    challenges: 'Reconstructing terrain from raw LiDAR point clouds in real time without blocking the render thread, measuring actual command round-trip latency, keeping the GL viewport and QPainter overlay in sync.',
+    learnings: 'Qt6 + OpenGL 3.3 core profile integration, worker-thread tile grid updates, wire-format verification with static_asserts, bundling shaders via AUTORCC to eliminate hardcoded paths.',
+  },
 
   // ---- OTHER PROJECTS ----
   {

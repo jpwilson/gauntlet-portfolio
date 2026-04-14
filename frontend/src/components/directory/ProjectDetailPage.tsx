@@ -20,6 +20,7 @@ const IMAGES: Record<string, string> = {
   'week6-st6': `${BASE}images/st6-commit.png`,
   'week7-pilotbase': `${BASE}images/pilotbase.png`,
   'automattic': `${BASE}images/automattic.png`,
+  'week9-terrafirma': `${BASE}images/terrafirma.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
   'other-news-platform': `${BASE}images/newsplatform.png`,
@@ -64,12 +65,12 @@ export const ProjectDetailPage: React.FC = () => {
       {/* Hero image — clickable to live site */}
       {project.liveUrl ? (
         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{
-          display: 'block', border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
-          marginBottom: 24, background: '#111', cursor: 'pointer',
+          display: 'block', border: '1px solid rgba(0,219,233,0.45)', borderRadius: 0, overflow: 'hidden',
+          marginBottom: 24, background: '#05080d', boxShadow: '0 0 32px rgba(0,240,255,0.18)', cursor: 'pointer',
           transition: 'transform 0.2s, box-shadow 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(0,240,255,0.5), 0 0 80px rgba(0,240,255,0.2)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = '0 0 32px rgba(0,240,255,0.18)'; }}
         >
           {project.video ? (
             <video src={project.video} autoPlay muted loop playsInline style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
@@ -79,8 +80,8 @@ export const ProjectDetailPage: React.FC = () => {
         </a>
       ) : (
         <div style={{
-          border: '3px solid #1a1a1a', borderRadius: 16, overflow: 'hidden',
-          marginBottom: 24, background: '#111',
+          border: '1px solid rgba(0,219,233,0.45)', borderRadius: 0, overflow: 'hidden',
+          marginBottom: 24, background: '#05080d', boxShadow: '0 0 32px rgba(0,240,255,0.18)',
         }}>
           {project.video ? (
             <video src={project.video} autoPlay muted loop playsInline style={{ width: '100%', height: 'auto', maxHeight: 480, objectFit: 'cover', display: 'block' }} />
@@ -96,11 +97,11 @@ export const ProjectDetailPage: React.FC = () => {
           {screenshots.map((src, i) => (
             <div key={i} style={{
               flexShrink: 0, width: 200, height: 130,
-              border: '3px solid #1a1a1a', borderRadius: 10, overflow: 'hidden',
-              cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
+              border: '1px solid rgba(0,219,233,0.35)', borderRadius: 0, overflow: 'hidden',
+              cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
             }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translate(-2px,-2px)'; e.currentTarget.style.boxShadow = '4px 4px 0 #1a1a1a'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 18px rgba(0,240,255,0.4)'; e.currentTarget.style.borderColor = '#00f0ff'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translate(0,0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = 'rgba(0,219,233,0.35)'; }}
             >
               <img src={src} alt={`${project.name} screenshot ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
@@ -111,9 +112,10 @@ export const ProjectDetailPage: React.FC = () => {
       {/* Company badge only */}
       <div style={{ marginBottom: 12 }}>
         <span style={{
-          fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700,
-          background: '#2563eb', color: '#fff',
-          padding: '5px 14px', borderRadius: 8, border: '2px solid #1a1a1a',
+          fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 700,
+          background: 'transparent', color: '#7df4ff',
+          padding: '5px 14px', borderRadius: 0, border: '1px solid rgba(0,219,233,0.5)',
+          letterSpacing: '0.12em', textTransform: 'uppercase',
         }}>
           {company}
         </span>
@@ -123,8 +125,9 @@ export const ProjectDetailPage: React.FC = () => {
       <h1 style={{
         fontFamily: "'Space Grotesk'", fontWeight: 900,
         fontSize: 'clamp(36px, 6vw, 56px)',
-        color: '#1a1a1a', lineHeight: 1.05, marginBottom: 16, textTransform: 'uppercase',
-        letterSpacing: '-0.02em',
+        color: '#dbfcff', lineHeight: 1.05, marginBottom: 16, textTransform: 'uppercase',
+        letterSpacing: '0.02em',
+        textShadow: '0 0 24px rgba(0,240,255,0.35)',
       }}>
         {project.name}
       </h1>
@@ -132,9 +135,7 @@ export const ProjectDetailPage: React.FC = () => {
       {/* ACTION BUTTONS: Deployed Site, Demo Video, GitHub */}
       <div className="detail-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
         {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn" style={{
-            background: '#fff', color: '#1a1a1a', border: '3px solid #fd8b00',
-          }}>
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="nb-btn nb-btn-teal">
             Deployed Site &rarr;
           </a>
         )}
@@ -166,10 +167,10 @@ export const ProjectDetailPage: React.FC = () => {
       {/* OVERVIEW */}
       {project.longDescription && (
         <div className="nb-stat" style={{ marginBottom: 20 }}>
-          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 18, marginBottom: 12, color: '#1a1a1a' }}>
-            Overview
+          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 13, marginBottom: 12, color: '#00f0ff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            // Overview
           </h2>
-          <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#444', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: "'Space Grotesk'", fontSize: 15, color: '#b9cacb', lineHeight: 1.75 }}>
             {project.longDescription}
           </p>
         </div>
@@ -181,24 +182,25 @@ export const ProjectDetailPage: React.FC = () => {
           <button
             onClick={() => setSpecOpen(!specOpen)}
             style={{
-              fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 14,
-              color: '#1a1a1a', background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 13,
+              color: '#00f0ff', background: 'none', border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: 0,
+              letterSpacing: '0.12em', textTransform: 'uppercase',
             }}
           >
             <span style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              width: 20, height: 20, borderRadius: 4, border: '2px solid #1a1a1a',
-              fontSize: 12, fontWeight: 700, transition: 'transform 0.2s',
+              width: 20, height: 20, borderRadius: 0, border: '1px solid #00dbe9',
+              fontSize: 10, fontWeight: 700, transition: 'transform 0.2s',
               transform: specOpen ? 'rotate(90deg)' : 'rotate(0deg)',
             }}>
               ▶
             </span>
-            Project Spec
+            // Project Spec
           </button>
           {specOpen && (
             <div style={{ marginTop: 16, animation: 'fadeIn 0.3s ease' }}>
-              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
                 {project.spec}
               </p>
             </div>
@@ -210,21 +212,21 @@ export const ProjectDetailPage: React.FC = () => {
       {(project.challenges || project.learnings) && (
         <div className="detail-grid" style={{ display: 'grid', gridTemplateColumns: project.challenges && project.learnings ? '1fr 1fr' : '1fr', gap: 16, marginBottom: 24 }}>
           {project.challenges && (
-            <div className="nb-stat" style={{ borderColor: '#fd8b00' }}>
-              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#904d00', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Challenges
+            <div className="nb-stat">
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#7df4ff', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                // Challenges
               </h3>
-              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.65 }}>
                 {project.challenges}
               </p>
             </div>
           )}
           {project.learnings && (
-            <div className="nb-stat" style={{ borderColor: '#006673' }}>
-              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, color: '#006673', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Key Learnings
+            <div className="nb-stat">
+              <h3 style={{ fontFamily: "'Space Grotesk'", fontSize: 12, fontWeight: 700, color: '#00f0ff', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                // Key Learnings
               </h3>
-              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#444', lineHeight: 1.65 }}>
+              <p style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.65 }}>
                 {project.learnings}
               </p>
             </div>
