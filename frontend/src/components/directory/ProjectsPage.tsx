@@ -21,6 +21,7 @@ const PROJECT_IMAGES: Record<string, string> = {
   'week6-st6': `${BASE}images/st6-commit.png`,
   'week7-pilotbase': `${BASE}images/pilotbase.png`,
   'automattic': `${BASE}images/automattic.png`,
+  'week9-terrafirma': `${BASE}images/terrafirma.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
   'other-news-platform': `${BASE}images/newsplatform.png`,
@@ -313,6 +314,11 @@ const CoverFlowView: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    document.body.classList.add('carousel-view');
+    return () => document.body.classList.remove('carousel-view');
+  }, []);
+
+  useEffect(() => {
     if (isFirstPanel.current) { isFirstPanel.current = false; return; }
     if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
     setPanelState(prev => ({
@@ -386,9 +392,9 @@ const CoverFlowView: React.FC = () => {
     if (!offsets.has(idx)) offsets.set(idx, off);
   }
 
-  const renderPanelInner = (p: Project) => (
+  const renderInfoInner = (p: Project) => (
     <>
-      <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+      <div className="coverflow-detail-top" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 6 }}>
         <div className="coverflow-detail-title" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 20, color: '#dbfcff', letterSpacing: '0.04em', textShadow: '0 0 10px rgba(0,240,255,0.35)' }}>{p.name}</h2>
           {(p.company || p.category === 'gauntlet') && (
@@ -398,11 +404,6 @@ const CoverFlowView: React.FC = () => {
             [{String(activeIndex + 1).padStart(2, '0')}/{String(n).padStart(2, '0')}]
           </span>
         </div>
-        <div className="coverflow-detail-controls" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 14px', fontSize: 16 }}>←</button>
-          <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 14px', fontSize: 16 }}>→</button>
-          <Link to={`/project/${p.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 18px', fontSize: 11 }}>View →</Link>
-        </div>
       </div>
       <p className="coverflow-detail-desc" style={{ fontFamily: "'Space Grotesk'", fontSize: 13, color: '#b9cacb', lineHeight: 1.4, marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.description}</p>
       {p.techStack.length > 0 && p.techStack[0] !== 'TBD' && (
@@ -411,6 +412,21 @@ const CoverFlowView: React.FC = () => {
         </div>
       )}
     </>
+  );
+
+  const current = PROJECTS[activeIndex];
+  const StaticControls = () => (
+    <div
+      className="coverflow-controls-static"
+      style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10,
+        marginTop: 18,
+      }}
+    >
+      <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 16px', fontSize: 16 }}>←</button>
+      <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 16px', fontSize: 16 }}>→</button>
+      <Link to={`/project/${current.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 20px', fontSize: 11 }}>View →</Link>
+    </div>
   );
 
   const panelStyle: React.CSSProperties = {
@@ -436,7 +452,7 @@ const CoverFlowView: React.FC = () => {
         onMouseLeave={() => { mouseStartX.current = null; }}
         onWheel={handleWheel}
         style={{
-          height: 410, perspective: 1200, position: 'relative',
+          height: isMobile ? 410 : 540, perspective: 1400, position: 'relative',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden', margin: '0 -32px', padding: '0 32px',
           cursor: 'grab', userSelect: 'none',
@@ -477,7 +493,7 @@ const CoverFlowView: React.FC = () => {
               style={{
                 position: 'absolute',
                 width: isActive ? 572 : 200,
-                height: isActive ? 352 : 140,
+                height: isActive ? (isMobile ? 352 : 500) : 140,
                 cursor: 'pointer',
                 transform: isActive
                   ? `translateX(0px) scale(1)`
@@ -491,8 +507,9 @@ const CoverFlowView: React.FC = () => {
             >
               <div style={{
                 width: '100%', height: '100%',
+                display: 'flex', flexDirection: 'column',
                 border: isActive ? '1px solid #00f0ff' : '1px solid rgba(0,219,233,0.2)',
-                borderRadius: 0,
+                borderRadius: 4,
                 overflow: 'hidden',
                 boxShadow: isActive
                   ? '0 0 24px rgba(0,240,255,0.55), 0 0 48px rgba(0,240,255,0.25), inset 0 0 0 1px rgba(0,240,255,0.2)'
@@ -500,29 +517,59 @@ const CoverFlowView: React.FC = () => {
                 background: '#05080d',
                 transition: 'border 0.6s, box-shadow 0.6s',
               }}>
-                <img src={img(p)} alt={p.name} style={{
-                  width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                  imageRendering: 'auto',
-                  backfaceVisibility: 'hidden',
-                }} />
+                <div style={{
+                  flex: isActive && !isMobile ? '0 0 320px' : '1 1 auto',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}>
+                  <img src={img(p)} alt={p.name} style={{
+                    width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                    imageRendering: 'auto',
+                    backfaceVisibility: 'hidden',
+                  }} />
+                </div>
+                {isActive && !isMobile && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      flex: '1 1 auto',
+                      padding: '16px 24px 18px',
+                      background: 'rgba(15,20,25,0.92)',
+                      borderTop: '1px solid rgba(0,240,255,0.45)',
+                      boxShadow: 'inset 0 1px 0 rgba(0,240,255,0.15)',
+                      cursor: 'default',
+                      position: 'relative',
+                    }}
+                  >
+                    {/* corner brackets */}
+                    <span style={{ position: 'absolute', top: -1, left: -1, width: 10, height: 10, borderTop: '2px solid #00f0ff', borderLeft: '2px solid #00f0ff' }} />
+                    <span style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderBottom: '2px solid #00f0ff', borderRight: '2px solid #00f0ff' }} />
+                    {renderInfoInner(p)}
+                  </div>
+                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Details panel */}
-      <div
-        key={panelState.enterKey}
-        className="coverflow-detail"
-        style={{
-          ...panelStyle,
-          maxWidth: 860, margin: '20px auto 0',
-          animation: panelState.enterKey > 0 ? 'cardFadeIn 0.46s ease forwards' : 'none',
-        }}
-      >
-        {renderPanelInner(panelState.current)}
-      </div>
+      {/* Static nav controls — always visible, sit below the card and don't transform */}
+      <StaticControls />
+
+      {/* Details panel — mobile only; desktop panel is bonded inside the active card */}
+      {isMobile && (
+        <div
+          key={panelState.enterKey}
+          className="coverflow-detail"
+          style={{
+            ...panelStyle,
+            maxWidth: 860, margin: '20px auto 0',
+            animation: panelState.enterKey > 0 ? 'cardFadeIn 0.46s ease forwards' : 'none',
+          }}
+        >
+          {renderInfoInner(panelState.current)}
+        </div>
+      )}
     </div>
   );
 };

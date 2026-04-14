@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
 const LINKS = [
@@ -20,7 +20,10 @@ const XIcon = () => (
 
 export const Layout: React.FC = () => {
   const loc = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const onAbout = loc.pathname === '/about';
+  const otherLink = onAbout
+    ? { label: 'PROJECTS', path: '/' }
+    : { label: 'ABOUT', path: '/about' };
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -70,33 +73,16 @@ export const Layout: React.FC = () => {
             <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(219,252,255,0.6)', display: 'flex' }} title="X"><XIcon /></a>
           </div>
 
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden" style={{
+          <Link to={otherLink.path} className="md:hidden" style={{
             background: 'transparent', border: '1px solid #00dbe9', borderRadius: 0,
-            padding: '6px 12px', fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 12,
-            letterSpacing: '0.1em', color: '#00f0ff', cursor: 'pointer',
+            padding: '6px 14px', fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 12,
+            letterSpacing: '0.15em', color: '#00f0ff', textDecoration: 'none',
+            textShadow: '0 0 10px rgba(0,240,255,0.5)',
+            boxShadow: '0 0 10px rgba(0,240,255,0.15)',
           }}>
-            {menuOpen ? 'CLOSE' : 'MENU'}
-          </button>
+            {otherLink.label}
+          </Link>
         </div>
-
-        {menuOpen && (
-          <div className="md:hidden" style={{
-            padding: '16px 32px 20px', display: 'flex', flexDirection: 'column', gap: 12,
-            borderTop: '1px solid rgba(0,219,233,0.35)', background: 'rgba(10,15,19,0.95)',
-          }}>
-            {LINKS.map(l => (
-              <Link key={l.label} to={l.path} onClick={() => setMenuOpen(false)} style={{
-                fontFamily: "'Space Grotesk'", fontSize: 13, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', textDecoration: 'none', color: '#dbfcff',
-              }}>{l.label}</Link>
-            ))}
-            <div style={{ display: 'flex', gap: 16, marginTop: 8 }}>
-              <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#dbfcff' }}><GitHubIcon /></a>
-              <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#dbfcff' }}><LinkedInIcon /></a>
-              <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#dbfcff' }}><XIcon /></a>
-            </div>
-          </div>
-        )}
       </nav>
 
       <main style={{ flex: 1 }}><Outlet /></main>
@@ -111,7 +97,7 @@ export const Layout: React.FC = () => {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
         }}>
           <span style={{ fontFamily: "'Space Grotesk'", fontSize: 11, fontWeight: 600, color: '#849495', letterSpacing: '0.1em', textTransform: 'uppercase' }}>&copy; 2026 Jean-Paul Wilson</span>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center', position: 'relative', zIndex: 10 }}>
+          <div className="footer-socials" style={{ display: 'flex', gap: 16, alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <a href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><GitHubIcon /></a>
             <a href="https://www.linkedin.com/in/jeanpaulwilson/" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><LinkedInIcon /></a>
             <a href="https://x.com/jeanpaulwilson" target="_blank" rel="noopener noreferrer" style={{ color: '#849495', display: 'flex', cursor: 'pointer' }}><XIcon /></a>
