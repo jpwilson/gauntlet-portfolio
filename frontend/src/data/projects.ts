@@ -303,6 +303,7 @@ export const PROJECTS: Project[] = [
     week: 9,
     techStack: ['C++', 'Assimp', 'CMake', 'Docker', 'GLM', 'GLSL', 'OpenGL', 'Qt 6'],
     repoUrl: 'https://github.com/jpwilson/terrafirm-HUD',
+    liveUrl: 'https://terrafirma.46-225-235-124.sslip.io',
     icon: 'folder',
     createdAt: '2026-04-11',
     featured: true,
@@ -311,6 +312,20 @@ export const PROJECTS: Project[] = [
   },
 
   // ---- OTHER PROJECTS ----
+  {
+    id: 'other-tradeup',
+    name: 'TradeUp — Skilled Trades Career Platform',
+    company: 'Personal',
+    description: 'Career discovery platform for skilled trades. Compare salaries, certifications, and startup costs across every state, and build a checklist for launching your own business.',
+    longDescription: 'A modern platform for discovering, qualifying for, and building a business in the skilled trades. Users explore state-by-state salary data, certification requirements, and startup costs across 12+ trade categories. Features a business-launch checklist and practice-question bank for certification prep. Built with Next.js App Router + Supabase RLS.',
+    category: 'other',
+    techStack: ['TypeScript', 'Next.js', 'React', 'Radix UI', 'Supabase', 'Tailwind', 'Zod', 'Hetzner', 'Coolify'],
+    repoUrl: 'https://github.com/jpwilson/tradeup',
+    liveUrl: 'https://tradeup.46-225-235-124.sslip.io',
+    icon: 'folder',
+    createdAt: '2026-03-17',
+    featured: false,
+  },
   {
     id: 'other-family-socials',
     name: 'Our Family Socials',

@@ -21,6 +21,7 @@ const IMAGES: Record<string, string> = {
   'week7-pilotbase': `${BASE}images/pilotbase.png`,
   'automattic': `${BASE}images/automattic.png`,
   'week9-terrafirma': `${BASE}images/terrafirma.png`,
+  'other-tradeup': `${BASE}images/tradeup.png`,
   'other-family-socials': `${BASE}images/ourfamilysocials.png`,
   'other-ev-lineup': `${BASE}images/evlineup.png`,
   'other-news-platform': `${BASE}images/newsplatform.png`,
