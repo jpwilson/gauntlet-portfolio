@@ -13,21 +13,21 @@ export const PROJECTS: Project[] = [
     name: 'CollabBoard (Orim)',
     company: 'Gauntlet',
     demoUrl: 'https://drive.google.com/file/d/1KWSRsMKgtZ4lb-110k5t6UvIfnTyVRTe/view?usp=drive_link',
-    description: 'Real-time collaborative whiteboard with AI-powered content generation. Teams brainstorm simultaneously while an AI agent creates and arranges sticky notes, shapes, and connectors through natural language commands.',
+    description: 'Collaborative whiteboard with an AI co-pilot that manipulates the canvas through natural language — sticky notes, frames, 3D model imports, kanban layouts. Showcases production-grade AI-agent patterns: Zod-validated tool schemas, an LLM-as-judge eval suite, and Langfuse tracing with per-model cost breakdowns.',
     longDescription:
-      'A full-featured collaborative whiteboard platform where teams can brainstorm and run workshops in real time. Features an AI agent that creates and arranges board content through natural language commands, with support for 6+ distinct command types. Includes Google/GitHub OAuth, email auth, and last-write-wins conflict resolution for real-time sync across multiple clients.',
+      'A collaborative whiteboard with an AI co-pilot that manipulates the canvas through natural language — create sticky notes, import 3D models from Sketchfab, arrange frames, change colors, build kanban layouts. Built as a showcase for production-grade AI-agent patterns: Zod-validated tool schemas as structural guardrails, a 10-case eval suite with LLM-as-judge scoring (correctness / efficiency / safety / helpfulness), and Langfuse tracing with per-model cost breakdowns in the admin analytics. Swap the agent backend at runtime between Vercel AI SDK (TypeScript) and LangChain + FastAPI (Python) — both instrumented identically.',
     category: 'gauntlet',
     week: 1,
-    techStack: ['TypeScript', 'Python(FastAPI)', 'Konva.js', 'LangChain', 'Next.js', 'React', 'Langfuse', 'Supabase', 'Docker', 'Vercel'],
+    techStack: ['TypeScript', 'Python(FastAPI)', 'Konva.js', 'LangChain', 'Next.js', 'React', 'Langfuse', 'Supabase', 'Zod', 'OpenRouter', 'Sketchfab API', 'model-viewer (GLTF)', 'Docker', 'Vercel', 'Hetzner', 'Coolify'],
     repoUrl: 'https://github.com/jpwilson/colabboard',
     liveUrl: 'https://orim.46-225-235-124.sslip.io',
     icon: 'folder',
     createdAt: '2026-02-23',
     featured: true,
     challenges:
-      'Real-time synchronization across multiple clients, handling conflict resolution for concurrent edits, integrating AI agent with canvas rendering.',
+      'Jailbreak-resistant agent design via layered defense — Zod tool-input validation bounds every tool call structurally, a constrained system prompt governs semantics, and an LLM-as-judge eval loop scores safety across a regression dataset. Sub-100ms realtime sync on a Konva.js canvas at 60fps with 500+ objects, last-write-wins conflict resolution keyed off Supabase Realtime. End-to-end 3D pipeline: Sketchfab search → GLTF download → Supabase Storage upload → inline <model-viewer> render, each stage fails closed. Observability-first: @langfuse/tracing spans on every agent call plus score uploads, with an admin dashboard that renders traces, score aggregates, and per-model cost tables (Sonnet 4.5 vs Haiku 4.5). A single admin toggle flips the backend between Next.js/Vercel AI SDK and Python/LangChain/FastAPI — same instrumentation, directly comparable traces.',
     learnings:
-      'WebSocket management, Supabase real-time subscriptions, optimistic UI updates, LangChain agent architecture.',
+      'Three-tier guardrails (structural Zod / semantic system prompt / evaluative LLM-as-judge) and which failure mode each catches. Vercel AI SDK v6 tool-calling with stepCountIs multi-step loops plus streaming OpenTelemetry spans. @langfuse/tracing + @langfuse/otel span processor wiring in Next.js 16 App Router. LLM-as-judge prompt design for repeatable agent scoring across four dimensions. Sketchfab → GLTF → <model-viewer> end-to-end with RLS-protected storage. Self-hosted Supabase (Auth + Postgres + Storage) on Hetzner + Coolify, preserving every feature of the original Supabase Cloud stack at €6.49/mo.',
   },
   {
     id: 'week2-agentfolio',
