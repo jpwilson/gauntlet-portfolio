@@ -34,21 +34,21 @@ export const PROJECTS: Project[] = [
     name: 'Agent-Folio',
     company: 'Gauntlet',
     demoUrl: 'https://drive.google.com/file/d/1y_m7R6aAAE0bMCUdeu8aXHWugeOCxnIr/view?usp=sharing',
-    description: 'AI-powered portfolio analysis assistant that connects to wealth management tools. Users ask natural language questions about their portfolio and get verified answers with hallucination detection.',
+    description: 'AI portfolio assistant that connects to Ghostfolio (stocks/ETFs) and Rotki (crypto) and returns deterministically verified answers — allocation sums, price validity, and confidence scoring replace LLM-as-judge. 75-case eval suite covers jailbreaks, adversarial prompts, tool-selection edge cases, and multi-step reasoning.',
     longDescription:
-      'An AI portfolio analysis assistant connecting to Ghostfolio (stocks/ETFs) and Rotki (crypto). Users ask questions in natural language and the system calls the right financial APIs to return verified answers. Features a verification layer with deterministic checks, guardrails for prompt injection defense, and an admin panel for model switching. Includes 75 eval test cases and supports 4 SDK adapters plus OpenRouter.',
+      'A standalone sidecar that lets users interrogate their existing wealth-management tools in plain English. Wraps 11 financial tools (portfolio summary, risk assessment, tax estimates, dividend tracking, X-Ray health check, transactions, etc.) behind a unified provider interface so one query can pull from Ghostfolio and Rotki simultaneously. Built to show how you replace LLM-as-judge with deterministic verification — every response passes through allocation-sum checks, price-validity filters, hallucination detection, and confidence scoring before it leaves the server. Swappable LLM layer via a 4-SDK-adapter abstraction (LiteLLM, OpenAI, Anthropic, LangChain) plus OpenRouter BYO-key for 100+ models. Admin panel runs evals, swaps models, and renders Langfuse analytics live.',
     category: 'gauntlet',
     week: 2,
-    techStack: ['Python(FastAPI)', 'LangChain', 'Langfuse', 'LiteLLM', 'OpenAI', 'PostgreSQL', 'Docker', 'Railway'],
+    techStack: ['Python(FastAPI)', 'LangChain', 'Langfuse', 'LiteLLM', 'OpenRouter', 'Pydantic', 'Ghostfolio API', 'Rotki API', 'PostgreSQL', 'Docker', 'Railway'],
     repoUrl: 'https://github.com/jpwilson/agent-folio',
     liveUrl: 'https://agent-folio-production.up.railway.app/',
     icon: 'folder',
     createdAt: '2026-03-02',
     featured: false,
     challenges:
-      'Building a reliable verification layer without LLM-as-judge, supporting multiple financial API adapters, prompt injection defense.',
+      'Deterministic verification instead of LLM-as-judge — every financial claim is checked mathematically (allocation totals sum to <=100%, prices within sanity bounds, tool-call args match tool output shape) so the agent can\'t hallucinate numbers past the filter. Four-SDK-adapter abstraction unifies LiteLLM, OpenAI SDK, Anthropic SDK, and LangChain behind one interface, swappable at runtime via the admin panel. Defence-in-depth guardrails: pre-filter for topic enforcement and prompt-injection patterns, post-filter for credential leakage and tone control. Adversarial eval dataset — 75 cases across happy path, tool-selection stress, edge cases, jailbreak attempts, and multi-step reasoning — runs on every release with Langfuse score uploads. Multi-provider portfolio aggregation: Ghostfolio and Rotki behind a single interface that normalizes asset classes, transaction types, and currency conversion so one query spans both backends.',
     learnings:
-      'Multi-model orchestration with LiteLLM, deterministic hallucination detection, financial API integration patterns.',
+      'Building verification layers that don\'t rely on another LLM — where deterministic checks catch things LLM-as-judge misses (and vice versa). 4-SDK unification via a BaseLLMAdapter abstraction: same tool-calling loop regardless of underlying SDK. Pre/post filter pipelines for agent safety (topic, injection, credential leak, tone). OpenRouter BYO-key as a cheap path to 100+ models without per-provider SDK work. Langfuse + LiteLLM cost tracking when the caller can swap models freely — admin must see per-model cost to decide routing. CSV/JSON portfolio import with idempotent duplicate detection + rollback on parse error.',
   },
   {
     id: 'week3-legacylens',
