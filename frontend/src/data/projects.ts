@@ -55,12 +55,12 @@ export const PROJECTS: Project[] = [
     name: 'LegacyLens',
     company: 'Gauntlet',
     demoUrl: 'https://loom.com/share/folder/f73a7042dcbb40d39c2895a7f845b90a',
-    description: 'RAG system that makes legacy Fortran codebases queryable through natural language. Achieves 92% precision with exact file and line citations from 2,376 indexed chunks.',
+    description: 'RAG system that makes legacy Fortran/COBOL codebases queryable in plain English. Syntax-aware chunking that scans backward from SUBROUTINE keywords to capture LAPACK-style doc headers most naive chunkers drop — 92% precision@5 on 2,376 chunks across 1,400 routines. Admin panel renders live cost/token analytics.',
     longDescription:
-      'A Retrieval-Augmented Generation system that helps developers query large legacy codebases using natural language. Built for the LAPACK Fortran codebase (116 MB, 1,750+ files, 2,376 indexed chunks). Users ask plain English questions and receive precise answers with exact file and line citations. Achieves 92% precision@5, 94% term coverage, and 96% citation rate.',
+      'An open-source RAG system for querying legacy COBOL/Fortran codebases — the kind that still run banking, insurance, and scientific-computing infrastructure but almost nobody understands anymore. The headline engineering insight: Fortran/COBOL docs sit above the SUBROUTINE keyword, so naive chunkers discard them and cripple semantic recall. LegacyLens\'s chunker scans backward from each routine\'s keyword to pull the full preceding comment block into the chunk — fixing a subtle but measurable precision problem. Dual embedding providers (OpenAI text-embedding-3-large vs Voyage AI voyage-code-3) for A/B on code-specific retrieval quality, Claude Haiku for answer synthesis, Pinecone for vectors, LangChain for retrieval orchestration, and Langfuse for observability. Admin panel renders per-model cost tables, cost projections to 100k users, and infrastructure cost breakdowns.',
     category: 'gauntlet',
     week: 3,
-    techStack: ['JavaScript', 'Python(FastAPI)', 'D3.js', 'Pinecone', 'Voyage AI', 'Docker', 'Railway'],
+    techStack: ['JavaScript', 'Python(FastAPI)', 'LangChain', 'Langfuse', 'Anthropic', 'OpenAI (embeddings)', 'Voyage AI', 'Pinecone (RAG)', 'tiktoken', 'D3.js', 'Docker', 'Railway'],
     repoUrl: 'https://github.com/jpwilson',
     liveUrl: 'https://legacylens-production-e04c.up.railway.app/',
     vizUrl: 'https://legacylens-production-e04c.up.railway.app/graph.html',
@@ -68,9 +68,9 @@ export const PROJECTS: Project[] = [
     createdAt: '2026-03-02',
     featured: true,
     challenges:
-      'Indexing and chunking a massive Fortran codebase effectively, tuning retrieval precision, balancing latency with answer quality.',
+      'Syntax-aware chunking with backward comment scan: _chunk_fortran() detects SUBROUTINE/FUNCTION/MODULE boundaries, then walks backward to pull LAPACK-style *> doc blocks into the chunk — without it, RAG answers to "what does DGEMM do?" miss the actual description. Deduplication via content-hash cache for idempotent incremental re-ingestion (re-run over a 116MB codebase without re-embedding unchanged files). Multi-language chunker (Fortran + COBOL) with language-specific boundary heuristics. Dual embedding provider support (OpenAI text-embedding-3-large vs Voyage AI voyage-code-3) for A/B on code-specific retrieval quality. Langfuse tracing + live admin cost analytics at per-query / per-day / per-month / per-year granularity so users can project infrastructure needs before committing. D3.js dependency-graph visualization rendered from parsed CALL relationships.',
     learnings:
-      'RAG pipeline architecture, vector embeddings for code, Pinecone vector database operations, prompt engineering for code Q&A.',
+      'Language-aware chunking matters more than vector DB choice for code corpora — backward comment scan for Fortran/COBOL is a one-line-of-thinking fix that moves precision measurably. Dedup via content-hash keeps incremental ingestion viable on multi-hundred-MB codebases. OpenAI vs Voyage for code embeddings — the tradeoff is real and worth A/B-ing per codebase. LangChain retrieval chains + Langfuse observability give cost-per-query visibility that\'s essential for a RAG product with projected scale. tiktoken-based truncation so embedding API calls never fail on oversized chunks. Prompt engineering for code Q&A: cite specific file:line tuples so answers are auditable.',
   },
   {
     id: 'week4-nerdy-live',
