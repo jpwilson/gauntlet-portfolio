@@ -115,7 +115,7 @@ export const PROJECTS: Project[] = [
     week: 4,
     techStack: ['Swift', 'TypeScript', 'LiveKit', 'MediaPipe', 'Supabase', 'Web Speech API', 'Vercel'],
     repoUrl: 'https://github.com/jpwilson/nerdy-live-v1',
-    liveUrl: 'https://nerdy-live.46-225-235-124.sslip.io',
+    liveUrl: 'https://student-call.vercel.app',
     icon: 'folder',
     createdAt: '2026-03-16',
     featured: false,
