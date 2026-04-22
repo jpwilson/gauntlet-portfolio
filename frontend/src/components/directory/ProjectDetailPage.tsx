@@ -165,6 +165,20 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
+      {/* HIGHLIGHTS — at-a-glance bullets for recruiters */}
+      {project.highlights && project.highlights.length > 0 && (
+        <div className="nb-stat" style={{ marginBottom: 20 }}>
+          <h2 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 13, marginBottom: 12, color: '#00f0ff', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            // Highlights
+          </h2>
+          <ul style={{ fontFamily: "'Space Grotesk'", fontSize: 14, color: '#b9cacb', lineHeight: 1.65, margin: 0, paddingLeft: 20 }}>
+            {project.highlights.map((h, i) => (
+              <li key={i} style={{ marginBottom: 6 }}>{h}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* OVERVIEW */}
       {project.longDescription && (
         <div className="nb-stat" style={{ marginBottom: 20 }}>

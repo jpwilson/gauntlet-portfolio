@@ -24,6 +24,15 @@ export const PROJECTS: Project[] = [
     icon: 'folder',
     createdAt: '2026-02-23',
     featured: true,
+    highlights: [
+      'Zod-validated tool-calling agent (Vercel AI SDK v6) with Claude Sonnet 4.5 / Haiku 4.5, OpenRouter fallback',
+      '10-case LLM-as-judge eval suite scoring correctness / efficiency / safety / helpfulness — posts to Langfuse',
+      'Langfuse OpenTelemetry tracing with per-model cost breakdowns in the admin analytics page',
+      'Runtime-switchable agent backend: Next.js/Vercel AI SDK ↔ Python/LangChain/FastAPI — same instrumentation, directly comparable traces',
+      'End-to-end 3D pipeline: Sketchfab API → GLTF → Supabase Storage → inline <model-viewer> render on Konva canvas',
+      'Konva.js realtime board: 60fps with 500+ objects, <100ms sync via Supabase Realtime + LWW conflict resolution',
+      'Migrated Vercel + Supabase Cloud → self-hosted Supabase (Auth + Postgres + Storage) on Hetzner + Coolify for €6.49/mo all-in',
+    ],
     challenges:
       'Jailbreak-resistant agent design via layered defense — Zod tool-input validation bounds every tool call structurally, a constrained system prompt governs semantics, and an LLM-as-judge eval loop scores safety across a regression dataset. Sub-100ms realtime sync on a Konva.js canvas at 60fps with 500+ objects, last-write-wins conflict resolution keyed off Supabase Realtime. End-to-end 3D pipeline: Sketchfab search → GLTF download → Supabase Storage upload → inline <model-viewer> render, each stage fails closed. Observability-first: @langfuse/tracing spans on every agent call plus score uploads, with an admin dashboard that renders traces, score aggregates, and per-model cost tables (Sonnet 4.5 vs Haiku 4.5). A single admin toggle flips the backend between Next.js/Vercel AI SDK and Python/LangChain/FastAPI — same instrumentation, directly comparable traces.',
     learnings:
@@ -45,6 +54,16 @@ export const PROJECTS: Project[] = [
     icon: 'folder',
     createdAt: '2026-03-02',
     featured: false,
+    highlights: [
+      '11 financial tools (portfolio summary, risk assessment, tax estimate, dividends, X-Ray health, transactions) over Ghostfolio + Rotki',
+      'Deterministic verification instead of LLM-as-judge — allocation sums, price validity, confidence scoring, hallucination detection',
+      '4-SDK adapter abstraction: LiteLLM / OpenAI / Anthropic / LangChain — swappable at runtime via admin panel',
+      'OpenRouter BYO-key for 100+ models (Gemini, Llama, DeepSeek, etc.) without per-provider SDK work',
+      '75-case eval suite: happy path, tool selection stress, edge cases, jailbreak attempts, multi-step reasoning',
+      'Defence-in-depth guardrails — pre-filter (topic, prompt injection) + post-filter (credential leakage, tone)',
+      'Langfuse cost/latency observability with admin panel that runs evals + swaps models live',
+      'CSV/JSON portfolio import with idempotent duplicate detection + parse-error rollback',
+    ],
     challenges:
       'Deterministic verification instead of LLM-as-judge — every financial claim is checked mathematically (allocation totals sum to <=100%, prices within sanity bounds, tool-call args match tool output shape) so the agent can\'t hallucinate numbers past the filter. Four-SDK-adapter abstraction unifies LiteLLM, OpenAI SDK, Anthropic SDK, and LangChain behind one interface, swappable at runtime via the admin panel. Defence-in-depth guardrails: pre-filter for topic enforcement and prompt-injection patterns, post-filter for credential leakage and tone control. Adversarial eval dataset — 75 cases across happy path, tool-selection stress, edge cases, jailbreak attempts, and multi-step reasoning — runs on every release with Langfuse score uploads. Multi-provider portfolio aggregation: Ghostfolio and Rotki behind a single interface that normalizes asset classes, transaction types, and currency conversion so one query spans both backends.',
     learnings:
@@ -67,6 +86,18 @@ export const PROJECTS: Project[] = [
     icon: 'folder',
     createdAt: '2026-03-02',
     featured: true,
+    highlights: [
+      'Syntax-aware chunker with backward scan to capture LAPACK-style `*>` doc headers above SUBROUTINE — the doc-above-code problem that breaks naive RAG',
+      '92% precision@5, 94% term coverage, 96% citation rate on 2,376 chunks across 1,400 routines (116MB codebase)',
+      'Dual embedding providers — OpenAI text-embedding-3-large vs Voyage AI voyage-code-3 — swappable for A/B on code-specific retrieval',
+      'Claude Haiku for answer synthesis with file:line citations so every answer is auditable',
+      'LangChain retrieval orchestration + Langfuse tracing for per-query cost attribution',
+      'tiktoken-based truncation so embedding API calls never fail on oversized chunks',
+      'Content-hash dedupe cache for idempotent incremental re-ingestion on multi-hundred-MB codebases',
+      'Multi-language chunker (Fortran + COBOL) with language-specific boundary heuristics',
+      'D3.js dependency-graph visualization rendered from parsed CALL relationships',
+      'Admin cost dashboard with projections from $156/mo (1k users) → $1.9M/yr (100k users)',
+    ],
     challenges:
       'Syntax-aware chunking with backward comment scan: _chunk_fortran() detects SUBROUTINE/FUNCTION/MODULE boundaries, then walks backward to pull LAPACK-style *> doc blocks into the chunk — without it, RAG answers to "what does DGEMM do?" miss the actual description. Deduplication via content-hash cache for idempotent incremental re-ingestion (re-run over a 116MB codebase without re-embedding unchanged files). Multi-language chunker (Fortran + COBOL) with language-specific boundary heuristics. Dual embedding provider support (OpenAI text-embedding-3-large vs Voyage AI voyage-code-3) for A/B on code-specific retrieval quality. Langfuse tracing + live admin cost analytics at per-query / per-day / per-month / per-year granularity so users can project infrastructure needs before committing. D3.js dependency-graph visualization rendered from parsed CALL relationships.',
     learnings:

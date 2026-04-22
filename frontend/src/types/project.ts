@@ -27,6 +27,7 @@ export interface Project {
   icon: string;
   createdAt: string;
   featured: boolean;
+  highlights?: string[];
   challenges?: string;
   learnings?: string;
   spec?: string;
