@@ -412,7 +412,7 @@ export const PROJECTS: Project[] = [
     week: 7,
     techStack: ['TypeScript', 'Next.js', 'Supabase', 'Tailwind CSS', 'Flight Schedule Pro API', 'Twilio (stub)', 'Vitest', 'Zod', 'Vercel', 'Hetzner', 'Coolify'],
     repoUrl: 'https://github.com/jpwilson/pilotbase',
-    liveUrl: 'https://pilotbase-pink.vercel.app',
+    liveUrl: 'https://pilotbase.46-225-235-124.sslip.io',
     icon: 'folder',
     createdAt: '2026-03-31',
     featured: false,
