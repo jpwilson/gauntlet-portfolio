@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/colabboard',
     liveUrl: 'https://orim.46-225-235-124.sslip.io',
     icon: 'folder',
-    createdAt: '2026-02-23',
+    createdAt: '2026-04-21',
     featured: true,
     highlights: [
       'Tool-calling agent on Vercel AI SDK v6. Zod schemas gate every tool argument. Model routing through OpenRouter.',
@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/agent-folio',
     liveUrl: 'https://agent-folio-production.up.railway.app/',
     icon: 'folder',
-    createdAt: '2026-03-02',
+    createdAt: '2026-04-01',
     featured: false,
     highlights: [
       'Agentic assistant with 11 financial tools across Ghostfolio and Rotki. Unified provider interface lets one query span both backends.',
@@ -117,7 +117,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/nerdy-live-v1',
     liveUrl: 'https://student-call.vercel.app',
     icon: 'folder',
-    createdAt: '2026-03-16',
+    createdAt: '2026-04-19',
     featured: false,
     highlights: [
       'On-device MediaPipe Face Landmarker at ~20fps. No video leaves the browser, no server GPU needed.',
@@ -206,7 +206,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/triggers-api',
     liveUrl: 'https://triggers-api-production-aa41.up.railway.app/',
     icon: 'folder',
-    createdAt: '2026-03-24',
+    createdAt: '2026-03-25',
     featured: false,
     highlights: [
       'Event ingestion via POST /api/v1/events accepts arbitrary structured JSON.',
@@ -384,7 +384,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/weekly-commit-module',
     liveUrl: 'https://st6.46-225-235-124.sslip.io',
     icon: 'folder',
-    createdAt: '2026-03-24',
+    createdAt: '2026-04-19',
     featured: false,
     highlights: [
       'Micro-frontend architecture. Drops into the host RCDO platform without coupling.',
@@ -530,7 +530,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/OFS_Sept25',
     liveUrl: 'https://ourfamilysocials.com',
     icon: 'internet',
-    createdAt: '2026-03-21',
+    createdAt: '2026-04-03',
     featured: false,
   },
   {
