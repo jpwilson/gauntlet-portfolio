@@ -5,32 +5,61 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'cmd-primary': '#006673',
-        'cmd-primary-light': '#138090',
-        'cmd-primary-dim': '#004e59',
-        'cmd-secondary': '#904d00',
-        'cmd-secondary-bright': '#fd8b00',
-        'cmd-tertiary': '#8f4922',
-        'cmd-tertiary-container': '#ad6038',
-        'cmd-surface': '#f7f9fc',
-        'cmd-surface-dim': '#d8dadd',
-        'cmd-surface-container': '#eceef1',
-        'cmd-surface-container-low': '#f2f4f7',
-        'cmd-surface-container-high': '#e6e8eb',
-        'cmd-surface-container-highest': '#e0e3e6',
-        'cmd-on-surface': '#191c1e',
-        'cmd-on-surface-variant': '#3d4949',
-        'cmd-outline': '#6d7979',
-        'cmd-outline-variant': '#bcc9c8',
-        'cmd-inverse-surface': '#2d3133',
-        'cmd-inverse-on-surface': '#eff1f4',
-        'cmd-inverse-primary': '#7ad4e5',
-        'cmd-error': '#ba1a1a',
+        // Semantic tokens (HSL CSS variables defined in src/index.css)
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+
+        // Neobrutalist palette (hex CSS variables defined in src/index.css)
+        nb: {
+          charcoal: 'var(--nb-charcoal)',
+          'charcoal-light': 'var(--nb-charcoal-light)',
+          blue: 'var(--nb-blue)',
+          'blue-dark': 'var(--nb-blue-dark)',
+          coral: 'var(--nb-coral)',
+          'coral-dark': 'var(--nb-coral-dark)',
+          yellow: 'var(--nb-yellow)',
+          'yellow-dark': 'var(--nb-yellow-dark)',
+          emerald: 'var(--nb-emerald)',
+          purple: 'var(--nb-purple)',
+          orange: 'var(--nb-orange)',
+          white: 'var(--nb-white)',
+          gray: 'var(--nb-gray)',
+          dark: 'var(--nb-dark)',
+        },
       },
       fontFamily: {
-        headline: ['"Space Grotesk"', 'sans-serif'],
-        body: ['"Space Grotesk"', 'sans-serif'],
-        label: ['"Space Grotesk"', 'sans-serif'],
+        headline: ['"Bebas Neue"', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+      },
+      borderWidth: {
+        3: '3px',
+      },
+      boxShadow: {
+        nb: '4px 4px 0px var(--nb-white)',
+        'nb-lg': '8px 8px 0px var(--nb-blue)',
       },
       borderRadius: {
         DEFAULT: '0px',
