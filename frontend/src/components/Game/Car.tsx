@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useGameStore } from './gameStore';
@@ -61,15 +61,15 @@ export const Car: React.FC = () => {
   const wheelRefs = useRef<(THREE.Mesh | null)[]>([]);
   const { camera } = useThree();
 
-  // Get start position and rotation from track
-  const startData = useRef(getTrackPointAt(0));
+  // Get start position and rotation from track (stable; seeds the mutable game state)
+  const startData = useMemo(() => getTrackPointAt(0), []);
 
   const gs = useRef({
     speed: 0,
-    posX: startData.current.pos.x,
+    posX: startData.pos.x,
     posY: 0.5,
-    posZ: startData.current.pos.z,
-    rotation: startData.current.rotation,
+    posZ: startData.pos.z,
+    rotation: startData.rotation,
     velocityY: 0,
     isGrounded: true,
   });
@@ -325,7 +325,7 @@ export const Car: React.FC = () => {
   ];
 
   return (
-    <group ref={carRef} position={[gs.current.posX, 0.5, gs.current.posZ]} rotation={[0, gs.current.rotation, 0]}>
+    <group ref={carRef} position={[startData.pos.x, 0.5, startData.pos.z]} rotation={[0, startData.rotation, 0]}>
       {/* Body */}
       <mesh position={[0, 0.35, 0]} castShadow>
         <boxGeometry args={[2, 0.6, 4.5]} />

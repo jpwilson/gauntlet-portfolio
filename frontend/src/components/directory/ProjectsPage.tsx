@@ -346,9 +346,8 @@ const CoverFlowView: React.FC = () => {
   useEffect(() => {
     if (isFirstPanel.current) { isFirstPanel.current = false; return; }
     if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
-    // Intentional: drive the enter/exit carousel animation off activeIndex changes. The
-    // state update queues the outgoing card and schedules its removal; it is the effect's job.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // Drive the enter/exit carousel animation off activeIndex changes: queue the outgoing
+    // card and schedule its removal.
     setPanelState(prev => ({
       current: PROJECTS[activeIndex],
       exiting: prev.current,
