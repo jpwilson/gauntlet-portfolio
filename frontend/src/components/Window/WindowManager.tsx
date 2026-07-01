@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Window } from './Window';
 import { useWindowStore } from '../../store/useWindowStore';
 import { WindowState } from '../../types/window';
+import { SubFolder } from '../../types/project';
 
 // Lazy load heavy components (games)
 const Minesweeper = lazy(() => import('../Games/Minesweeper/Minesweeper').then(m => ({ default: m.Minesweeper })));
@@ -23,7 +24,7 @@ const WindowContent: React.FC<{ windowState: WindowState }> = ({ windowState }) 
     case 'project-explorer-other':
       return <ProjectExplorer category={windowState.data?.category as string || 'gauntlet'} />;
     case 'project-folder':
-      return <ProjectFolder projectId={windowState.data?.projectId as string} subFolder={windowState.data?.subFolder as any} parentPath={windowState.data?.parentPath as string} />;
+      return <ProjectFolder projectId={windowState.data?.projectId as string} subFolder={windowState.data?.subFolder as SubFolder | undefined} parentPath={windowState.data?.parentPath as string} />;
     case 'project-detail':
       return <ProjectDetail projectId={windowState.data?.projectId as string} />;
     case 'about':

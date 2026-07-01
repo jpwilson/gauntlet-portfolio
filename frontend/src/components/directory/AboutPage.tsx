@@ -116,8 +116,6 @@ export const AboutPage: React.FC = () => {
     ? PROJECTS.filter(p => selectedTechs.every(t => p.techStack.includes(t)))
     : [];
 
-  const totalCountries = COUNTRIES.reduce((a, r) => a + r.items.length, 0);
-
   return (
     <div className="page-about" style={{ maxWidth: 800, margin: '0 auto', padding: '48px 32px 96px' }}>
 

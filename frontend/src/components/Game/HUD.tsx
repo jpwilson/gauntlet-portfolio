@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useGameStore } from './gameStore';
 import { useViewModeStore } from '../../store/useViewModeStore';
-import { PROJECT_STOPS, TRACK_LENGTH } from './roadConfig';
+import { PROJECT_STOPS } from './roadConfig';
 
 // Password format: ProjectName#321 (matching existing portfolio password scheme)
 function getPassword(projectName: string): string {
@@ -20,7 +20,6 @@ export const HUD: React.FC = () => {
   const boosted = useGameStore((s) => s.boosted);
   const gameStarted = useGameStore((s) => s.gameStarted);
   const hitFlash = useGameStore((s) => s.hitFlash);
-  const unlockedProjects = useGameStore((s) => s.unlockedProjects);
 
   const setGameStarted = useGameStore((s) => s.setGameStarted);
   const setPasswordInput = useGameStore((s) => s.setPasswordInput);
@@ -32,7 +31,6 @@ export const HUD: React.FC = () => {
 
   const [passwordError, setPasswordError] = useState(false);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const visitedCount = useGameStore((s) => Math.floor(s.score / 100)); // Rough count
 
   // Focus password input when shown
   useEffect(() => {
@@ -81,12 +79,12 @@ export const HUD: React.FC = () => {
 
   // Touch control handlers
   const handleTouchStart = useCallback((key: string) => {
-    const gameKeys = (window as any).__gameKeys;
+    const gameKeys = window.__gameKeys;
     if (gameKeys) gameKeys[key] = true;
   }, []);
 
   const handleTouchEnd = useCallback((key: string) => {
-    const gameKeys = (window as any).__gameKeys;
+    const gameKeys = window.__gameKeys;
     if (gameKeys) gameKeys[key] = false;
   }, []);
 
@@ -116,7 +114,6 @@ export const HUD: React.FC = () => {
   }
 
   // Calculate progress
-  const carZ = Math.abs(speed); // Approximate - we'd need actual position
   const zonesFound = Math.floor(score / 100);
 
   return (

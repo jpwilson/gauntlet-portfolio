@@ -254,7 +254,7 @@ const TableView: React.FC = () => {
           <tbody>
             {sorted.length === 0 ? (
               <tr><td colSpan={5} style={{ padding: 32, textAlign: 'center', color: '#849495', fontSize: 13 }}>No projects match "{search}"</td></tr>
-            ) : sorted.map((p, i) => (
+            ) : sorted.map((p) => (
               <tr key={p.id} style={{ cursor: 'pointer' }}>
                 <td style={{ padding: '14px 16px' }}>
                   <Link to={`/project/${p.id}`} style={{ fontWeight: 700, fontSize: 14, color: '#00f0ff', textDecoration: 'none', textShadow: '0 0 8px rgba(0,240,255,0.4)' }}>

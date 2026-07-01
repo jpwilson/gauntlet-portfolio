@@ -107,8 +107,6 @@ const FreewaySign: React.FC<{
 export const World: React.FC = () => {
   // Generate road geometries
   const roadGeo = useMemo(() => createRoadGeometry(TRACK_CURVE, ROAD_WIDTH, 500, 0.01), []);
-  const leftEdgeGeo = useMemo(() => createRoadGeometry(TRACK_CURVE, 0.4, 500, 0.05), []);
-  const rightEdgeGeo = useMemo(() => createRoadGeometry(TRACK_CURVE, 0.4, 500, 0.05), []);
   const centerLineGeo = useMemo(() => createRoadGeometry(TRACK_CURVE, 0.15, 500, 0.03), []);
 
   // Edge line geometries offset from center
@@ -174,7 +172,7 @@ export const World: React.FC = () => {
       const signRotation = Math.atan2(-tangent.x, -tangent.z);
 
       // Zone position
-      const { pos: zonePos, tangent: zoneTangent, perp: zonePerp } = getTrackPointAt(stop.t);
+      const { pos: zonePos, tangent: zoneTangent } = getTrackPointAt(stop.t);
       const zoneRotation = Math.atan2(-zoneTangent.x, -zoneTangent.z);
 
       return { stop, signPos, signRotation, zonePos, zoneRotation };
@@ -192,7 +190,7 @@ export const World: React.FC = () => {
   // Precompute boost positions
   const boostData = useMemo(() => {
     return SPEED_BOOSTS.map((boost) => {
-      const { pos, tangent, perp, rotation } = getTrackPointAt(boost.t);
+      const { pos, perp, rotation } = getTrackPointAt(boost.t);
       const worldPos = pos.clone().add(perp.clone().multiplyScalar(boost.lateralOffset));
       return { ...boost, worldPos, rotation };
     });
@@ -201,7 +199,7 @@ export const World: React.FC = () => {
   // Precompute obstacle positions
   const obstacleData = useMemo(() => {
     return OBSTACLES.map((obs) => {
-      const { pos, tangent, perp, rotation } = getTrackPointAt(obs.t);
+      const { pos, perp, rotation } = getTrackPointAt(obs.t);
       const worldPos = pos.clone().add(perp.clone().multiplyScalar(obs.lateralOffset));
       return { ...obs, worldPos, rotation };
     });

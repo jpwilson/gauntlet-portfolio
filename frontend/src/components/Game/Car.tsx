@@ -4,7 +4,6 @@ import * as THREE from 'three';
 import { useGameStore } from './gameStore';
 import {
   TRACK_CURVE,
-  TRACK_LENGTH,
   ROAD_WIDTH,
   PROJECT_STOPS,
   RAMPS,
@@ -13,6 +12,14 @@ import {
   findClosestTrackPoint,
   getTrackPointAt,
 } from './roadConfig';
+
+// Shared with HUD touch controls via window (set by Car, read by HUD)
+type GameKeys = { forward: boolean; left: boolean; right: boolean; [key: string]: boolean };
+declare global {
+  interface Window {
+    __gameKeys?: GameKeys;
+  }
+}
 
 const MAX_SPEED = 85;
 const ACCELERATION = 40;
@@ -94,8 +101,8 @@ export const Car: React.FC = () => {
 
   // Expose keys for touch controls
   useEffect(() => {
-    (window as any).__gameKeys = keys.current;
-    return () => { delete (window as any).__gameKeys; };
+    window.__gameKeys = keys.current;
+    return () => { delete window.__gameKeys; };
   }, []);
 
   // Keyboard: Space/Up = gas, Left/Right = steer
