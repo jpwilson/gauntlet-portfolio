@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Send, Mail, MapPin, Github, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import { Send, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, Twitter } from '../components/BrandIcons';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);

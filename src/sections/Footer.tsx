@@ -1,4 +1,5 @@
-import { ArrowUp, Heart, Github, Linkedin, Twitter } from 'lucide-react';
+import { ArrowUp, Heart } from 'lucide-react';
+import { Github, Linkedin, Twitter } from '../components/BrandIcons';
 
 const Footer = () => {
   const scrollToTop = () => {

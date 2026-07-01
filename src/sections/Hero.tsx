@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { ArrowDown, Mail } from 'lucide-react';
+import { Github, Linkedin, Twitter } from '../components/BrandIcons';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);

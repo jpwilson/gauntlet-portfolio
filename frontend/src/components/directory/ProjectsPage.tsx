@@ -219,10 +219,10 @@ const TableView: React.FC = () => {
   });
 
   const sorted = [...filtered].sort((a, b) => {
-    let cmp = 0;
-    if (sortKey === 'name') cmp = a.name.localeCompare(b.name);
-    else if (sortKey === 'company') cmp = getCompany(a).localeCompare(getCompany(b));
-    else cmp = a.createdAt.localeCompare(b.createdAt);
+    const cmp =
+      sortKey === 'name' ? a.name.localeCompare(b.name)
+      : sortKey === 'company' ? getCompany(a).localeCompare(getCompany(b))
+      : a.createdAt.localeCompare(b.createdAt);
     return sortDir === 'asc' ? cmp : -cmp;
   });
 
