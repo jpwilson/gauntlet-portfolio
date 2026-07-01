@@ -46,3 +46,6 @@ htmlcov/
 
 # Claude
 .claude/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
