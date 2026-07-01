@@ -301,8 +301,8 @@ export const Snake: React.FC = () => {
                     height: 3,
                     background: '#000',
                     borderRadius: '50%',
-                    top: dirRef.current === 'DOWN' ? 10 : dirRef.current === 'UP' ? 2 : 4,
-                    left: dirRef.current === 'RIGHT' ? 10 : dirRef.current === 'LEFT' ? 2 : 3,
+                    top: direction === 'DOWN' ? 10 : direction === 'UP' ? 2 : 4,
+                    left: direction === 'RIGHT' ? 10 : direction === 'LEFT' ? 2 : 3,
                   }}
                 />
                 <div
@@ -312,8 +312,8 @@ export const Snake: React.FC = () => {
                     height: 3,
                     background: '#000',
                     borderRadius: '50%',
-                    top: dirRef.current === 'DOWN' ? 10 : dirRef.current === 'UP' ? 2 : 4,
-                    left: dirRef.current === 'RIGHT' ? 10 : dirRef.current === 'LEFT' ? 2 : 10,
+                    top: direction === 'DOWN' ? 10 : direction === 'UP' ? 2 : 4,
+                    left: direction === 'RIGHT' ? 10 : direction === 'LEFT' ? 2 : 10,
                   }}
                 />
               </>

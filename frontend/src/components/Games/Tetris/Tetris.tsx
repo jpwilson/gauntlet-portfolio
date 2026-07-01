@@ -178,10 +178,15 @@ export const Tetris: React.FC = () => {
   const gameOverRef = useRef(false);
   const gameRef = useRef<HTMLDivElement>(null);
 
+  // Mirror the latest state into refs so the setInterval game loop and callbacks
+  // (spawnPiece, tick) read current values synchronously. Writing during render is
+  // intentional here and must stay in sync before any post-commit tick fires.
+  /* eslint-disable react-hooks/refs */
   boardRef.current = board;
   pieceRef.current = currentPiece;
   nextTypeRef.current = nextType;
   gameOverRef.current = gameOver;
+  /* eslint-enable react-hooks/refs */
 
   const spawnPiece = useCallback(() => {
     const type = nextTypeRef.current;

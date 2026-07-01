@@ -174,6 +174,27 @@ function getCompany(p: Project): string {
   return p.company || (p.category === 'gauntlet' ? 'Gauntlet' : 'Personal');
 }
 
+const SortHeader: React.FC<{
+  label: string;
+  k: SortKey;
+  sortKey: SortKey;
+  sortDir: SortDir;
+  onSort: (k: SortKey) => void;
+}> = ({ label, k, sortKey, sortDir, onSort }) => (
+  <th
+    onClick={() => onSort(k)}
+    style={{
+      padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+      letterSpacing: '0.15em', textAlign: 'left',
+      borderBottom: '1px solid rgba(0,219,233,0.4)',
+      color: '#00f0ff',
+      cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
+    }}
+  >
+    {label} {sortKey === k ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+  </th>
+);
+
 const TableView: React.FC = () => {
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('date');
@@ -205,21 +226,6 @@ const TableView: React.FC = () => {
     return sortDir === 'asc' ? cmp : -cmp;
   });
 
-  const SortHeader: React.FC<{ label: string; k: SortKey }> = ({ label, k }) => (
-    <th
-      onClick={() => toggleSort(k)}
-      style={{
-        padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-        letterSpacing: '0.15em', textAlign: 'left',
-        borderBottom: '1px solid rgba(0,219,233,0.4)',
-        color: '#00f0ff',
-        cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
-      }}
-    >
-      {label} {sortKey === k ? (sortDir === 'asc' ? '↑' : '↓') : ''}
-    </th>
-  );
-
   return (
     <div>
       {/* Search bar */}
@@ -240,15 +246,15 @@ const TableView: React.FC = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Space Grotesk'" }}>
           <thead>
             <tr style={{ background: 'rgba(0,240,255,0.06)' }}>
-              <SortHeader label="Project" k="name" />
+              <SortHeader label="Project" k="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
               <th style={{ padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', textAlign: 'left', borderBottom: '1px solid rgba(0,219,233,0.4)', color: '#00f0ff' }}>
                 Description
               </th>
               <th style={{ padding: '12px 16px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', textAlign: 'left', borderBottom: '1px solid rgba(0,219,233,0.4)', color: '#00f0ff' }}>
                 Tech
               </th>
-              <SortHeader label="Company" k="company" />
-              <SortHeader label="Latest Commit" k="date" />
+              <SortHeader label="Company" k="company" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
+              <SortHeader label="Latest Commit" k="date" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
             </tr>
           </thead>
           <tbody>
@@ -292,6 +298,24 @@ const TableView: React.FC = () => {
 /* ============================================ */
 /* COVER FLOW VIEW */
 /* ============================================ */
+const StaticControls: React.FC<{
+  onPrev: () => void;
+  onNext: () => void;
+  currentId: string;
+}> = ({ onPrev, onNext, currentId }) => (
+  <div
+    className="coverflow-controls-static"
+    style={{
+      display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10,
+      marginTop: 18,
+    }}
+  >
+    <button onClick={onPrev} className="nb-btn nb-btn-white" style={{ padding: '8px 16px', fontSize: 16 }}>←</button>
+    <button onClick={onNext} className="nb-btn nb-btn-orange" style={{ padding: '8px 16px', fontSize: 16 }}>→</button>
+    <Link to={`/project/${currentId}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 20px', fontSize: 11 }}>View →</Link>
+  </div>
+);
+
 const CoverFlowView: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -322,6 +346,9 @@ const CoverFlowView: React.FC = () => {
   useEffect(() => {
     if (isFirstPanel.current) { isFirstPanel.current = false; return; }
     if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    // Intentional: drive the enter/exit carousel animation off activeIndex changes. The
+    // state update queues the outgoing card and schedules its removal; it is the effect's job.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPanelState(prev => ({
       current: PROJECTS[activeIndex],
       exiting: prev.current,
@@ -416,19 +443,6 @@ const CoverFlowView: React.FC = () => {
   );
 
   const current = PROJECTS[activeIndex];
-  const StaticControls = () => (
-    <div
-      className="coverflow-controls-static"
-      style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10,
-        marginTop: 18,
-      }}
-    >
-      <button onClick={() => goTo(activeIndex - 1)} className="nb-btn nb-btn-white" style={{ padding: '8px 16px', fontSize: 16 }}>←</button>
-      <button onClick={() => goTo(activeIndex + 1)} className="nb-btn nb-btn-orange" style={{ padding: '8px 16px', fontSize: 16 }}>→</button>
-      <Link to={`/project/${current.id}`} className="nb-btn nb-btn-teal" style={{ padding: '8px 20px', fontSize: 11 }}>View →</Link>
-    </div>
-  );
 
   const panelStyle: React.CSSProperties = {
     padding: '16px 24px',
@@ -555,7 +569,7 @@ const CoverFlowView: React.FC = () => {
       </div>
 
       {/* Static nav controls — always visible, sit below the card and don't transform */}
-      <StaticControls />
+      <StaticControls onPrev={() => goTo(activeIndex - 1)} onNext={() => goTo(activeIndex + 1)} currentId={current.id} />
 
       {/* Details panel — mobile only; desktop panel is bonded inside the active card */}
       {isMobile && (

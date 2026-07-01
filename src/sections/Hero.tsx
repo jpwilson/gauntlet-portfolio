@@ -6,6 +6,9 @@ const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Intentional: flip to loaded after mount so the entrance transition plays (needs a
+    // false -> true change post-paint; initializing true would skip the animation).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoaded(true);
   }, []);
 

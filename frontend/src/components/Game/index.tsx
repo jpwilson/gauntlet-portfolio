@@ -77,6 +77,10 @@ export const GameView: React.FC = () => {
     const el = document.createElement('div');
     el.id = 'game-portal';
     document.body.appendChild(el);
+    // Intentional: the extra render this triggers guarantees the portal host is in the
+    // DOM before GameContent's <Canvas> mounts and measures its parent (child effects run
+    // before this parent effect, so a lazy-init container would measure a detached node).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPortalContainer(el);
 
     return () => {

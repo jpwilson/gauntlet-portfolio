@@ -57,12 +57,11 @@ function App() {
 function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  // Touch capability doesn't change at runtime, so read it once during render
+  const [isTouchDevice] = useState(() => window.matchMedia('(pointer: coarse)').matches);
 
   useEffect(() => {
-    const checkTouch = window.matchMedia('(pointer: coarse)').matches;
-    setIsTouchDevice(checkTouch);
-    if (checkTouch) return;
+    if (isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
@@ -86,7 +85,7 @@ function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       observer.disconnect();
     };
-  }, []);
+  }, [isTouchDevice]);
 
   if (isTouchDevice) return null;
 

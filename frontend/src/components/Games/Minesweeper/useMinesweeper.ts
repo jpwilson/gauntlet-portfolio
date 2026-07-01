@@ -124,6 +124,9 @@ export function useMinesweeper() {
   }, [difficulty]);
 
   useEffect(() => {
+    // Intentional: rebuild the board whenever difficulty changes (resetGame is memoized on
+    // difficulty). The setState calls inside are the point of the effect, not a cascade.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetGame();
   }, [resetGame]);
 
