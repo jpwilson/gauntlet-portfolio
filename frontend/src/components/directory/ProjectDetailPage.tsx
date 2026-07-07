@@ -1,40 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProject } from '../../data/projects';
-
-const BASE = import.meta.env.BASE_URL;
-
-const IMAGES: Record<string, string> = {
-  'week1-colabboard': `${BASE}images/collabboard.png`,
-  'week2-agentfolio': `${BASE}images/agent-folio.png`,
-  'week3-legacylens': `${BASE}images/legacylens.png`,
-  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
-  'week4-nerdy-tutor': `${BASE}images/nerdy-ai-tutor.png`,
-  'week4-gofundme': `${BASE}images/gofundme.png`,
-  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
-  'week5-skyfi': `${BASE}images/skyfi.png`,
-  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
-  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
-  'week6-servicecore': `${BASE}images/service-core.png`,
-  'week6-equinox': `${BASE}images/peak6-equinox.png`,
-  'week6-st6': `${BASE}images/st6-commit.png`,
-  'week7-pilotbase': `${BASE}images/pilotbase.png`,
-  'automattic': `${BASE}images/automattic.png`,
-  'week9-terrafirma': `${BASE}images/terrafirma.png`,
-  'other-tradeup': `${BASE}images/tradeup.png`,
-  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
-  'other-ev-lineup': `${BASE}images/evlineup.png`,
-  'other-news-platform': `${BASE}images/newsplatform.png`,
-};
-
-const GIF_PROJECTS = new Set<string>();
-
-const getImage = (id: string) => {
-  const base = IMAGES[id];
-  if (!base) return `${BASE}images/project-1.jpg`;
-  if (GIF_PROJECTS.has(id)) return base.replace('.jpg', '.gif');
-  return base;
-};
+import { getImageById as getImage } from '../../data/projectImages';
 
 export const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -47,7 +14,7 @@ export const ProjectDetailPage: React.FC = () => {
         <h1 style={{ fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 36, marginBottom: 24, textTransform: 'uppercase' }}>
           Project not found
         </h1>
-        <Link to="/" className="nb-btn nb-btn-teal">&larr; Back to projects</Link>
+        <Link to="/projects" className="nb-btn nb-btn-teal">&larr; Back to projects</Link>
       </div>
     );
   }
@@ -59,7 +26,7 @@ export const ProjectDetailPage: React.FC = () => {
   return (
     <div className="page-detail" style={{ maxWidth: 900, margin: '0 auto', padding: '48px 32px 96px' }}>
       {/* Back link */}
-      <Link to="/" className="nb-btn nb-btn-white" style={{ marginBottom: 32, display: 'inline-flex' }}>
+      <Link to="/projects" className="nb-btn nb-btn-white" style={{ marginBottom: 32, display: 'inline-flex' }}>
         &larr; All Projects
       </Link>
 
@@ -251,7 +218,7 @@ export const ProjectDetailPage: React.FC = () => {
 
       {/* BACK */}
       <div style={{ marginTop: 48 }}>
-        <Link to="/" className="nb-btn nb-btn-teal">&larr; Back to all projects</Link>
+        <Link to="/projects" className="nb-btn nb-btn-teal">&larr; Back to all projects</Link>
       </div>
     </div>
   );

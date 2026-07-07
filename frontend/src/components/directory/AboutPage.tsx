@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../../data/projects';
+import { PROJECT_IMAGES } from '../../data/projectImages';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -28,24 +29,6 @@ const TECH_GROUPS = [
     items: ['GCP Cloud Run', 'GitHub Actions', 'PostgreSQL', 'Railway', 'Supabase', 'Vercel'],
   },
 ];
-
-const PROJECT_IMAGES: Record<string, string> = {
-  'week1-colabboard': `${BASE}images/collabboard.png`,
-  'week2-agentfolio': `${BASE}images/agent-folio.png`,
-  'week3-legacylens': `${BASE}images/legacylens.png`,
-  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
-  'week4-nerdy-tutor': `${BASE}images/nerdy-livesesh.png`,
-  'week4-gofundme': `${BASE}images/gofundme.png`,
-  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
-  'week5-skyfi': `${BASE}images/skyfi.png`,
-  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
-  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
-  'week6-equinox': `${BASE}images/service-core.png`,
-  'week6-st6': `${BASE}images/st6-commit.png`,
-  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
-  'other-ev-lineup': `${BASE}images/evlineup.png`,
-  'other-news-platform': `${BASE}images/newsplatform.png`,
-};
 
 const COUNTRIES: { region: string; items: string[] }[] = [
   { region: 'Americas', items: ['United States', 'Canada', 'Mexico', 'Argentina', 'Uruguay'] },

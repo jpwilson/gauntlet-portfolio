@@ -1,0 +1,710 @@
+/* ============================================================
+   MIDDLE-EARTH SCENE — the explorable landing
+   Loaded by ScenePage (the default route), so these styles are
+   always present; panel styles below serve the lazy panel chunk.
+   ============================================================ */
+
+/* --- Suppress the cyberpunk chrome (directory.css) under scene & os views --- */
+html:has(body.view-scene)::after,
+html:has(body.view-os)::after {
+  display: none; /* the z-index 9999 scanline sweep */
+}
+body.view-scene::before,
+body.view-scene::after,
+body.view-os::before,
+body.view-os::after {
+  content: none; /* the grid overlays */
+}
+body.view-scene {
+  overflow: hidden;
+  background: #0a0f13;
+}
+
+/* ---------------- Viewport (the panner) + Stage (the world) ---------------- */
+
+.scene-viewport {
+  position: fixed;
+  inset: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  scrollbar-width: none;
+  background: #0a0f13;
+}
+.scene-viewport::-webkit-scrollbar {
+  display: none;
+}
+.scene-viewport.locked {
+  overflow: hidden;
+}
+
+.scene-stage {
+  /* Cover-fit at the artwork's fixed aspect ratio: never letterboxes;
+     overflow becomes pannable. --scene-ar is set inline from hotspots.ts. */
+  --scene-ar: 1.7778;
+  position: relative;
+  flex: none;
+  width: max(100vw, calc(100svh * var(--scene-ar)));
+  height: max(100svh, calc(100vw / var(--scene-ar)));
+  transition: transform 800ms cubic-bezier(0.32, 0, 0.15, 1);
+  will-change: transform;
+  background: radial-gradient(ellipse at 50% 40%, #16222b, #0a0f13 75%);
+}
+.scene-stage.is-zoomed {
+  transform: scale(var(--zoom-scale, 2.4));
+}
+
+.scene-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill; /* stage owns the aspect ratio — no distortion, exact %-mapping */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* The dimming "iris" while a landmark is open (fixed — outside the zoom) */
+.scene-iris {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 55%, rgba(18, 12, 5, 0.25), rgba(8, 5, 2, 0.82) 78%);
+  transition: opacity 500ms ease 200ms;
+  z-index: 5;
+}
+.scene-iris.closing {
+  opacity: 1;
+}
+
+/* ------------------------------- Hotspots ---------------------------------- */
+
+.scene-hotspots {
+  position: absolute;
+  inset: 0;
+}
+.scene-hotspots.disabled {
+  pointer-events: none;
+}
+
+.me-hotspot {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  display: block;
+  cursor: pointer;
+}
+.me-hotspot:focus-visible {
+  outline: 2px solid rgba(255, 233, 170, 0.9);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.me-glow {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 224, 138, 0.5), rgba(255, 224, 138, 0.18) 55%, transparent 75%);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 350ms ease;
+  pointer-events: none;
+}
+.me-hotspot:hover .me-glow,
+.me-hotspot:focus-visible .me-glow {
+  opacity: 1;
+}
+
+.me-label {
+  position: absolute;
+  left: 50%;
+  bottom: 102%;
+  transform: translate(-50%, 6px);
+  white-space: nowrap;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 1.1vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #f7ecd4;
+  background: linear-gradient(180deg, rgba(38, 28, 16, 0.92), rgba(24, 17, 9, 0.92));
+  border: 1px solid rgba(214, 178, 106, 0.55);
+  border-radius: 3px;
+  padding: 5px 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 300ms ease, transform 300ms ease;
+  pointer-events: none;
+}
+.me-hotspot:hover .me-label,
+.me-hotspot:focus-visible .me-label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* First-visit affordance: every landmark breathes twice */
+.scene-root.intro .me-glow {
+  animation: me-pulse 1.8s ease-in-out 2;
+}
+@keyframes me-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.75; }
+}
+
+/* ------------------------------ Intro hint --------------------------------- */
+
+.scene-hint {
+  all: unset;
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  bottom: 7svh;
+  transform: translateX(-50%);
+  z-index: 6;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  letter-spacing: 0.1em;
+  color: #f3e7c9;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(34, 25, 14, 0.85), rgba(20, 14, 8, 0.85));
+  border: 1px solid rgba(214, 178, 106, 0.5);
+  border-radius: 3px;
+  padding: 10px 22px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55);
+  animation: me-hint 7s ease forwards;
+}
+@keyframes me-hint {
+  0% { opacity: 0; transform: translate(-50%, 12px); }
+  8% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ------------------------------- Quest log --------------------------------- */
+
+.quest-log {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.quest-log-toggle {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #f7ecd4;
+  background: linear-gradient(180deg, rgba(52, 38, 20, 0.95), rgba(30, 21, 11, 0.95));
+  border: 1px solid rgba(214, 178, 106, 0.6);
+  border-radius: 3px;
+  padding: 9px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.quest-log-toggle:hover,
+.quest-log-toggle:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 224, 138, 0.25);
+}
+.quest-log-toggle:focus-visible {
+  outline: 2px solid rgba(255, 233, 170, 0.9);
+  outline-offset: 3px;
+}
+
+.quest-log-panel {
+  width: min(340px, calc(100vw - 36px));
+  max-height: min(64svh, 520px);
+  overflow-y: auto;
+  background:
+    linear-gradient(180deg, rgba(243, 230, 200, 0.98), rgba(228, 209, 169, 0.98));
+  border: 1px solid #8a6a3b;
+  outline: 3px solid rgba(58, 42, 22, 0.9);
+  border-radius: 2px;
+  padding: 16px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+.quest-log-title {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #3a2a16;
+  margin: 0 0 10px;
+  border-bottom: 1px solid rgba(90, 66, 34, 0.4);
+  padding-bottom: 8px;
+}
+.quest-log-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.quest-log-panel li + li {
+  margin-top: 2px;
+}
+.quest-log-panel .quest-divider {
+  height: 1px;
+  margin: 10px 0;
+  background: rgba(90, 66, 34, 0.35);
+}
+.quest-log-panel a {
+  display: block;
+  text-decoration: none;
+  padding: 7px 9px;
+  border-radius: 2px;
+  transition: background 150ms ease;
+}
+.quest-log-panel a:hover,
+.quest-log-panel a:focus-visible {
+  background: rgba(122, 90, 44, 0.16);
+}
+.quest-log-panel .quest-name {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2e2010;
+}
+.quest-log-panel .quest-hint {
+  display: block;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 13.5px;
+  font-style: italic;
+  color: #5c4526;
+}
+
+/* ------------------------------ Ambient life ------------------------------- */
+
+.me-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.me-ambient > * {
+  position: absolute;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .me-firefly {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 240, 170, 0.95), rgba(255, 214, 90, 0.35) 60%, transparent);
+    filter: blur(0.6px);
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation-name: me-drift;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  @keyframes me-drift {
+    0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+    12% { opacity: 0.9; }
+    45% { transform: translate(var(--dx), var(--dy)) scale(1.1); opacity: 0.5; }
+    62% { opacity: 0.95; }
+    100% { transform: translate(calc(var(--dx) * 1.6), calc(var(--dy) * 0.4)) scale(0.85); opacity: 0; }
+  }
+
+  .me-shimmer {
+    background: repeating-linear-gradient(
+      100deg,
+      transparent 0px,
+      rgba(255, 250, 225, 0.16) 10px,
+      transparent 22px,
+      rgba(210, 240, 255, 0.1) 34px,
+      transparent 48px
+    );
+    background-size: 200% 100%;
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 72%);
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 72%);
+    animation: me-shimmer-move 14s linear infinite;
+  }
+  @keyframes me-shimmer-move {
+    from { background-position: 0% 0; }
+    to { background-position: -200% 0; }
+  }
+
+  .me-rays {
+    left: 30%;
+    top: 0;
+    width: 45%;
+    height: 55%;
+    background: linear-gradient(115deg, transparent 20%, rgba(255, 244, 214, 0.14) 45%, transparent 70%);
+    mix-blend-mode: screen;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+    animation: me-rays-pulse 12s ease-in-out infinite;
+  }
+  @keyframes me-rays-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.85; }
+  }
+
+  /* Rest while a tale is open */
+  .scene-stage.is-zoomed .me-ambient * {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-stage {
+    transition: none;
+  }
+  .me-ambient {
+    display: none;
+  }
+  .scene-hint {
+    animation: none;
+  }
+  .scene-root.intro .me-glow {
+    animation: none;
+  }
+  .me-panel {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------ Debug overlay ------------------------------ */
+
+.scene-root.debug .me-hotspot {
+  outline: 1px dashed rgba(255, 60, 255, 0.9);
+  background: rgba(255, 60, 255, 0.14);
+}
+.scene-root.debug .me-label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.me-debug-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.me-debug-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 255, 255, 0.35);
+}
+.me-debug-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 255, 255, 0.35);
+}
+
+/* ============================================================
+   PANELS — parchment dialogs (used by the lazy panel chunk)
+   ============================================================ */
+
+.me-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(6, 4, 2, 0.35);
+}
+
+.me-panel {
+  box-sizing: border-box;
+  width: min(760px, 100%);
+  max-height: min(84svh, 860px);
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(255, 250, 235, 0.55), transparent 55%),
+    radial-gradient(ellipse at 85% 92%, rgba(150, 116, 60, 0.25), transparent 60%),
+    linear-gradient(180deg, #f4e8cb, #e8d5ac 60%, #dfc899);
+  border: 1px solid #8a6a3b;
+  outline: 4px solid rgba(52, 38, 20, 0.92);
+  border-radius: 3px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+  animation: me-panel-in 450ms cubic-bezier(0.2, 0.9, 0.3, 1) 280ms both;
+}
+@keyframes me-panel-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.me-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(90, 66, 34, 0.45);
+}
+.me-panel-title {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(19px, 2.6vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #33230f;
+}
+.me-panel-sub {
+  margin: 2px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 14.5px;
+  color: #6b5230;
+}
+
+.me-panel-body {
+  padding: 16px 20px 20px;
+  overflow-y: auto;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: #2c1f10;
+  scrollbar-width: thin;
+  scrollbar-color: #8a6a3b #e4d1a9;
+}
+.me-panel-body::-webkit-scrollbar {
+  width: 10px;
+}
+.me-panel-body::-webkit-scrollbar-track {
+  background: #e4d1a9;
+}
+.me-panel-body::-webkit-scrollbar-thumb {
+  background: #8a6a3b;
+  border-radius: 5px;
+}
+
+/* Buttons & links in the parchment world */
+.me-btn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #f7ecd4;
+  background: linear-gradient(180deg, #6b4f28, #4a3418);
+  border: 1px solid #2f2110;
+  border-radius: 3px;
+  padding: 8px 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.me-btn:hover,
+.me-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.45), 0 0 14px rgba(255, 224, 138, 0.25);
+}
+.me-btn:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+  outline-offset: 2px;
+}
+.me-btn.ghost {
+  color: #4a3418;
+  background: transparent;
+  border: 1px solid #8a6a3b;
+  box-shadow: none;
+}
+
+.me-close {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4a3418;
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+  padding: 6px 12px;
+  transition: background 150ms ease;
+  flex: none;
+}
+.me-close:hover,
+.me-close:focus-visible {
+  background: rgba(122, 90, 44, 0.18);
+}
+.me-close:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+  outline-offset: 2px;
+}
+
+/* Project entries */
+.me-project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.me-project-card {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(138, 106, 59, 0.55);
+  border-radius: 3px;
+  background: rgba(255, 250, 238, 0.45);
+  transition: background 150ms ease, transform 150ms ease;
+}
+.me-project-card:hover,
+.me-project-card:focus-visible {
+  background: rgba(255, 250, 238, 0.85);
+  transform: translateX(3px);
+}
+.me-project-card:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+  outline-offset: 2px;
+}
+.me-project-thumb {
+  width: 92px;
+  height: 62px;
+  object-fit: cover;
+  border: 1px solid #8a6a3b;
+  border-radius: 2px;
+  flex: none;
+  background: #d8c395;
+}
+.me-project-name {
+  font-family: 'Cinzel', serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #33230f;
+  margin: 0;
+}
+.me-project-desc {
+  margin: 2px 0 0;
+  font-size: 14.5px;
+  color: #4d3a20;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.me-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+.me-chip {
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #4a3418;
+  border: 1px solid rgba(138, 106, 59, 0.6);
+  border-radius: 2px;
+  padding: 2px 7px;
+  background: rgba(255, 250, 238, 0.5);
+}
+
+.me-detail-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+.me-highlights {
+  margin: 10px 0 14px;
+  padding-left: 22px;
+}
+.me-highlights li {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+.me-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Portal cards (the horse's crossing) */
+.me-portals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+.me-portal {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+  padding: 16px;
+  background: rgba(255, 250, 238, 0.5);
+  transition: background 150ms ease, transform 150ms ease;
+}
+.me-portal:hover,
+.me-portal:focus-visible {
+  background: rgba(255, 250, 238, 0.9);
+  transform: translateY(-2px);
+}
+.me-portal:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+  outline-offset: 2px;
+}
+.me-portal h3 {
+  margin: 0 0 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #33230f;
+}
+.me-portal p {
+  margin: 0;
+  font-size: 14px;
+  font-style: italic;
+  color: #5c4526;
+}
+
+/* Resume embed */
+.me-resume-embed {
+  width: 100%;
+  height: min(56svh, 620px);
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+  background: #fff;
+}
+
+/* Small screens: the panel becomes a full-height sheet */
+@media (max-width: 640px) {
+  .me-panel-backdrop {
+    padding: 0;
+    align-items: stretch;
+  }
+  .me-panel {
+    width: 100%;
+    max-height: none;
+    border-radius: 0;
+    outline: none;
+  }
+}

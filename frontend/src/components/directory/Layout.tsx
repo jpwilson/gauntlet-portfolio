@@ -2,8 +2,9 @@ import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
 const LINKS = [
-  { label: 'PROJECTS', path: '/' },
+  { label: 'PROJECTS', path: '/projects' },
   { label: 'ABOUT', path: '/about' },
+  { label: '⌂ REALM', path: '/' },
 ];
 
 const GitHubIcon = () => (
@@ -22,7 +23,7 @@ export const Layout: React.FC = () => {
   const loc = useLocation();
   const onAbout = loc.pathname === '/about';
   const otherLink = onAbout
-    ? { label: 'PROJECTS', path: '/' }
+    ? { label: 'PROJECTS', path: '/projects' }
     : { label: 'ABOUT', path: '/about' };
 
   return (
@@ -39,7 +40,7 @@ export const Layout: React.FC = () => {
           maxWidth: 1200, margin: '0 auto', padding: '0 32px',
           height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <Link to="/" style={{
+          <Link to="/projects" style={{
             fontFamily: "'Space Grotesk'", fontWeight: 700, fontSize: 22,
             letterSpacing: '0.08em',
             color: '#dbfcff', textDecoration: 'none',

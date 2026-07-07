@@ -3,41 +3,7 @@ import { Link } from 'react-router-dom';
 import { PROJECTS } from '../../data/projects';
 import { Project } from '../../types/project';
 
-const BASE = import.meta.env.BASE_URL;
-
-const PROJECT_IMAGES: Record<string, string> = {
-  'week1-colabboard': `${BASE}images/collabboard.png`,
-  'week2-agentfolio': `${BASE}images/agent-folio.png`,
-  'week3-legacylens': `${BASE}images/legacylens.png`,
-  'week4-nerdy-live': `${BASE}images/nerdy-livesesh.png`,
-  'week4-nerdy-tutor': `${BASE}images/nerdy-ai-tutor.png`,
-  'week4-gofundme': `${BASE}images/gofundme.png`,
-  'week5-zapier-triggers': `${BASE}images/triggers-api.png`,
-  'week5-skyfi': `${BASE}images/skyfi.png`,
-  'week6-upstream-community': `${BASE}images/upstreamliteracyleaders.png`,
-  'week6-upstream-ecommerce': `${BASE}images/upstream-ecom.png`,
-  'week6-servicecore': `${BASE}images/service-core.png`,
-  'week6-equinox': `${BASE}images/peak6-equinox.png`,
-  'week6-st6': `${BASE}images/st6-commit.png`,
-  'week7-pilotbase': `${BASE}images/pilotbase.png`,
-  'automattic': `${BASE}images/automattic.png`,
-  'week9-terrafirma': `${BASE}images/terrafirma.png`,
-  'other-tradeup': `${BASE}images/tradeup.png`,
-  'other-family-socials': `${BASE}images/ourfamilysocials.png`,
-  'other-ev-lineup': `${BASE}images/evlineup.png`,
-  'other-news-platform': `${BASE}images/newsplatform.png`,
-};
-// Supports both .gif and .jpg — put a .gif in public/images/ with same name to use it
-// e.g. project-collabboard.gif will be used if it exists, otherwise falls back to .jpg
-const GIF_PROJECTS = new Set<string>(); // Add project IDs here when you have GIFs, e.g. 'week1-colabboard'
-
-const img = (p: Project) => {
-  if (p.thumbnail) return p.thumbnail;
-  const key = PROJECT_IMAGES[p.id];
-  if (!key) return `${BASE}images/project-1.jpg`;
-  if (GIF_PROJECTS.has(p.id)) return key.replace('.jpg', '.gif');
-  return key;
-};
+import { img } from '../../data/projectImages';
 
 type ViewMode = 'tiles' | 'table' | 'coverflow';
 
