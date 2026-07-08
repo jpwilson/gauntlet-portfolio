@@ -10,6 +10,15 @@ const XIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
 );
 
+// The address never appears as a literal in the bundle or DOM — it is decoded
+// only when a human clicks, which defeats the regex scrapers that harvest
+// mailto: links from static sites. (Determined humans can still find it;
+// perfect hiding would need a server-side contact form.)
+const RAVEN = 'amVhbnBhdWx3aWxzb25AZ21haWwuY29t';
+const releaseRaven = () => {
+  window.location.href = `mailto:${atob(RAVEN)}`;
+};
+
 export const ContactPanel: React.FC = () => (
   <div>
     <p>
@@ -17,9 +26,9 @@ export const ContactPanel: React.FC = () => (
       wish to talk shop about agents and evals — the ravens know the way.
     </p>
     <div className="me-links" style={{ marginTop: 16 }}>
-      <a className="me-btn" href="mailto:jeanpaulwilson@gmail.com">
+      <button type="button" className="me-btn" onClick={releaseRaven}>
         ✉ Send a raven (email)
-      </a>
+      </button>
       <a className="me-btn ghost" href="https://github.com/jpwilson" target="_blank" rel="noopener noreferrer">
         <GitHubIcon /> GitHub ↗
       </a>
