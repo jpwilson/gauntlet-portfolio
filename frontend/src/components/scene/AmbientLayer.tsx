@@ -13,8 +13,8 @@ const FIREFLIES: ReadonlyArray<{ x: number; y: number; delay: number; dur: numbe
   { x: 88, y: 72, delay: 2.9, dur: 10, dx: -26, dy: -18 },
 ];
 
-/** River band, stage-% — a soft moving glint over the water. */
-const RIVER = { x: 34, y: 66, w: 44, h: 22 };
+/** River band, stage-% — a soft moving glint over the water (bridge to lower right). */
+const RIVER = { x: 50, y: 70, w: 45, h: 28 };
 
 /**
  * CSS-only ambient life for the still image: fireflies, a river shimmer, and a

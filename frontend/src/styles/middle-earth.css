@@ -340,9 +340,10 @@ body.view-scene {
   }
 
   .me-rays {
-    left: 30%;
+    /* anchored under the sun (≈71% x in the artwork) */
+    left: 56%;
     top: 0;
-    width: 45%;
+    width: 32%;
     height: 55%;
     background: linear-gradient(115deg, transparent 20%, rgba(255, 244, 214, 0.14) 45%, transparent 70%);
     mix-blend-mode: screen;
