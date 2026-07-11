@@ -8,6 +8,16 @@ interface Props {
   category: ProjectCategory;
 }
 
+// createdAt holds the latest commit date (auto-updated by a scheduled workflow) —
+// surface it as a freshness signal: active repos read as alive, not abandoned.
+const freshness = (isoDate: string): string => {
+  const days = Math.max(0, Math.floor((Date.now() - new Date(`${isoDate}T00:00:00`).getTime()) / 86400000));
+  if (days === 0) return 'today';
+  if (days < 7) return `${days}d ago`;
+  if (days < 60) return `${Math.round(days / 7)}w ago`;
+  return `${Math.round(days / 30)}mo ago`;
+};
+
 /** Master–detail inside the parchment: a list of quests, each opening its telling. */
 export const ProjectsPanel: React.FC<Props> = ({ category }) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -27,6 +37,7 @@ export const ProjectsPanel: React.FC<Props> = ({ category }) => {
         <p className="me-panel-sub" style={{ marginBottom: 10 }}>
           {selected.company || (category === 'gauntlet' ? 'Gauntlet' : 'Personal')}
           {selected.week ? ` — Week ${selected.week}` : ''}
+          {` · last commit ${freshness(selected.createdAt)}`}
         </p>
         <p>{selected.description}</p>
         {selected.highlights && selected.highlights.length > 0 && (
@@ -76,6 +87,7 @@ export const ProjectsPanel: React.FC<Props> = ({ category }) => {
             <span>
               <span className="me-project-name">{p.name}</span>
               <span className="me-project-desc">{p.description}</span>
+              <span className="me-fresh">⏱ {freshness(p.createdAt)}</span>
             </span>
           </button>
         </li>

@@ -6,8 +6,9 @@ import { ProjectDetailPage } from './components/directory/ProjectDetailPage';
 import { AboutPage } from './components/directory/AboutPage';
 import { ScenePage } from './components/scene/ScenePage';
 
-// Lazy chunks: interior rooms and the whole Win95 world load on demand.
+// Lazy chunks: interior rooms, the racer, and the Win95 world load on demand.
 const RoomPage = lazy(() => import('./components/room/RoomPage'));
+const RacePage = lazy(() => import('./components/race/RacePage'));
 const Win95View = lazy(() => import('./components/os/Win95View'));
 
 const App: React.FC = () => {
@@ -21,6 +22,16 @@ const App: React.FC = () => {
         element={
           <Suspense fallback={<div style={{ height: '100vh', background: '#0a0f13' }} />}>
             <RoomPage />
+          </Suspense>
+        }
+      />
+
+      {/* The Midnight Road — the portfolio racer as a first-class view. */}
+      <Route
+        path="/race"
+        element={
+          <Suspense fallback={<div style={{ height: '100vh', background: '#0a001a' }} />}>
+            <RacePage />
           </Suspense>
         }
       />

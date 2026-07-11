@@ -31,6 +31,12 @@ export const QuestLog: React.FC = () => {
             ))}
             <li className="quest-divider" aria-hidden="true" />
             <li>
+              <Link to="/race" onClick={() => setOpen(false)}>
+                <span className="quest-name">🏎 The Midnight Road</span>
+                <span className="quest-hint">Race through all 20 projects — a synthwave circuit</span>
+              </Link>
+            </li>
+            <li>
               <Link to="/projects" onClick={() => setOpen(false)}>
                 <span className="quest-name">The Grid</span>
                 <span className="quest-hint">This portfolio, in neon (classic view)</span>

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { PROJECTS } from '../../data/projects';
 
 export const ROAD_WIDTH = 22;
 
@@ -114,73 +115,23 @@ export interface ProjectStop {
   techStack: string[];
 }
 
-export const PROJECT_STOPS: ProjectStop[] = [
-  {
-    id: 'week1-colabboard', name: 'Week 1 - CollabBoard', signName: 'CollabBoard',
-    description: 'Real-time collaborative whiteboard application',
-    t: 0.0, techStack: ['React', 'Next.js', 'TypeScript', 'Supabase'],
-    liveUrl: 'https://claudeorim.vercel.app/', repoUrl: 'https://github.com/jpwilson/colabboard',
-  },
-  {
-    id: 'week2-ghostfolio', name: 'Week 2 - Ghostfolio', signName: 'Ghostfolio',
-    description: 'Open-source contribution to Ghostfolio investment tracker',
-    t: 1 / 12, techStack: ['Angular', 'NestJS', 'PostgreSQL', 'Docker'],
-    liveUrl: 'https://agent-folio-production.up.railway.app/', repoUrl: 'https://github.com/jpwilson/agent-folio',
-  },
-  {
-    id: 'week3-legacylens', name: 'Week 3 - LegacyLens', signName: 'LegacyLens',
-    description: 'AI-powered legacy code intelligence using RAG',
-    t: 2 / 12, techStack: ['Python', 'Claude Haiku', 'Pinecone', 'FastAPI'],
-    liveUrl: 'https://legacylens-production-e04c.up.railway.app/', repoUrl: 'https://github.com/jpwilson',
-    vizUrl: 'https://legacylens-production-e04c.up.railway.app/graph.html',
-  },
-  {
-    id: 'week4-nerdy', name: 'Week 4 - Nerdy', signName: 'Nerdy',
-    description: 'AI Sesh Analysis, Content Creation, Low Latency Tutor',
-    t: 3 / 12, techStack: ['TBD'],
-  },
-  {
-    id: 'week4-gofundme', name: 'Week 4 - GoFundMe', signName: 'GoFundMe',
-    description: 'GoFundMe project ideation and development',
-    t: 4 / 12, techStack: ['TBD'],
-    liveUrl: 'https://gfmv1.vercel.app', repoUrl: 'https://github.com/jpwilson/gfm-v1',
-  },
-  {
-    id: 'week5-zapier', name: 'Week 5 - Zapier', signName: 'Zapier',
-    description: 'Week 5 Gauntlet project - Zapier',
-    t: 5 / 12, passwordProtected: true, techStack: ['TBD'],
-  },
-  {
-    id: 'week5-skyfi', name: 'Week 5 - SkyFi', signName: 'SkyFi',
-    description: 'Week 5 Gauntlet project - SkyFi',
-    t: 6 / 12, passwordProtected: true, techStack: ['TBD'],
-  },
-  {
-    id: 'week6-upstream-literacy', name: 'Week 6 - Upstream Literacy', signName: 'Upstream Literacy',
-    description: 'Week 6 Gauntlet project - Upstream Literacy',
-    t: 7 / 12, passwordProtected: true, techStack: ['TBD'],
-  },
-  {
-    id: 'week6-servicecore', name: 'Week 6 - ServiceCore', signName: 'ServiceCore',
-    description: 'Week 6 Gauntlet project - ServiceCore',
-    t: 8 / 12, passwordProtected: true, techStack: ['TBD'],
-  },
-  {
-    id: 'other-family-socials', name: 'Our Family Socials', signName: 'Family Socials',
-    description: 'Family social media platform',
-    t: 9 / 12, techStack: [], liveUrl: 'https://ourfamilysocials.com',
-  },
-  {
-    id: 'other-ev-lineup', name: 'EV Lineup', signName: 'EV Lineup',
-    description: 'Electric vehicle comparison and lineup tool',
-    t: 10 / 12, techStack: [], liveUrl: 'https://www.evlineup.org',
-  },
-  {
-    id: 'other-news-platform', name: 'News Platform', signName: 'News Platform',
-    description: 'News aggregation and publishing platform',
-    t: 11 / 12, techStack: [], liveUrl: 'https://newsplatform.org',
-  },
-];
+// All stops derive from the live project data — one source of truth, no drift.
+// Signs and popups get the short name + first sentence; zones are evenly spaced.
+const firstSentence = (s: string): string => {
+  const i = s.indexOf('. ');
+  return i === -1 ? s : s.slice(0, i + 1);
+};
+
+export const PROJECT_STOPS: ProjectStop[] = PROJECTS.map((p, i) => ({
+  id: p.id,
+  name: p.week ? `Week ${p.week} — ${p.name}` : p.name,
+  signName: p.name.length > 16 ? `${p.name.slice(0, 15)}…` : p.name,
+  description: firstSentence(p.description),
+  t: i / PROJECTS.length,
+  techStack: p.techStack.slice(0, 6),
+  liveUrl: p.liveUrl,
+  repoUrl: p.repoUrl,
+}));
 
 // Ramps on straighter sections
 export interface RampConfig {

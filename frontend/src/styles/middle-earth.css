@@ -274,6 +274,16 @@ body.view-scene {
   z-index: 40;
 }
 
+/* Ambient sound toggle (bottom-left) */
+.sound-toggle {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 20;
+  font-size: 15px;
+  padding: 8px 12px;
+}
+
 .quest-log-panel {
   width: min(340px, calc(100vw - 36px));
   max-height: min(64svh, 520px);
@@ -655,6 +665,15 @@ body.view-scene {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.me-fresh {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #5e7a3a;
 }
 
 .me-chips {

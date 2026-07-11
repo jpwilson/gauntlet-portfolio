@@ -5,6 +5,9 @@ import { ProjectsPanel } from '../scene/panels/ProjectsPanel';
 import { ResumePanel } from '../scene/panels/ResumePanel';
 import { ContactPanel } from '../scene/panels/ContactPanel';
 import { AboutContent } from './AboutContent';
+import { Colophon } from './Colophon';
+
+const BASE = import.meta.env.BASE_URL;
 
 /**
  * An interior room (/in/:roomId): full-screen pannable scene with the content
@@ -59,6 +62,14 @@ const RoomPage: React.FC = () => {
       <Link className="me-plaque room-back" to="/">
         ⟵ Back to the Realm
       </Link>
+      <a
+        className="me-plaque scene-resume"
+        href={`${BASE}JPWilsonResume.pdf`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📜 JP Wilson&rsquo;s Resume
+      </a>
 
       <section className="room-panel" aria-label={room.title}>
         <header className="room-panel-header">
@@ -84,6 +95,10 @@ const RoomPage: React.FC = () => {
                 Send a Raven
               </h2>
               <ContactPanel />
+              <h2 className="room-section-title" style={{ marginTop: 22 }}>
+                How This Realm Was Built
+              </h2>
+              <Colophon />
             </>
           )}
         </div>

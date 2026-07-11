@@ -7,7 +7,10 @@ import { SceneBackground } from './SceneBackground';
 import { AmbientLayer } from './AmbientLayer';
 import { HotspotLayer } from './HotspotLayer';
 import { QuestLog } from './QuestLog';
+import { SoundToggle } from './SoundToggle';
 import '../../styles/middle-earth.css';
+
+const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
 const BASE = import.meta.env.BASE_URL;
 const ZOOM_MS = 750; // matches the .scene-stage CSS transition
@@ -47,6 +50,17 @@ export const ScenePage: React.FC = () => {
       el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
     }
   }, []);
+
+  // Konami code opens the Midnight Road. Someone will find it.
+  useEffect(() => {
+    let progress = 0;
+    const onKey = (e: KeyboardEvent) => {
+      progress = e.key === KONAMI[progress] ? progress + 1 : e.key === KONAMI[0] ? 1 : 0;
+      if (progress === KONAMI.length) navigate('/race');
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navigate]);
 
   const enterLandmark = (id: HotspotId) => {
     const h = getHotspot(id);
@@ -119,6 +133,7 @@ export const ScenePage: React.FC = () => {
         </button>
       )}
 
+      <SoundToggle />
       <QuestLog />
     </div>
   );

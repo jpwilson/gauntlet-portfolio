@@ -11,7 +11,12 @@ function getPassword(projectName: string): string {
   return `${name}#321`;
 }
 
-export const HUD: React.FC = () => {
+interface HUDProps {
+  /** Where "exit" leads; defaults to the Win95 desktop (legacy /os context). */
+  onExit?: () => void;
+}
+
+export const HUD: React.FC<HUDProps> = ({ onExit }) => {
   const speed = useGameStore((s) => s.speed);
   const score = useGameStore((s) => s.score);
   const activeZone = useGameStore((s) => s.activeZone);
@@ -41,8 +46,9 @@ export const HUD: React.FC = () => {
 
   const handleExit = useCallback(() => {
     reset();
-    setViewMode('desktop');
-  }, [reset, setViewMode]);
+    if (onExit) onExit();
+    else setViewMode('desktop');
+  }, [reset, onExit, setViewMode]);
 
   // Keyboard shortcuts: ESC to exit, Enter to start
   useEffect(() => {
@@ -107,7 +113,7 @@ export const HUD: React.FC = () => {
           or press <span style={{ color: '#ff88ff' }}>Enter</span>
         </div>
         <button className="game-start-back" onClick={handleExit}>
-          ← Back to Desktop
+          ← {onExit ? 'Back to the Realm' : 'Back to Desktop'}
         </button>
       </div>
     );
@@ -264,7 +270,7 @@ export const HUD: React.FC = () => {
 
       {/* Exit button */}
       <button className="hud-exit" onClick={handleExit}>
-        ESC → Desktop
+        ESC → {onExit ? 'Realm' : 'Desktop'}
       </button>
     </div>
   );

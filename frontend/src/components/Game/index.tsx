@@ -36,7 +36,12 @@ const LoadingScreen: React.FC = () => (
   </div>
 );
 
-const GameContent: React.FC = () => {
+interface GameProps {
+  /** Where "exit" leads. Defaults to the Win95 desktop (legacy /os context). */
+  onExit?: () => void;
+}
+
+const GameContent: React.FC<GameProps> = ({ onExit }) => {
   return (
     <div className="game-container">
       <Suspense fallback={<LoadingScreen />}>
@@ -63,12 +68,12 @@ const GameContent: React.FC = () => {
           <Car />
         </Canvas>
       </Suspense>
-      <HUD />
+      <HUD onExit={onExit} />
     </div>
   );
 };
 
-export const GameView: React.FC = () => {
+export const GameView: React.FC<GameProps> = ({ onExit }) => {
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -90,7 +95,7 @@ export const GameView: React.FC = () => {
 
   if (!portalContainer) return null;
 
-  return createPortal(<GameContent />, portalContainer);
+  return createPortal(<GameContent onExit={onExit} />, portalContainer);
 };
 
 export default GameView;
