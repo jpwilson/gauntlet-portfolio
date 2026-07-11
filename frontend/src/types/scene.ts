@@ -2,23 +2,9 @@
 // All coordinates are percentages (0–100) of the fixed-aspect scene stage:
 // x = % of stage width from the left, y = % of stage height from the top.
 
-export type HotspotId =
-  | 'big-door'
-  | 'small-door'
-  | 'oak-tree'
-  | 'castle'
-  | 'bridge'
-  | 'horse'
-  | 'moon';
+export type HotspotId = 'big-door' | 'oak-tree' | 'castle';
 
-export type PanelId =
-  | 'gauntlet-projects'
-  | 'other-projects'
-  | 'about'
-  | 'contact'
-  | 'resume'
-  | 'portals'
-  | 'moon-games';
+export type RoomId = 'hobbit-house' | 'tree' | 'castle';
 
 /** Bounding box in stage-%. Optional clipPath (in % of the box itself) for irregular outlines. */
 export interface HotspotShape {
@@ -30,12 +16,12 @@ export interface HotspotShape {
 }
 
 export type HotspotTarget =
-  | { kind: 'panel'; panel: PanelId }
+  | { kind: 'room'; room: RoomId }
   | { kind: 'route'; to: string };
 
 export interface Hotspot {
   id: HotspotId;
-  /** Short in-world name, shown as the floating label. */
+  /** Plain, functional label — says what you GET, not what it looks like. */
   label: string;
   /** One-line description for the quest log + aria-label. */
   questText: string;
@@ -45,4 +31,18 @@ export interface Hotspot {
   target: HotspotTarget;
   /** Tab order and quest-log order. */
   order: number;
+  /** Render the floating label below the box (for landmarks near the top edge). */
+  labelBelow?: boolean;
+}
+
+export type RoomContent = 'projects' | 'about' | 'resume-contact';
+
+export interface Room {
+  id: RoomId;
+  /** Title shown on the room's plaque. */
+  title: string;
+  subtitle: string;
+  image: string;
+  aspect: number;
+  content: RoomContent;
 }

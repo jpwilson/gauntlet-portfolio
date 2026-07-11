@@ -6,26 +6,24 @@ import { ProjectDetailPage } from './components/directory/ProjectDetailPage';
 import { AboutPage } from './components/directory/AboutPage';
 import { ScenePage } from './components/scene/ScenePage';
 
-// Lazy chunks: panel content and the whole Win95 world load on demand.
-const ScenePanel = lazy(() => import('./components/scene/panels/ScenePanel'));
+// Lazy chunks: interior rooms and the whole Win95 world load on demand.
+const RoomPage = lazy(() => import('./components/room/RoomPage'));
 const Win95View = lazy(() => import('./components/os/Win95View'));
 
 const App: React.FC = () => {
   return (
     <Routes>
-      {/* The Middle-earth scene — the default landing. The panel is a nested
-          route so opening/closing a landmark never remounts the scene (the
-          door-open zoom animates from the live DOM state). */}
-      <Route path="/" element={<ScenePage />}>
-        <Route
-          path="loc/:hotspotId"
-          element={
-            <Suspense fallback={null}>
-              <ScenePanel />
-            </Suspense>
-          }
-        />
-      </Route>
+      {/* The Middle-earth scene — the default landing. Landmarks zoom, then
+          walk into interior rooms. */}
+      <Route path="/" element={<ScenePage />} />
+      <Route
+        path="/in/:roomId"
+        element={
+          <Suspense fallback={<div style={{ height: '100vh', background: '#0a0f13' }} />}>
+            <RoomPage />
+          </Suspense>
+        }
+      />
 
       {/* The cyberpunk directory ("the Grid"). Deep links to /project/:id and
           /about keep working; the projects list moved from / to /projects. */}

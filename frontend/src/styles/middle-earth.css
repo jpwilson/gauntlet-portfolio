@@ -25,12 +25,13 @@ body.view-scene {
 .scene-viewport {
   position: fixed;
   inset: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
+  /* pan on BOTH axes so nothing is ever cut off at odd window sizes */
+  overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   scrollbar-width: none;
   background: #0a0f13;
 }
@@ -147,6 +148,17 @@ body.view-scene {
   transform: translate(-50%, 0);
 }
 
+/* Landmarks near the top edge label BELOW their box so nothing renders off-screen */
+.me-label.me-label-below {
+  bottom: auto;
+  top: 102%;
+  transform: translate(-50%, -6px);
+}
+.me-hotspot:hover .me-label.me-label-below,
+.me-hotspot:focus-visible .me-label.me-label-below {
+  transform: translate(-50%, 0);
+}
+
 /* First-visit affordance: every landmark breathes twice */
 .scene-root.intro .me-glow {
   animation: me-pulse 1.8s ease-in-out 2;
@@ -199,7 +211,8 @@ body.view-scene {
   gap: 10px;
 }
 
-.quest-log-toggle {
+/* The shared old-game wooden plaque (quest log, title, resume, room back) */
+.me-plaque {
   all: unset;
   box-sizing: border-box;
   cursor: pointer;
@@ -208,21 +221,57 @@ body.view-scene {
   font-weight: 600;
   letter-spacing: 0.08em;
   color: #f7ecd4;
+  text-decoration: none;
   background: linear-gradient(180deg, rgba(52, 38, 20, 0.95), rgba(30, 21, 11, 0.95));
   border: 1px solid rgba(214, 178, 106, 0.6);
   border-radius: 3px;
   padding: 9px 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transition: transform 200ms ease, box-shadow 200ms ease;
+  white-space: nowrap;
 }
-.quest-log-toggle:hover,
-.quest-log-toggle:focus-visible {
+.me-plaque:hover,
+.me-plaque:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 224, 138, 0.25);
 }
-.quest-log-toggle:focus-visible {
+.me-plaque:focus-visible {
   outline: 2px solid rgba(255, 233, 170, 0.9);
   outline-offset: 3px;
+}
+
+/* Site title (top-left) — a plaque, not a button */
+.scene-title {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 20;
+  cursor: default;
+  font-size: clamp(13px, 1.6vw, 18px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.scene-title:hover {
+  transform: none;
+}
+
+/* Resume (top-right) */
+.scene-resume {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  font-size: clamp(11px, 1.3vw, 14px);
+}
+
+/* Back plaque inside rooms (top-left) */
+.room-back {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 40;
 }
 
 .quest-log-panel {
@@ -707,5 +756,131 @@ body.view-scene {
     max-height: none;
     border-radius: 0;
     outline: none;
+  }
+}
+
+/* ============================================================
+   ROOMS — interior scenes with a retro-game content panel
+   ============================================================ */
+
+.room-stage {
+  /* rooms are still images — no zoom transition needed */
+  transition: none;
+  animation: room-enter 700ms ease both;
+}
+@keyframes room-enter {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.room-panel {
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  width: min(480px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(255, 250, 235, 0.5), transparent 55%),
+    linear-gradient(180deg, rgba(244, 232, 203, 0.97), rgba(223, 200, 153, 0.97));
+  border: 1px solid #8a6a3b;
+  outline: 4px solid rgba(52, 38, 20, 0.92);
+  border-radius: 3px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  animation: me-panel-in 450ms cubic-bezier(0.2, 0.9, 0.3, 1) 250ms both;
+}
+
+.room-panel-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(90, 66, 34, 0.45);
+}
+.room-title {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(19px, 2.4vw, 25px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #33230f;
+}
+.room-subtitle {
+  margin: 2px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 14.5px;
+  color: #6b5230;
+}
+.room-panel-body {
+  flex: 1;
+}
+
+.room-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #33230f;
+  margin: 4px 0 10px;
+  border-bottom: 1px solid rgba(90, 66, 34, 0.35);
+  padding-bottom: 5px;
+}
+
+.room-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+  background: rgba(255, 250, 238, 0.55);
+}
+.room-stat-emoji {
+  font-size: 26px;
+}
+.room-stat-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b5230;
+}
+.room-stat-value {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #33230f;
+  line-height: 1.1;
+}
+.room-stat-sub {
+  display: block;
+  font-size: 13px;
+  font-style: italic;
+  color: #6b5230;
+}
+
+/* Small screens: room panel becomes a bottom sheet over the art */
+@media (max-width: 700px) {
+  .room-panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 62svh;
+    border-radius: 6px 6px 0 0;
+    outline: none;
+  }
+  .scene-title,
+  .scene-resume {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .scene-title {
+    letter-spacing: 0.08em;
   }
 }

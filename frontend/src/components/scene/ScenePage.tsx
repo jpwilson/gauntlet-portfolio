@@ -1,38 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Outlet, useMatch, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getHotspot, SCENE_ASPECT, SCENE_VIDEO_ACTIVE } from '../../data/hotspots';
+import { roomPath } from '../../data/rooms';
+import { HotspotId } from '../../types/scene';
 import { SceneBackground } from './SceneBackground';
 import { AmbientLayer } from './AmbientLayer';
 import { HotspotLayer } from './HotspotLayer';
 import { QuestLog } from './QuestLog';
 import '../../styles/middle-earth.css';
 
+const BASE = import.meta.env.BASE_URL;
+const ZOOM_MS = 750; // matches the .scene-stage CSS transition
+
 /**
- * The Middle-earth explorable scene — the default landing.
+ * The explorable realm — the default landing.
  *
- * Layout contract:
- * - `.scene-viewport` is a fixed, full-screen native scroller (mobile pan).
- * - `.scene-stage` owns the artwork's exact aspect ratio; hotspots are
- *   %-positioned children, so coordinates hold at every viewport size and
- *   survive the future img -> video swap.
- * - The open panel is a nested route (/loc/:hotspotId) rendered via <Outlet/>
- *   OUTSIDE the scroller; the door-open zoom is pure CSS driven by the URL.
+ * - `.scene-viewport` is a fixed full-screen native scroller (pan on both axes,
+ *   so nothing is unreachable at any window size).
+ * - `.scene-stage` owns the artwork's aspect ratio; hotspots are %-positioned.
+ * - Activating a landmark plays the zoom, then navigates INTO its room (/in/:id).
  */
 export const ScenePage: React.FC = () => {
   const navigate = useNavigate();
-  const match = useMatch('/loc/:hotspotId');
-  const active = getHotspot(match?.params.hotspotId);
-
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const lastHotspotId = useRef<string | null>(null);
 
+  const [zoomTarget, setZoomTarget] = useState<HotspotId | null>(null);
   const [debug] = useState(() => new URLSearchParams(window.location.search).has('debug'));
   const [showHint, setShowHint] = useState(() => !localStorage.getItem('me-hint-seen'));
 
-  // Unknown landmark in the URL -> go home (render-time navigation via effect-free Navigate
-  // is not available here since we render the stage regardless; use an effect-free check).
-  const invalidId = match !== null && !active;
+  const active = getHotspot(zoomTarget ?? undefined);
 
   // Scope this view's body styles; suppress the cyberpunk chrome underneath.
   useEffect(() => {
@@ -45,35 +42,33 @@ export const ScenePage: React.FC = () => {
   // Start the journey centered on the heart of the scene.
   useEffect(() => {
     const el = viewportRef.current;
-    if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    if (el) {
+      el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+      el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+    }
   }, []);
 
-  // When a landmark opens, glide its focus point toward the viewport center so
-  // the zoom origin is on screen; remember it to restore focus on close.
-  useEffect(() => {
-    if (!active) return;
-    lastHotspotId.current = active.id;
+  const enterLandmark = (id: HotspotId) => {
+    const h = getHotspot(id);
+    if (!h) return;
+    if (h.target.kind === 'route') {
+      navigate(h.target.to);
+      return;
+    }
+    const room = h.target.room;
+    // Glide the focus point on-screen, play the zoom, then walk in.
     const viewport = viewportRef.current;
     const stage = stageRef.current;
     if (viewport && stage) {
       viewport.scrollTo({
-        left: (stage.offsetWidth * active.focus.x) / 100 - viewport.clientWidth / 2,
+        left: (stage.offsetWidth * h.focus.x) / 100 - viewport.clientWidth / 2,
+        top: (stage.offsetHeight * h.focus.y) / 100 - viewport.clientHeight / 2,
         behavior: 'smooth',
       });
     }
-  }, [active]);
-
-  // When the panel closes, hand keyboard focus back to the landmark it came from.
-  useEffect(() => {
-    if (active || !lastHotspotId.current) return;
-    const el = document.querySelector<HTMLElement>(`[data-hotspot="${lastHotspotId.current}"]`);
-    el?.focus({ preventScroll: true });
-    lastHotspotId.current = null;
-  }, [active]);
-
-  useEffect(() => {
-    if (invalidId) navigate('/', { replace: true });
-  }, [invalidId, navigate]);
+    setZoomTarget(id);
+    window.setTimeout(() => navigate(roomPath(room)), ZOOM_MS);
+  };
 
   const dismissHint = () => {
     localStorage.setItem('me-hint-seen', '1');
@@ -101,20 +96,30 @@ export const ScenePage: React.FC = () => {
           <SceneBackground />
           {/* CSS ambience serves the still image; the living video replaces it */}
           {!SCENE_VIDEO_ACTIVE && <AmbientLayer />}
-          <HotspotLayer disabled={zoomed} debug={debug} />
+          <HotspotLayer disabled={zoomed} debug={debug} onActivate={enterLandmark} />
         </div>
       </div>
 
       <div className={`scene-iris${zoomed ? ' closing' : ''}`} aria-hidden="true" />
 
+      {/* Title plaque + resume, in the old-game plaque style */}
+      <h1 className="me-plaque scene-title">JP Wilson Portfolio</h1>
+      <a
+        className="me-plaque scene-resume"
+        href={`${BASE}JPWilsonResume.pdf`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📜 JP Wilson&rsquo;s Resume
+      </a>
+
       {showHint && (
         <button type="button" className="scene-hint" onAnimationEnd={dismissHint} onClick={dismissHint}>
-          Wander the realm — the landmarks hold the tales
+          Click a landmark to step inside
         </button>
       )}
 
       <QuestLog />
-      <Outlet />
     </div>
   );
 };

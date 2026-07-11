@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HOTSPOTS } from '../../data/hotspots';
-import { Hotspot } from '../../types/scene';
-
-const hotspotTo = (h: Hotspot): string =>
-  h.target.kind === 'panel' ? `/loc/${h.id}` : h.target.to;
-
-const SORTED = [...HOTSPOTS].sort((a, b) => a.order - b.order);
+import { ROOMS, roomPath } from '../../data/rooms';
 
 /**
  * The quest log: a guaranteed non-spatial path to every destination, for
@@ -27,11 +21,11 @@ export const QuestLog: React.FC = () => {
         >
           <h2 className="quest-log-title">Quest Log</h2>
           <ul>
-            {SORTED.map((h) => (
-              <li key={h.id}>
-                <Link to={hotspotTo(h)} onClick={() => setOpen(false)}>
-                  <span className="quest-name">{h.label}</span>
-                  <span className="quest-hint">{h.questText}</span>
+            {ROOMS.map((r) => (
+              <li key={r.id}>
+                <Link to={roomPath(r.id)} onClick={() => setOpen(false)}>
+                  <span className="quest-name">{r.title}</span>
+                  <span className="quest-hint">{r.subtitle}</span>
                 </Link>
               </li>
             ))}
@@ -45,7 +39,7 @@ export const QuestLog: React.FC = () => {
             <li>
               <Link to="/os" onClick={() => setOpen(false)}>
                 <span className="quest-name">A Strange Machine</span>
-                <span className="quest-hint">An ancient operating system, still humming</span>
+                <span className="quest-hint">A 1995 desktop with games — it still boots</span>
               </Link>
             </li>
           </ul>
@@ -53,7 +47,7 @@ export const QuestLog: React.FC = () => {
       )}
       <button
         type="button"
-        className="quest-log-toggle"
+        className="me-plaque quest-log-toggle"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
       >
