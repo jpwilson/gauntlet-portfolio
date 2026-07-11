@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useMatch, useNavigate } from 'react-router-dom';
-import { getHotspot, SCENE_ASPECT } from '../../data/hotspots';
+import { getHotspot, SCENE_ASPECT, SCENE_VIDEO_ACTIVE } from '../../data/hotspots';
 import { SceneBackground } from './SceneBackground';
 import { AmbientLayer } from './AmbientLayer';
 import { HotspotLayer } from './HotspotLayer';
@@ -99,7 +99,8 @@ export const ScenePage: React.FC = () => {
           }
         >
           <SceneBackground />
-          <AmbientLayer />
+          {/* CSS ambience serves the still image; the living video replaces it */}
+          {!SCENE_VIDEO_ACTIVE && <AmbientLayer />}
           <HotspotLayer disabled={zoomed} debug={debug} />
         </div>
       </div>
