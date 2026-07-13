@@ -717,6 +717,97 @@ body.view-scene {
   margin-top: 12px;
 }
 
+/* Project detail — center stage over the blurred room */
+.me-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(20, 12, 4, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: me-backdrop-in 180ms ease;
+}
+.me-modal {
+  position: relative;
+  width: min(880px, 100%);
+  max-height: min(88vh, 100%);
+  overflow-y: auto;
+  background: #f3e6c8;
+  border: 1px solid #8a6a3b;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 4px rgba(243, 230, 200, 0.35),
+    0 24px 60px rgba(0, 0, 0, 0.55);
+  animation: me-modal-in 200ms ease;
+}
+.me-modal-img {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  object-fit: contain;
+  background: #e7d7b3;
+  border-bottom: 1px solid #8a6a3b;
+}
+.me-modal-body {
+  padding: 18px 24px 24px;
+}
+.me-modal-title {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  margin: 0 0 2px;
+  color: #33230f;
+}
+.me-modal-close {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #33230f;
+  background: rgba(243, 230, 200, 0.92);
+  border: 1px solid #8a6a3b;
+  border-radius: 3px;
+}
+.me-modal-close:hover,
+.me-modal-close:focus-visible {
+  background: #fffaee;
+}
+.me-modal-close:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+  outline-offset: 2px;
+}
+@keyframes me-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes me-modal-in {
+  from { opacity: 0; transform: scale(0.94) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (max-width: 720px) {
+  .me-modal-backdrop {
+    padding: 10px;
+  }
+  .me-modal-img {
+    max-height: 32vh;
+  }
+  .me-modal-body {
+    padding: 14px 16px 18px;
+  }
+}
+
 /* Portal cards (the horse's crossing) */
 .me-portals {
   display: grid;
