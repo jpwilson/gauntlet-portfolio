@@ -743,6 +743,18 @@ body.view-scene {
     0 0 0 4px rgba(243, 230, 200, 0.35),
     0 24px 60px rgba(0, 0, 0, 0.55);
   animation: me-modal-in 200ms ease;
+  /* The modal portals to <body>, outside the parchment panel's style scope —
+     restate the panel typography or it inherits light-on-dark site text. */
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: #2c1f10;
+  scrollbar-width: thin;
+  scrollbar-color: #8a6a3b #e4d1a9;
+}
+.me-modal p,
+.me-modal li {
+  color: #2c1f10;
 }
 .me-modal-img {
   display: block;
