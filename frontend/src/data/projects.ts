@@ -117,7 +117,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/nerdy-live-v1',
     liveUrl: 'https://nerdy-live.46-225-235-124.sslip.io',
     icon: 'folder',
-    createdAt: '2026-04-19',
+    createdAt: '2026-07-07',
     featured: false,
     highlights: [
       'On-device MediaPipe Face Landmarker at ~20fps. No video leaves the browser, no server GPU needed.',
@@ -530,7 +530,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/OFS_Sept25',
     liveUrl: 'https://ourfamilysocials.com',
     icon: 'internet',
-    createdAt: '2026-04-03',
+    createdAt: '2026-07-02',
     featured: false,
   },
   {
@@ -544,7 +544,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/eeveecars',
     liveUrl: 'https://www.evlineup.org',
     icon: 'internet',
-    createdAt: '2026-02-13',
+    createdAt: '2026-07-12',
     featured: false,
   },
   {
@@ -558,7 +558,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/NewsPlatformFTW',
     liveUrl: 'https://newsplatform.org',
     icon: 'internet',
-    createdAt: '2026-02-11',
+    createdAt: '2026-07-11',
     featured: false,
   },
 ];
