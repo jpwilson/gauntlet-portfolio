@@ -43,7 +43,9 @@ jobs:
           for id in "${!REPOS[@]}"; do
             repo="${REPOS[$id]}"
             date=$(gh api "repos/jpwilson/$repo/commits?per_page=1" --jq '.[0].commit.committer.date' 2>/dev/null | cut -dT -f1)
-            if [ -n "$date" ]; then
+            # Private/renamed repos 404 and gh leaks the JSON error into $date —
+            # only accept values that actually look like a date, skip the rest.
+            if [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
               # Find the project block and update its createdAt
               current=$(grep -A 20 "id: '$id'" "$FILE" | grep "createdAt:" | head -1 | grep -o "'[0-9-]*'" | tr -d "'")
               if [ -n "$current" ] && [ "$current" != "$date" ]; then
