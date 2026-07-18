@@ -284,6 +284,112 @@ body.view-scene {
   padding: 8px 12px;
 }
 
+/* ---------------- "Ask about my work" chat (bottom-right, above quest log) -- */
+
+.ask {
+  position: fixed;
+  right: 18px;
+  bottom: 66px;
+  z-index: 21;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.ask-panel {
+  width: min(360px, calc(100vw - 36px));
+  height: min(440px, 70svh);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(243, 230, 200, 0.98), rgba(228, 209, 169, 0.98));
+  border: 1px solid #8a6a3b;
+  outline: 3px solid rgba(58, 42, 22, 0.9);
+  border-radius: 2px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+.ask-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #33230f;
+  border-bottom: 1px solid rgba(90, 66, 34, 0.4);
+}
+
+.ask-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #2c1f10;
+  scrollbar-width: thin;
+  scrollbar-color: #8a6a3b #e4d1a9;
+}
+
+.ask-hint {
+  font-style: italic;
+  color: #6b5230;
+  font-size: 14px;
+}
+
+.ask-turn {
+  margin: 0 0 10px;
+  white-space: pre-wrap;
+}
+.ask-turn strong {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: #4a3418;
+}
+.ask-you {
+  color: #4a3418;
+}
+.ask-busy {
+  font-style: italic;
+  color: #6b5230;
+  animation: ask-pulse 1.4s ease-in-out infinite;
+}
+@keyframes ask-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.ask-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(90, 66, 34, 0.4);
+}
+.ask-input {
+  all: unset;
+  box-sizing: border-box;
+  flex: 1;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  color: #2c1f10;
+  background: rgba(255, 250, 238, 0.7);
+  border: 1px solid #8a6a3b;
+  border-radius: 2px;
+  padding: 7px 10px;
+}
+.ask-input:focus-visible {
+  outline: 2px solid rgba(58, 42, 22, 0.9);
+}
+.ask .me-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
 .quest-log-panel {
   width: min(340px, calc(100vw - 36px));
   max-height: min(64svh, 520px);

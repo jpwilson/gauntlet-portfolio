@@ -8,6 +8,7 @@ import { AmbientLayer } from './AmbientLayer';
 import { HotspotLayer } from './HotspotLayer';
 import { QuestLog } from './QuestLog';
 import { SoundToggle } from './SoundToggle';
+import { AskPanel } from './AskPanel';
 import '../../styles/middle-earth.css';
 
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -134,6 +135,7 @@ export const ScenePage: React.FC = () => {
       )}
 
       <SoundToggle />
+      <AskPanel />
       <QuestLog />
     </div>
   );
