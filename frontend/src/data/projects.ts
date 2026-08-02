@@ -84,7 +84,7 @@ export const PROJECTS: Project[] = [
     liveUrl: 'https://legacylens-production-e04c.up.railway.app/',
     vizUrl: 'https://legacylens-production-e04c.up.railway.app/graph.html',
     icon: 'folder',
-    createdAt: '2026-03-02',
+    createdAt: '2026-03-05',
     featured: true,
     highlights: [
       'Syntax-aware chunker with backward scan captures LAPACK-style `*>` doc headers above SUBROUTINE. The doc-above-code pattern breaks naive RAG.',
