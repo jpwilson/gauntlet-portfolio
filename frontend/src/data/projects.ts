@@ -497,6 +497,29 @@ export const PROJECTS: Project[] = [
 
   // ---- OTHER PROJECTS ----
   {
+    id: 'other-compare-range',
+    name: 'CompareRange',
+    company: 'Personal',
+    description: 'Drop a pin anywhere on a globe and compare how far 75 vehicles get on one tank or one charge: EVs, gas cars, motorcycles, helicopters, business jets and airliners. Range rings are true geodesic circles that survive the antimeridian and the poles. A "can it get there?" mode picks a destination and counts the stops.',
+    longDescription:
+      'Interactive range explorer on a 3D globe. Click or search anywhere, tick vehicles, and glowing bands show how far each one reaches; each band is coloured by the shortest-range vehicle that still covers it. Ranges are web-verified headline figures (EPA for cars, manufacturer max range with reserves for aircraft) with the basis recorded per vehicle. The geometry is the interesting part: rings up to 17,000 km are built as GeoJSON that renders correctly across the antimeridian, over the poles, and past a quarter of the Earth, verified with earcut-level tests. Fully open-source map stack with no API keys: MapLibre GL, OpenFreeMap vector tiles, Photon search. Shareable URLs carry the pin, vehicles, units and projection. Static Vite build served by Caddy in Docker on Hetzner via Coolify.',
+    category: 'other',
+    techStack: ['TypeScript', 'Caddy', 'Coolify', 'Docker', 'Hetzner', 'MapLibre GL', 'OpenFreeMap', 'Photon', 'React', 'Vite', 'Vitest'],
+    repoUrl: 'https://github.com/jpwilson/compare-range',
+    liveUrl: 'https://compare-range.46-225-235-124.sslip.io',
+    icon: 'folder',
+    createdAt: '2026-08-25',
+    featured: false,
+    highlights: [
+      'Geodesic range rings as GeoJSON for MapLibre: antimeridian crossing, pole caps, and hemisphere-plus discs (world minus antipodal hole) with a shared seam so holes never straddle it.',
+      '75 vehicles across 7 categories with web-verified ranges and the basis of each figure (EPA, WLTP, manufacturer NBAA IFR range).',
+      'Globe and Mercator projections, concentric bands coloured by the shortest vehicle that reaches them, labels drawn along the rings.',
+      '"Can it get there?" mode: great-circle distance, who makes it non-stop, stops needed for the rest.',
+      'No API keys: MapLibre GL + OpenFreeMap tiles + Photon geocoding. URL hash holds the whole state for sharing.',
+      '56 unit tests including earcut-level triangulation checks that mirror how MapLibre fills polygons.',
+    ],
+  },
+  {
     id: 'other-tradeup',
     name: 'TradeUp: Skilled Trades Career Platform',
     company: 'Personal',
