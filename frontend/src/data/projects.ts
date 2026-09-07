@@ -581,7 +581,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/NewsPlatformFTW',
     liveUrl: 'https://newsplatform.org',
     icon: 'internet',
-    createdAt: '2026-08-21',
+    createdAt: '2026-09-07',
     featured: false,
   },
 ];
