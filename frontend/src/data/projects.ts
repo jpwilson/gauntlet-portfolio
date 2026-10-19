@@ -553,7 +553,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/OFS_Sept25',
     liveUrl: 'https://ourfamilysocials.com',
     icon: 'internet',
-    createdAt: '2026-08-21',
+    createdAt: '2026-10-19',
     featured: false,
   },
   {
@@ -567,7 +567,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/eeveecars',
     liveUrl: 'https://www.evlineup.org',
     icon: 'internet',
-    createdAt: '2026-09-02',
+    createdAt: '2026-10-19',
     featured: false,
   },
   {
@@ -581,7 +581,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/NewsPlatformFTW',
     liveUrl: 'https://newsplatform.org',
     icon: 'internet',
-    createdAt: '2026-09-07',
+    createdAt: '2026-10-19',
     featured: false,
   },
 ];
