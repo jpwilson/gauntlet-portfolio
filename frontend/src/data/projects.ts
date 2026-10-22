@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/agent-folio',
     liveUrl: 'https://agent-folio-production.up.railway.app/',
     icon: 'folder',
-    createdAt: '2026-04-01',
+    createdAt: '2026-10-22',
     featured: false,
     highlights: [
       'Agentic assistant with 11 financial tools across Ghostfolio and Rotki. Unified provider interface lets one query span both backends.',
@@ -567,7 +567,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/eeveecars',
     liveUrl: 'https://www.evlineup.org',
     icon: 'internet',
-    createdAt: '2026-10-19',
+    createdAt: '2026-10-22',
     featured: false,
   },
   {
