@@ -567,7 +567,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/eeveecars',
     liveUrl: 'https://www.evlineup.org',
     icon: 'internet',
-    createdAt: '2026-10-24',
+    createdAt: '2026-11-11',
     featured: false,
   },
   {
