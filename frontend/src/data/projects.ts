@@ -553,7 +553,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/OFS_Sept25',
     liveUrl: 'https://ourfamilysocials.com',
     icon: 'internet',
-    createdAt: '2026-11-12',
+    createdAt: '2026-11-18',
     featured: false,
   },
   {
@@ -581,7 +581,7 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/jpwilson/NewsPlatformFTW',
     liveUrl: 'https://newsplatform.org',
     icon: 'internet',
-    createdAt: '2026-11-12',
+    createdAt: '2026-11-18',
     featured: false,
   },
 ];
